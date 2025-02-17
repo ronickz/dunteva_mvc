@@ -28,7 +28,16 @@ const Producto = db.define("productos", {
     concentracion: {
         type: DataTypes.STRING(20),
         allowNull: true,
-      }   
+      },
+    stock:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,  
+    },
+    img:{
+        type: DataTypes.STRING(100),
+        allowNull: true,
+    }
 },{
     paranoid: true,
     indexes: [

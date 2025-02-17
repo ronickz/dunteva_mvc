@@ -58,7 +58,7 @@ block contenido
                       td.precio.align-middle.white-space-nowrap.text-center.fw-bold.text-body-tertiary.ps-4.fs-8= `$${producto.precio}`
                       td.stock.align-middle.review.pb-2.ps-3.text-center(style='min-width:225px;')
                         a.text-decoration-none(href='#!')
-                          span.badge.badge-tag.mb-2.fs-8.bg-success.px-5.text-dark 5
+                          span.badge.badge-tag.mb-2.fs-8.bg-success.px-5.text-dark= producto.stock
                       td.proveedor.align-middle.text-start.fw-semibold.ps-4.text-center.fs-8
                         a(href='#!')= producto.proveedor.nombre
                       td.fecha.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4.text-center= producto.createdAt.toLocaleDateString()
