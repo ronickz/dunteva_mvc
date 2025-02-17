@@ -1,0 +1,1311 @@
+extends ../layout/index
+block contenido
+
+ .content
+   .pb-5
+     .row.g-4
+       .col-12.col-xxl-6
+         .mb-8
+           h2.mb-2 Ecommerce Dashboard
+           h5.text-body-tertiary.fw-semibold Here&rsquo;s what&rsquo;s going on at your business right now
+         .row.align-items-center.g-4
+           .col-12.col-md-auto
+             .d-flex.align-items-center
+               span.fa-stack(style='min-height: 46px;min-width: 46px;')
+                 span.fa-solid.fa-square.fa-stack-2x.dark__text-opacity-50.text-success-light(data-fa-transform='down-4 rotate--10 left-4')
+                 span.fa-solid.fa-circle.fa-stack-2x.stack-circle.text-stats-circle-success(data-fa-transform='up-4 right-3 grow-2')
+                 span.fa-stack-1x.fa-solid.fa-star.text-success(data-fa-transform='shrink-2 up-8 right-6')
+               .ms-3
+                 h4.mb-0 57 new orders
+                 p.text-body-secondary.fs-9.mb-0 Awating processing
+           .col-12.col-md-auto
+             .d-flex.align-items-center
+               span.fa-stack(style='min-height: 46px;min-width: 46px;')
+                 span.fa-solid.fa-square.fa-stack-2x.dark__text-opacity-50.text-warning-light(data-fa-transform='down-4 rotate--10 left-4')
+                 span.fa-solid.fa-circle.fa-stack-2x.stack-circle.text-stats-circle-warning(data-fa-transform='up-4 right-3 grow-2')
+                 span.fa-stack-1x.fa-solid.fa-pause.text-warning(data-fa-transform='shrink-2 up-8 right-6')
+               .ms-3
+                 h4.mb-0 5 orders
+                 p.text-body-secondary.fs-9.mb-0 On hold
+           .col-12.col-md-auto
+             .d-flex.align-items-center
+               span.fa-stack(style='min-height: 46px;min-width: 46px;')
+                 span.fa-solid.fa-square.fa-stack-2x.dark__text-opacity-50.text-danger-light(data-fa-transform='down-4 rotate--10 left-4')
+                 span.fa-solid.fa-circle.fa-stack-2x.stack-circle.text-stats-circle-danger(data-fa-transform='up-4 right-3 grow-2')
+                 span.fa-stack-1x.fa-solid.fa-xmark.text-danger(data-fa-transform='shrink-2 up-8 right-6')
+               .ms-3
+                 h4.mb-0 15 products
+                 p.text-body-secondary.fs-9.mb-0 Out of stock
+         hr.bg-body-secondary.mb-6.mt-4
+         .row.flex-between-center.mb-4.g-3
+           .col-auto
+             h3 Total sells
+             p.text-body-tertiary.lh-sm.mb-0 Payment received across all channels
+           .col-8.col-sm-4
+             select#select-gross-revenue-month.form-select.form-select-sm
+               option Mar 1 - 31, 2022
+               option April 1 - 30, 2022
+               option May 1 - 31, 2022
+         .echart-total-sales-chart(style='min-height:320px;width:100%')
+       .col-12.col-xxl-6
+         .row.g-3
+           .col-12.col-md-6
+             .card.h-100
+               .card-body
+                 .d-flex.justify-content-between
+                   div
+                     h5.mb-1
+                       | Total orders
+                       span.badge.badge-phoenix.badge-phoenix-warning.rounded-pill.fs-9.ms-2
+                         span.badge-label -6.8%
+                     h6.text-body-tertiary Last 7 days
+                   h4 16,247
+                 .d-flex.justify-content-center.px-4.py-6
+                   .echart-total-orders(style='height:85px;width:115px')
+                 .mt-2
+                   .d-flex.align-items-center.mb-2
+                     .bullet-item.bg-primary.me-2
+                     h6.text-body.fw-semibold.flex-1.mb-0 Completed
+                     h6.text-body.fw-semibold.mb-0 52%
+                   .d-flex.align-items-center
+                     .bullet-item.bg-primary-subtle.me-2
+                     h6.text-body.fw-semibold.flex-1.mb-0 Pending payment
+                     h6.text-body.fw-semibold.mb-0 48%
+           .col-12.col-md-6
+             .card.h-100
+               .card-body
+                 .d-flex.justify-content-between
+                   div
+                     h5.mb-1
+                       | New customers
+                       span.badge.badge-phoenix.badge-phoenix-warning.rounded-pill.fs-9.ms-2
+                         span.badge-label +26.5%
+                     h6.text-body-tertiary Last 7 days
+                   h4 356
+                 .pb-0.pt-4
+                   .echarts-new-customers(style='height:180px;width:100%;')
+           .col-12.col-md-6
+             .card.h-100
+               .card-body
+                 .d-flex.justify-content-between
+                   div
+                     h5.mb-2 Top coupons
+                     h6.text-body-tertiary Last 7 days
+                 .pb-4.pt-3
+                   .echart-top-coupons(style='height:115px;width:100%;')
+                 div
+                   .d-flex.align-items-center.mb-2
+                     .bullet-item.bg-primary.me-2
+                     h6.text-body.fw-semibold.flex-1.mb-0 Percentage discount
+                     h6.text-body.fw-semibold.mb-0 72%
+                   .d-flex.align-items-center.mb-2
+                     .bullet-item.bg-primary-lighter.me-2
+                     h6.text-body.fw-semibold.flex-1.mb-0 Fixed card discount
+                     h6.text-body.fw-semibold.mb-0 18%
+                   .d-flex.align-items-center
+                     .bullet-item.bg-info-dark.me-2
+                     h6.text-body.fw-semibold.flex-1.mb-0 Fixed product discount
+                     h6.text-body.fw-semibold.mb-0 10%
+           .col-12.col-md-6
+             .card.h-100
+               .card-body.d-flex.flex-column
+                 .d-flex.justify-content-between
+                   div
+                     h5.mb-2 Paying vs non paying
+                     h6.text-body-tertiary Last 7 days
+                 .d-flex.justify-content-center.pt-3.flex-1
+                   .echarts-paying-customer-chart(style='height:100%;width:100%;')
+                 .mt-3
+                   .d-flex.align-items-center.mb-2
+                     .bullet-item.bg-primary.me-2
+                     h6.text-body.fw-semibold.flex-1.mb-0 Paying customer
+                     h6.text-body.fw-semibold.mb-0 30%
+                   .d-flex.align-items-center
+                     .bullet-item.bg-primary-subtle.me-2
+                     h6.text-body.fw-semibold.flex-1.mb-0 Non-paying customer
+                     h6.text-body.fw-semibold.mb-0 70%
+   .mx-n4.px-4.mx-lg-n6.px-lg-6.bg-body-emphasis.pt-7.border-y
+     div(data-list='{"valueNames":["product","customer","rating","review","time"],"page":6}')
+       .row.align-items-end.justify-content-between.pb-5.g-3
+         .col-auto
+           h3 Latest reviews
+           p.text-body-tertiary.lh-sm.mb-0 Payment received across all channels
+         .col-12.col-md-auto
+           .row.g-2.gy-3
+             .col-auto.flex-1
+               .search-box
+                 form.position-relative
+                   input.form-control.search-input.search.form-control-sm(type='search' placeholder='Search' aria-label='Search')
+                   span.fas.fa-search.search-box-icon
+             .col-auto
+               button.btn.btn-sm.btn-phoenix-secondary.bg-body-emphasis.bg-body-hover.me-2(type='button') All products
+               button.btn.btn-sm.btn-phoenix-secondary.bg-body-emphasis.bg-body-hover.action-btn(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                 span.fas.fa-ellipsis-h(data-fa-transform='shrink-2')
+               ul.dropdown-menu.dropdown-menu-end
+                 li
+                   a.dropdown-item(href='#') Action
+                 li
+                   a.dropdown-item(href='#') Another action
+                 li
+                   a.dropdown-item(href='#') Something else here
+       .table-responsive.mx-n1.px-1.scrollbar
+         table.table.fs-9.mb-0.border-top.border-translucent
+           thead
+             tr
+               th.white-space-nowrap.fs-9.ps-0.align-middle
+                 .form-check.mb-0.fs-8
+                   input#checkbox-bulk-reviews-select.form-check-input(type='checkbox' data-bulk-select='{"body":"table-latest-review-body"}')
+               th.sort.white-space-nowrap.align-middle(scope='col')
+               th.sort.white-space-nowrap.align-middle(scope='col' style='min-width:360px;' data-sort='product') PRODUCT
+               th.sort.align-middle(scope='col' data-sort='customer' style='min-width:200px;') CUSTOMER
+               th.sort.align-middle(scope='col' data-sort='rating' style='min-width:110px;') RATING
+               th.sort.align-middle(scope='col' style='max-width:350px;' data-sort='review') REVIEW
+               th.sort.text-start.ps-5.align-middle(scope='col' data-sort='status') STATUS
+               th.sort.text-end.align-middle(scope='col' data-sort='time') TIME
+               th.sort.text-end.pe-0.align-middle(scope='col')
+           tbody#table-latest-review-body.list
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands)","productImage":"/products/60x60/1.png","customer":{"name":"Richard Dawkins","avatar":""},"rating":5,"review":"This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/1.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Fitbit Sense Advanced Smartwatch with Tools fo...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     .avatar-name.rounded-circle
+                       span R
+                   h6.mb-0.ms-3.text-body Richard Dawkins
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | This Fitbit is fantastic! I was trying to be in better shape and needed some motivation, so I decided to treat myself to a new Fitbit.
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-success
+                   span.badge-label Approved
+                   span.ms-1(data-feather='check' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Just now
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"iPhone 13 pro max-Pacific Blue-128GB storage","productImage":"/products/60x60/2.png","customer":{"name":"Ashley Garrett","avatar":"/team/40x40/59.webp"},"rating":3,"review":"The order was delivered ahead of schedule. To give us additional time, you should leave the packaging sealed with plastic.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Just now"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/2.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') iPhone 13 pro max-Pacific Blue-128GB storage
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/59.webp' alt='')
+                   h6.mb-0.ms-3.text-body Ashley Garrett
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | The order was delivered ahead of schedule. To give us additional time, you should leave the packaging sealed with plastic.
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-success
+                   span.badge-label Approved
+                   span.ms-1(data-feather='check' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Just now
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Apple MacBook Pro 13 inch-M1-8/256GB-space","productImage":"/products/60x60/3.png","customer":{"name":"Woodrow Burton","avatar":"/team/40x40/58.webp"},"rating":4.5,"review":"It\'s a Mac, after all. Once you\'ve gone Mac, there\'s no going back. My first Mac lasted over nine years, and this is my second.","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Just now"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/3.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Apple MacBook Pro 13 inch-M1-8/256GB-space
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/58.webp' alt='')
+                   h6.mb-0.ms-3.text-body Woodrow Burton
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star-half-alt.star-icon.text-warning
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | It&apos;s a Mac, after all. Once you&apos;ve gone Mac, there&apos;s no going back. My first Mac lasted over nine years, and this is my second.
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-warning
+                   span.badge-label Pending
+                   span.ms-1(data-feather='clock' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Just now
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Apple iMac 24\" 4K Retina Display M1 8 Core CPU, 7 Core GPU, 256GB SSD, Green (MJV83ZP/A) 2021","productImage":"/products/60x60/4.png","customer":{"name":"Eric McGee","avatar":"/team/40x40/avatar.webp","avatarPlaceholder":true},"rating":3,"review":"Personally, I like the minimalist style, but I wouldn\'t choose it if I were searching for a computer that I would use frequently. It\'s not horrible in terms of speed and power, but the","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Nov 09, 3:23 AM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/4.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Apple iMac 24&quot; 4K Retina Display M1 8 Core CPU...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle.avatar-placeholder(src='../assets/img/team/40x40/avatar.webp' alt='')
+                   h6.mb-0.ms-3.text-body Eric McGee
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | Personally, I like the minimalist style, but I wouldn&apos;t choose it if I were searching for a computer that I would use frequently. It&apos;s...
+                   a(href='#!') See more
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-warning
+                   span.badge-label Pending
+                   span.ms-1(data-feather='clock' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 09, 3:23 AM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Razer Kraken v3 x Wired 7.1 Surroung Sound Gaming headset","productImage":"/products/60x60/5.png","customer":{"name":"Kim Carroll","avatar":"/team/40x40/avatar.webp","avatarPlaceholder":true},"rating":4,"review":"It performs exactly as expected. There are three of these in the family.","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Nov 09, 2:15 PM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/5.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Razer Kraken v3 x Wired 7.1 Surroung Sound Gam...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle.avatar-placeholder(src='../assets/img/team/40x40/avatar.webp' alt='')
+                   h6.mb-0.ms-3.text-body Kim Carroll
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0 It performs exactly as expected. There are three of these in the family.
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-warning
+                   span.badge-label Pending
+                   span.ms-1(data-feather='clock' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 09, 2:15 PM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"PlayStation 5 DualSense Wireless Controller","productImage":"/products/60x60/6.png","customer":{"name":"Barbara Lucas","avatar":"/team/40x40/57.webp"},"rating":4,"review":"The controller is quite comfy for me. Despite its increased size, the controller still fits well in my hands.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Nov 08, 8:53 AM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/6.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') PlayStation 5 DualSense Wireless Controller
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/57.webp' alt='')
+                   h6.mb-0.ms-3.text-body Barbara Lucas
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | The controller is quite comfy for me. Despite its increased size, the controller still fits well in my hands.
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-success
+                   span.badge-label Approved
+                   span.ms-1(data-feather='check' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 08, 8:53 AM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"2021 Apple 12.9-inch iPad Pro (Wi‑Fi, 128GB) - Space Gray","productImage":"/products/60x60/7.png","customer":{"name":"Ansolo Lazinatov","avatar":"/team/40x40/3.webp"},"rating":4.5,"review":"The response time and service I received when contacted the designers were Phenomenal!","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Nov 07, 9:00 PM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/7.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') 2021 Apple 12.9-inch iPad Pro (Wi&#x2011;Fi, 128GB) -...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/3.webp' alt='')
+                   h6.mb-0.ms-3.text-body Ansolo Lazinatov
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star-half-alt.star-icon.text-warning
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | The response time and service I received when contacted the designers were Phenomenal!
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-warning
+                   span.badge-label Pending
+                   span.ms-1(data-feather='clock' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 07, 9:00 PM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Amazon Basics Matte Black Wired Keyboard - US Layout (QWERTY)","productImage":"/products/60x60/8.png","customer":{"name":"Emma watson","avatar":"/team/40x40/26.webp"},"rating":3,"review":"I have started using this theme in the last week and it has really impressed me very much, the support is second to none.","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Nov 07, 11:20 AM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/8.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Amazon Basics Matte Black Wired Keyboard - US ...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/26.webp' alt='')
+                   h6.mb-0.ms-3.text-body Emma watson
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | I have started using this theme in the last week and it has really impressed me very much, the support is second to none.
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-warning
+                   span.badge-label Pending
+                   span.ms-1(data-feather='clock' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 07, 11:20 AM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Amazon Basics Mesh, Mid-Back, Swivel Office Desk Chair with Armrests, Black","productImage":"/products/60x60/9.png","customer":{"name":"Rowen Atkinson","avatar":"/team/40x40/29.webp"},"rating":5,"review":"The best experience we could hope for. Customer service team is amazing and the quality of their products is unsurpassed. Great theme too!","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Nov 07, 2:00 PM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/9.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Amazon Basics Mesh, Mid-Back, Swivel Office De...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/29.webp' alt='')
+                   h6.mb-0.ms-3.text-body Rowen Atkinson
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | The best experience we could hope for. Customer service team is amazing and the quality of their products is unsurpassed. Great theme ...
+                   a(href='#!') See more
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-success
+                   span.badge-label Approved
+                   span.ms-1(data-feather='check' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 07, 2:00 PM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Apple Magic Mouse (Wireless, Rechargable) - Silver","productImage":"/products/60x60/10.png","customer":{"name":"Anthony Hopkins","avatar":""},"rating":4,"review":"This template has allowed me to convert my existing web app into a great looking, easy to use UI in less than 2 weeks. Very easy to use and understand and has a wide range of ready to use elements. ","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Nov 06, 8:00 AM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/10.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Apple Magic Mouse (Wireless, Rechargable) - Si...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     .avatar-name.rounded-circle
+                       span A
+                   h6.mb-0.ms-3.text-body Anthony Hopkins
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | This template has allowed me to convert my existing web app into a great looking, easy to use UI in less than 2 weeks. Very easy to us...
+                   a(href='#!') See more
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-success
+                   span.badge-label Approved
+                   span.ms-1(data-feather='check' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 06, 8:00 AM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Echo Dot (4th Gen) _ Smart speaker with Alexa _ Glacier White","productImage":"/products/60x60/11.png","customer":{"name":"Jennifer Schramm","avatar":"/team/40x40/8.webp"},"rating":4.5,"review":"The theme is really beautiful and the support answer very quickly and is friendly. Buy it, you will not regret it.","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Nov 05, 4:00 AM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/11.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Echo Dot (4th Gen) _ Smart speaker with Alexa ...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/8.webp' alt='')
+                   h6.mb-0.ms-3.text-body Jennifer Schramm
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star-half-alt.star-icon.text-warning
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | The theme is really beautiful and the support answer very quickly and is friendly. Buy it, you will not regret it.
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-warning
+                   span.badge-label Pending
+                   span.ms-1(data-feather='clock' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 05, 4:00 AM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"HORI Racing Wheel Apex for PlayStation 4_3, and PC","productImage":"/products/60x60/12.png","customer":{"name":"Raymond Mims","avatar":"/team/40x40/avatar.webp","avatarPlaceholder":true},"rating":4,"review":"As others mentioned, the team behind this theme is super responsive. I sent a message during the weekend, fully expecting a response after the weekend, but I got one within minutes, and I was unblocked.","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Nov 04, 6:53 PM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/12.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') HORI Racing Wheel Apex for PlayStation 4_3, an...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle.avatar-placeholder(src='../assets/img/team/40x40/avatar.webp' alt='')
+                   h6.mb-0.ms-3.text-body Raymond Mims
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | As others mentioned, the team behind this theme is super responsive. I sent a message during the weekend, fully expecting a response a...
+                   a(href='#!') See more
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-success
+                   span.badge-label Approved
+                   span.ms-1(data-feather='check' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 04, 6:53 PM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Nintendo Switch with Neon Blue and Neon Red Joy‑Con - HAC-001(-01)","productImage":"/products/60x60/13.png","customer":{"name":"Michael Jenkins","avatar":"/team/40x40/9.webp"},"rating":5,"review":"I had a bit of a hard time at first but after I contacted the team they were able to help me set up the theme. It\'s really good and I highly recommend it to everyone.","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Nov 04, 12:00 PM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/13.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Nintendo Switch with Neon Blue and Neon Red Jo...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/9.webp' alt='')
+                   h6.mb-0.ms-3.text-body Michael Jenkins
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | I had a bit of a hard time at first but after I contacted the team they were able to help me set up the theme. It&apos;s really good and I ...
+                   a(href='#!') See more
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-warning
+                   span.badge-label Pending
+                   span.ms-1(data-feather='clock' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 04, 12:00 PM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Oculus Rift S PC-Powered VR Gaming Headset","productImage":"/products/60x60/14.png","customer":{"name":"Kristine Cadena","avatar":"/team/40x40/avatar.webp","avatarPlaceholder":true},"rating":5,"review":"Excellent. All my doubts were answered by the team quickly. I highly recommend it.","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Nov 03, 8:53 AM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/14.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Oculus Rift S PC-Powered VR Gaming Headset
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle.avatar-placeholder(src='../assets/img/team/40x40/avatar.webp' alt='')
+                   h6.mb-0.ms-3.text-body Kristine Cadena
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | Excellent. All my doubts were answered by the team quickly. I highly recommend it.
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-warning
+                   span.badge-label Pending
+                   span.ms-1(data-feather='clock' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 03, 8:53 AM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+             tr.hover-actions-trigger.btn-reveal-trigger.position-static
+               td.fs-9.align-middle.ps-0
+                 .form-check.mb-0.fs-8
+                   input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Sony X85J 75 Inch Sony 4K Ultra HD LED Smart Google TV","productImage":"/products/60x60/15.png","customer":{"name":"Suzanne Martinez","avatar":"/team/40x40/24.webp"},"rating":3.5,"review":"This theme is great. Clean and easy to understand. Perfect for those who don\'t have time to start everything from scratch. The support is simply phenomenal! Highly recommended!","status":{"title":"Approved","badge":"success","icon":"check"},"time":"Nov 03, 10:43 AM"}')
+               td.align-middle.product.white-space-nowrap.py-0
+                 a.d-block.rounded-2.border.border-translucent(href='../apps/e-commerce/landing/product-details.html')
+                   img(src='../assets/img//products/60x60/15.png' alt='' width='53')
+               td.align-middle.product.white-space-nowrap
+                 a.fw-semibold(href='../apps/e-commerce/landing/product-details.html') Sony X85J 75 Inch Sony 4K Ultra HD LED Smart G...
+               td.align-middle.customer.white-space-nowrap
+                 a.d-flex.align-items-center.text-body(href='../apps/e-commerce/landing/profile.html')
+                   .avatar.avatar-l
+                     img.rounded-circle(src='../assets/img/team/40x40/24.webp' alt='')
+                   h6.mb-0.ms-3.text-body Suzanne Martinez
+               td.align-middle.rating.white-space-nowrap.fs-10
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star.text-warning
+                 span.fa.fa-star-half-alt.star-icon.text-warning
+                 span.fa-regular.fa-star.text-warning-light(data-bs-theme='light')
+               td.align-middle.review(style='min-width:350px;')
+                 p.fs-9.fw-semibold.text-body-highlight.mb-0
+                   | This theme is great. Clean and easy to understand. Perfect for those who don&apos;t have time to start everything from scratch. The support...
+                   a(href='#!') See more
+               td.align-middle.text-start.ps-5.status
+                 span.badge.badge-phoenix.fs-10.badge-phoenix-success
+                   span.badge-label Approved
+                   span.ms-1(data-feather='check' style='height:12.8px;width:12.8px;')
+               td.align-middle.text-end.time.white-space-nowrap
+                 .hover-hide
+                   h6.text-body-highlight.mb-0 Nov 03, 10:43 AM
+               td.align-middle.white-space-nowrap.text-end.pe-0
+                 .position-relative
+                   .hover-actions
+                     button.btn.btn-sm.btn-phoenix-secondary.me-1.fs-10
+                       span.fas.fa-check
+                     button.btn.btn-sm.btn-phoenix-secondary.fs-10
+                       span.fas.fa-trash
+                 .btn-reveal-trigger.position-static
+                   button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                     span.fas.fa-ellipsis-h.fs-10
+                   .dropdown-menu.dropdown-menu-end.py-2
+                     a.dropdown-item(href='#!') View
+                     a.dropdown-item(href='#!') Export
+                     .dropdown-divider
+                     a.dropdown-item.text-danger(href='#!') Remove
+       .row.align-items-center.py-1
+         .pagination.d-none
+         .col.d-flex.fs-9
+           p.mb-0.d-none.d-sm-block.me-3.fw-semibold.text-body(data-list-info='data-list-info')
+           a.fw-semibold(href='#!' data-list-view='*')
+             | View all
+             span.fas.fa-angle-right.ms-1(data-fa-transform='down-1')
+           a.fw-semibold.d-none(href='#!' data-list-view='less') View Less
+         .col-auto.d-flex
+           button.btn.btn-link.px-1.me-1(type='button' title='Previous' data-list-pagination='prev')
+             span.fas.fa-chevron-left.me-2
+             | Previous
+           button.btn.btn-link.px-1.ms-1(type='button' title='Next' data-list-pagination='next')
+             | Next
+             span.fas.fa-chevron-right.ms-2
+   .row.gx-6
+     .col-12.col-xl-6
+       div(data-list='{"valueNames":["country","users","transactions","revenue","conv-rate"],"page":5}')
+         .mb-5.mt-7
+           h3 Top regions by revenue
+           p.text-body-tertiary Where you generated most of the revenue
+         .table-responsive.scrollbar
+           table.table.fs-10.mb-0
+             thead
+               tr
+                 th.sort.border-top.border-translucent.ps-0.align-middle(scope='col' data-sort='country' style='width:32%') COUNTRY
+                 th.sort.border-top.border-translucent.align-middle(scope='col' data-sort='users' style='width:17%') USERS
+                 th.sort.border-top.border-translucent.text-end.align-middle(scope='col' data-sort='transactions' style='width:16%') TRANSACTIONS
+                 th.sort.border-top.border-translucent.text-end.align-middle(scope='col' data-sort='revenue' style='width:20%') REVENUE
+                 th.sort.border-top.border-translucent.text-end.pe-0.align-middle(scope='col' data-sort='conv-rate' style='width:17%') CONV. RATE
+             tr
+               td
+               td.align-middle.py-4
+                 h4.mb-0.fw-normal 377,620
+               td.align-middle.text-end.py-4
+                 h4.mb-0.fw-normal 236
+               td.align-middle.text-end.py-4
+                 h4.mb-0.fw-normal $15,758
+               td.align-middle.text-end.py-4.pe-0
+                 h4.mb-0.fw-normal 10.32%
+             tbody#table-regions-by-revenue.list
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 1. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/india.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 India
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 92896
+                     span.text-body-tertiary.fw-semibold.ms-2 (41.6%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 67
+                     span.text-body-tertiary.fw-semibold.ms-2 (34.3%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $7560
+                     span.text-body-tertiary.fw-semibold.ms-2 (36.9%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 14.01%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 2. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/china.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 China
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 50496
+                     span.text-body-tertiary.fw-semibold.ms-2 (32.8%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 54
+                     span.text-body-tertiary.fw-semibold.ms-2 (23.8%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $6532
+                     span.text-body-tertiary.fw-semibold.ms-2 (26.5%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 23.56%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 3. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/usa.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 USA
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 45679
+                     span.text-body-tertiary.fw-semibold.ms-2 (24.3%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 35
+                     span.text-body-tertiary.fw-semibold.ms-2 (19.7%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $5432
+                     span.text-body-tertiary.fw-semibold.ms-2 (16.9%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 10.23%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 4. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/south-korea.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 South Korea
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 36453
+                     span.text-body-tertiary.fw-semibold.ms-2 (19.7%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 22
+                     span.text-body-tertiary.fw-semibold.ms-2 (9.54%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $4673
+                     span.text-body-tertiary.fw-semibold.ms-2 (11.6%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 8.85%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 5. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/vietnam.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 Vietnam
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 15007
+                     span.text-body-tertiary.fw-semibold.ms-2 (11.9%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 17
+                     span.text-body-tertiary.fw-semibold.ms-2 (6.91%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $2456
+                     span.text-body-tertiary.fw-semibold.ms-2 (10.2%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 6.01%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 6. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/russia.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 Russia
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 54215
+                     span.text-body-tertiary.fw-semibold.ms-2 (32.9%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 38
+                     span.text-body-tertiary.fw-semibold.ms-2 (7.91%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $3254
+                     span.text-body-tertiary.fw-semibold.ms-2 (12.4%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 6.21%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 7. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/australia.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 Australia
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 54789
+                     span.text-body-tertiary.fw-semibold.ms-2 (12.7%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 32
+                     span.text-body-tertiary.fw-semibold.ms-2 (14.0%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $3215
+                     span.text-body-tertiary.fw-semibold.ms-2 (5.72%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 12.02%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 8. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/england.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 England
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 14785
+                     span.text-body-tertiary.fw-semibold.ms-2 (12.9%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 11
+                     span.text-body-tertiary.fw-semibold.ms-2 (32.91%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $4745
+                     span.text-body-tertiary.fw-semibold.ms-2 (10.2%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 8.01%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 9. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/indonesia.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 Indonesia
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 32156
+                     span.text-body-tertiary.fw-semibold.ms-2 (32.2%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 89
+                     span.text-body-tertiary.fw-semibold.ms-2 (12.0%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $2456
+                     span.text-body-tertiary.fw-semibold.ms-2 (23.2%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 9.07%
+               tr
+                 td.white-space-nowrap.ps-0.country(style='width:32%')
+                   .d-flex.align-items-center
+                     h6.mb-0.me-3 10. 
+                     a(href='#!')
+                       .d-flex.align-items-center
+                         img(src='../assets/img/country/japan.png' alt='' width='24')
+                         p.mb-0.ps-3.text-primary.fw-bold.fs-9 Japan
+                 td.align-middle.users(style='width:17%')
+                   h6.mb-0
+                     | 12547
+                     span.text-body-tertiary.fw-semibold.ms-2 (12.7%)
+                 td.align-middle.text-end.transactions(style='width:17%')
+                   h6.mb-0
+                     | 21
+                     span.text-body-tertiary.fw-semibold.ms-2 (14.91%)
+                 td.align-middle.text-end.revenue(style='width:17%')
+                   h6.mb-0
+                     | $2541
+                     span.text-body-tertiary.fw-semibold.ms-2 (23.2%)
+                 td.align-middle.text-end.pe-0.conv-rate(style='width:17%')
+                   h6 20.01%
+         .row.align-items-center.py-1
+           .pagination.d-none
+           .col.d-flex.fs-9
+             p.mb-0.d-none.d-sm-block.me-3.fw-semibold.text-body(data-list-info='data-list-info')
+           .col-auto.d-flex
+             button.btn.btn-link.px-1.me-1(type='button' title='Previous' data-list-pagination='prev')
+               span.fas.fa-chevron-left.me-2
+               | Previous
+             button.btn.btn-link.px-1.ms-1(type='button' title='Next' data-list-pagination='next')
+               | Next
+               span.fas.fa-chevron-right.ms-2
+     .col-12.col-xl-6
+       .mx-n4.mx-lg-n6.ms-xl-0.h-100
+         .h-100.w-100
+           #map.h-100.bg-body-emphasis(style='min-height: 300px;')
+   .mx-n4.px-4.mx-lg-n6.px-lg-6.bg-body-emphasis.pt-6.pb-9.border-top
+     .row.g-6
+       .col-12.col-xl-6
+         .me-xl-4
+           div
+             h3 Projection vs actual
+             p.mb-1.text-body-tertiary Actual earnings vs projected earnings
+           .echart-projection-actual(style='height:300px; width:100%')
+       .col-12.col-xl-6
+         div
+           h3 Returning customer rate
+           p.mb-1.text-body-tertiary Rate of customers returning to your shop over time
+         .echart-returning-customer(style='height:300px;')
+   footer.footer.position-absolute
+     .row.g-0.justify-content-between.align-items-center.h-100
+       .col-12.col-sm-auto.text-center
+         p.mb-0.mt-2.mt-sm-0.text-body
+           | Thank you for creating with Phoenix
+           span.d-none.d-sm-inline-block
+           span.d-none.d-sm-inline-block.mx-1 |
+           br.d-sm-none
+           | 2025 &copy;
+           a.mx-1(href='https://themewagon.com') Themewagon
+       .col-12.col-sm-auto.text-center
+         p.mb-0.text-body-tertiary.text-opacity-85 v1.20.1
+ #searchBoxModal.modal.fade(tabindex='-1' aria-hidden='true' data-bs-backdrop='true' data-phoenix-modal='data-phoenix-modal' style='--phoenix-backdrop-opacity: 1;')
+   .modal-dialog
+     .modal-content.mt-15.rounded-pill
+       .modal-body.p-0
+         .search-box.navbar-top-search-box(data-list='{"valueNames":["title"]}' style='width: auto;')
+           form.position-relative(data-bs-toggle='search' data-bs-display='static')
+             input.form-control.search-input.fuzzy-search.rounded-pill.form-control-lg(type='search' placeholder='Search...' aria-label='Search')
+             span.fas.fa-search.search-box-icon
+           .btn-close.position-absolute.end-0.top-50.translate-middle.cursor-pointer.shadow-none(data-bs-dismiss='search')
+             button.btn.btn-link.p-0(aria-label='Close')
+           .dropdown-menu.border.start-0.py-0.overflow-hidden.w-100
+             .scrollbar-overlay(style='max-height: 30rem;')
+               .list.pb-3
+                 h6.dropdown-header.text-body-highlight.fs-10.py-2
+                   | 24 
+                   span.text-body-quaternary results
+                 hr.my-0
+                 h6.dropdown-header.text-body-highlight.fs-9.border-bottom.border-translucent.py-2.lh-sm Recently Searched 
+                 .py-2
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-solid.fa-clock-rotate-left(data-fa-transform='shrink-2')
+                         |  Store Macbook
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-solid.fa-clock-rotate-left(data-fa-transform='shrink-2')
+                         |  MacBook Air - 13&Prime;
+                 hr.my-0
+                 h6.dropdown-header.text-body-highlight.fs-9.border-bottom.border-translucent.py-2.lh-sm Products
+                 .py-2
+                   a.dropdown-item.py-2.d-flex.align-items-center(href='../apps/e-commerce/landing/product-details.html')
+                     .file-thumbnail.me-2
+                       img.h-100.w-100.object-fit-cover.rounded-3(src='../assets/img/products/60x60/3.png' alt='')
+                     .flex-1
+                       h6.mb-0.text-body-highlight.title MacBook Air - 13&Prime;
+                       p.fs-10.mb-0.d-flex.text-body-tertiary
+                         span.fw-medium.text-body-tertiary.text-opactity-85 8GB Memory - 1.6GHz - 128GB Storage
+                   a.dropdown-item.py-2.d-flex.align-items-center(href='../apps/e-commerce/landing/product-details.html')
+                     .file-thumbnail.me-2
+                       img.img-fluid(src='../assets/img/products/60x60/3.png' alt='')
+                     .flex-1
+                       h6.mb-0.text-body-highlight.title MacBook Pro - 13&Prime;
+                       p.fs-10.mb-0.d-flex.text-body-tertiary
+                         span.fw-medium.text-body-tertiary.text-opactity-85 30 Sep at 12:30 PM
+                 hr.my-0
+                 h6.dropdown-header.text-body-highlight.fs-9.border-bottom.border-translucent.py-2.lh-sm Quick Links
+                 .py-2
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-solid.fa-link.text-body(data-fa-transform='shrink-2')
+                         |  Support MacBook House
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-solid.fa-link.text-body(data-fa-transform='shrink-2')
+                         |  Store MacBook&Prime;
+                 hr.my-0
+                 h6.dropdown-header.text-body-highlight.fs-9.border-bottom.border-translucent.py-2.lh-sm Files
+                 .py-2
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-solid.fa-file-zipper.text-body(data-fa-transform='shrink-2')
+                         |  Library MacBook folder.rar
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-solid.fa-file-lines.text-body(data-fa-transform='shrink-2')
+                         |  Feature MacBook extensions.txt
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-solid.fa-image.text-body(data-fa-transform='shrink-2')
+                         |  MacBook Pro_13.jpg
+                 hr.my-0
+                 h6.dropdown-header.text-body-highlight.fs-9.border-bottom.border-translucent.py-2.lh-sm Members
+                 .py-2
+                   a.dropdown-item.py-2.d-flex.align-items-center(href='../pages/members.html')
+                     .avatar.avatar-l.status-online.me-2.text-body
+                       img.rounded-circle(src='../assets/img/team/40x40/10.webp' alt='')
+                     .flex-1
+                       h6.mb-0.text-body-highlight.title Carry Anna
+                       p.fs-10.mb-0.d-flex.text-body-tertiary anna@technext.it
+                   a.dropdown-item.py-2.d-flex.align-items-center(href='../pages/members.html')
+                     .avatar.avatar-l.me-2.text-body
+                       img.rounded-circle(src='../assets/img/team/40x40/12.webp' alt='')
+                     .flex-1
+                       h6.mb-0.text-body-highlight.title John Smith
+                       p.fs-10.mb-0.d-flex.text-body-tertiary smith@technext.it
+                 hr.my-0
+                 h6.dropdown-header.text-body-highlight.fs-9.border-bottom.border-translucent.py-2.lh-sm Related Searches
+                 .py-2
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-brands.fa-firefox-browser.text-body(data-fa-transform='shrink-2')
+                         |  Search in the Web MacBook
+                   a.dropdown-item(href='../apps/e-commerce/landing/product-details.html')
+                     .d-flex.align-items-center
+                       .fw-normal.text-body-highlight.title
+                         span.fa-brands.fa-chrome.text-body(data-fa-transform='shrink-2')
+                         |  Store MacBook&Prime;
+               .text-center
+                 p.fallback.fw-bold.fs-7.d-none No Result Found.
+ .support-chat-container
+   .container-fluid.support-chat
+     .card.bg-body-emphasis
+       .card-header.d-flex.flex-between-center.px-4.py-3.border-bottom.border-translucent
+         h5.mb-0.d-flex.align-items-center.gap-2
+           | Demo widget
+           span.fa-solid.fa-circle.text-success.fs-11
+         .btn-reveal-trigger
+           button#support-chat-dropdown.btn.btn-link.p-0.dropdown-toggle.dropdown-caret-none.transition-none.d-flex(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+             span.fas.fa-ellipsis-h.text-body
+           .dropdown-menu.dropdown-menu-end.py-2(aria-labelledby='support-chat-dropdown')
+             a.dropdown-item(href='#!') Request a callback
+             a.dropdown-item(href='#!') Search in chat
+             a.dropdown-item(href='#!') Show history
+             a.dropdown-item(href='#!') Report to Admin
+             a.dropdown-item.btn-support-chat(href='#!') Close Support
+       .card-body.chat.p-0
+         .d-flex.flex-column-reverse.scrollbar.h-100.p-3
+           .text-end.mt-6
+             a.mb-2.d-inline-flex.align-items-center.text-decoration-none.text-body-emphasis.bg-body-hover.rounded-pill.border.border-primary.py-2.ps-4.pe-3(href='#!')
+               p.mb-0.fw-semibold.fs-9 I need help with something
+               span.fa-solid.fa-paper-plane.text-primary.fs-9.ms-3
+             a.mb-2.d-inline-flex.align-items-center.text-decoration-none.text-body-emphasis.bg-body-hover.rounded-pill.border.border-primary.py-2.ps-4.pe-3(href='#!')
+               p.mb-0.fw-semibold.fs-9 I can&rsquo;t reorder a product I previously ordered
+               span.fa-solid.fa-paper-plane.text-primary.fs-9.ms-3
+             a.mb-2.d-inline-flex.align-items-center.text-decoration-none.text-body-emphasis.bg-body-hover.rounded-pill.border.border-primary.py-2.ps-4.pe-3(href='#!')
+               p.mb-0.fw-semibold.fs-9 How do I place an order?
+               span.fa-solid.fa-paper-plane.text-primary.fs-9.ms-3
+             a.false.d-inline-flex.align-items-center.text-decoration-none.text-body-emphasis.bg-body-hover.rounded-pill.border.border-primary.py-2.ps-4.pe-3(href='#!')
+               p.mb-0.fw-semibold.fs-9 My payment method not working
+               span.fa-solid.fa-paper-plane.text-primary.fs-9.ms-3
+           .text-center.mt-auto
+             .avatar.avatar-3xl.status-online
+               img.rounded-circle.border.border-3.border-light-subtle(src='../assets/img/team/30.webp' alt='')
+             h5.mt-2.mb-3 Eric
+             p.text-center.text-body-emphasis.mb-0 Ask us anything &ndash; we&rsquo;ll get back to you here or by email within 24 hours.
+       .card-footer.d-flex.align-items-center.gap-2.border-top.border-translucent.ps-3.pe-4.py-3
+         .d-flex.align-items-center.flex-1.gap-3.border.border-translucent.rounded-pill.px-4
+           input.form-control.outline-none.border-0.flex-1.fs-9.px-0(type='text' placeholder='Write message')
+           label.btn.btn-link.d-flex.p-0.text-body-quaternary.fs-9.border-0(for='supportChatPhotos')
+             span.fa-solid.fa-image
+           input#supportChatPhotos.d-none(type='file' accept='image/*')
+           label.btn.btn-link.d-flex.p-0.text-body-quaternary.fs-9.border-0(for='supportChatAttachment')
+             span.fa-solid.fa-paperclip
+           input#supportChatAttachment.d-none(type='file')
+         button.btn.p-0.border-0.send-btn
+           span.fa-solid.fa-paper-plane.fs-9
+   button.btn.btn-support-chat.p-0.border.border-translucent
+     span.fs-8.btn-text.text-primary.text-nowrap Chat demo
+     span.ping-icon-wrapper.mt-n4.ms-n6.mt-sm-0.ms-sm-2.position-absolute.position-sm-relative
+       span.ping-icon-bg
+       span.fa-solid.fa-circle.ping-icon
+     span.fa-solid.fa-headset.text-primary.fs-8.d-sm-none
+     span.fa-solid.fa-chevron-down.text-primary.fs-7
+ 

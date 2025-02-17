@@ -1,0 +1,786 @@
+extends ../layout/index
+
+
+block contenido
+  
+    .content
+      nav.mb-3(aria-label='breadcrumb')
+      .mb-9
+        .row.g-3.mb-4
+          .col-auto
+            h2.mb-0 Productos
+        
+        #products(data-list='{"valueNames":["product","price","category","tags","vendor","time"],"page":10,"pagination":true}')
+          .mb-4
+            .d-flex.flex-wrap.gap-3
+              .search-box
+                form.position-relative
+                  input.form-control.search-input.search(type='search' placeholder='Search products' aria-label='Search')
+                  span.fas.fa-search.search-box-icon
+              .scrollbar.overflow-hidden-y
+                .btn-group.position-static(role='group')
+                  .btn-group.position-static.text-nowrap
+                    button.btn.btn-phoenix-secondary.px-7.flex-shrink-0(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                      | Category
+                      span.fas.fa-angle-down.ms-2
+                    ul.dropdown-menu
+                      li
+                        a.dropdown-item(href='#') Action
+                      li
+                        a.dropdown-item(href='#') Another action
+                      li
+                        a.dropdown-item(href='#') Something else here
+                      li
+                        hr.dropdown-divider
+                      li
+                        a.dropdown-item(href='#') Separated link
+                  .btn-group.position-static.text-nowrap
+                    button.btn.btn-sm.btn-phoenix-secondary.px-7.flex-shrink-0(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                      | Vendor
+                      span.fas.fa-angle-down.ms-2
+                    ul.dropdown-menu
+                      li
+                        a.dropdown-item(href='#') Action
+                      li
+                        a.dropdown-item(href='#') Another action
+                      li
+                        a.dropdown-item(href='#') Something else here
+                      li
+                        hr.dropdown-divider
+                      li
+                        a.dropdown-item(href='#') Separated link
+                  button.btn.btn-sm.btn-phoenix-secondary.px-7.flex-shrink-0 More filters
+              .ms-xxl-auto
+                button.btn.btn-link.text-body.me-4.px-0
+                  span.fa-solid.fa-file-export.fs-9.me-2
+                  | Export
+                button#addBtn.btn.btn-primary
+                  span.fas.fa-plus.me-2
+                  | Add product
+          .mx-n4.px-4.mx-lg-n6.px-lg-6.bg-body-emphasis.border-top.border-bottom.border-translucent.position-relative.top-1
+            .table-responsive.scrollbar.mx-n1.px-1
+              table.table.fs-9.mb-0
+                thead
+                  tr
+                    th.white-space-nowrap.fs-9.align-middle.ps-0(style='max-width:20px; width:18px;')
+                      .form-check.mb-0.fs-8
+                        input#checkbox-bulk-products-select.form-check-input(type='checkbox' data-bulk-select='{"body":"products-table-body"}')
+                    th.sort.white-space-nowrap.align-middle.fs-10(scope='col' style='width:70px;')
+                    th.sort.white-space-nowrap.align-middle.ps-4(scope='col' style='width:350px;' data-sort='product') Nombre 
+                    th.sort.align-middle.text-end.ps-4(scope='col' data-sort='price' style='width:150px;') PRICE
+                    th.sort.align-middle.ps-4(scope='col' data-sort='category' style='width:150px;') CATEGORY
+                    th.sort.align-middle.ps-3(scope='col' data-sort='tags' style='width:250px;') TAGS
+                    th.sort.align-middle.fs-8.text-center.ps-4(scope='col' style='width:125px;')
+                    th.sort.align-middle.ps-4(scope='col' data-sort='vendor' style='width:200px;') VENDOR
+                    th.sort.align-middle.ps-4(scope='col' data-sort='time' style='width:50px;') PUBLISHED ON
+                    th.sort.text-end.align-middle.pe-0.ps-4(scope='col')
+                tbody#products-table-body.list
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/1.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html')
+                        | Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management &amp; Skin Temperature Trends, Carbon/Graphite, One Size (S &amp; ...
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $39
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Plants
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Health
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Exercise
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Discipline
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Lifestyle
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Fitness
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Blue Olive Plant sellers. Inc
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 12, 10:45 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"iPhone 13 pro max-Pacific Blue-128GB storage","productImage":"/products/2.png","price":"$87","category":"Furniture","tags":["Class","Camera","Discipline","invincible","Pro","Swag"],"star":true,"vendor":"Beatrice Furnitures","publishedOn":"Nov 11, 7:36 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/2.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') iPhone 13 pro max-Pacific Blue-128GB storage
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $87
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Furniture
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Class
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Camera
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Discipline
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 invincible
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Pro
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Swag
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      span.fas.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Beatrice Furnitures
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 11, 7:36 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Apple MacBook Pro 13 inch-M1-8/256GB-space","productImage":"/products/3.png","price":"$9","category":"Plants","tags":["Efficiency","Handy","Apple","Creativity","Gray"],"star":false,"vendor":"PlantPlanet","publishedOn":"Nov 11, 8:16 AM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/3.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Apple MacBook Pro 13 inch-M1-8/256GB-space
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $9
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Plants
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Efficiency
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Handy
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Apple
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Creativity
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Gray
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') PlantPlanet
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 11, 8:16 AM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Apple iMac 24\" 4K Retina Display M1 8 Core CPU...","productImage":"/products/4.png","price":"$8 - $58","category":"Toys","tags":["Color","Stunning","Retina","Green","PC killer"],"star":false,"vendor":"Kizzstore","publishedOn":"Nov 8, 6:39 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/4.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Apple iMac 24&quot; 4K Retina Display M1 8 Core CPU...
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $8 - $58
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Toys
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Color
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Stunning
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Retina
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Green
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 PC killer
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Kizzstore
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 8, 6:39 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Razer Kraken v3 x Wired 7.1 Surroung Sound Gaming headset","productImage":"/products/5.png","price":"$120","category":"Fashion","tags":["Music","Audio","Meeting","Record","Sound"],"star":false,"vendor":"Inertia Fashion","publishedOn":"Nov 8, 5:32 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/5.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Razer Kraken v3 x Wired 7.1 Surroung Sound Gaming headset
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $120
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Fashion
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Music
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Audio
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Meeting
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Record
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Sound
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Inertia Fashion
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 8, 5:32 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"PlayStation 5 DualSense Wireless Controller","productImage":"/products/6.png","price":"$239","category":"Gadgets","tags":["Game","Control","Nav","Playstation","Wireless"],"star":false,"vendor":"FutureTech Inc","publishedOn":"Nov 6, 11:34 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/6.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') PlayStation 5 DualSense Wireless Controller
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $239
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Gadgets
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Game
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Control
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Nav
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Playstation
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Wireless
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') FutureTech Inc
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 6, 11:34 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"2021 Apple 12.9-inch iPad Pro (Wi‑Fi, 128GB) - Space Gray","productImage":"/products/7.png","price":"$4","category":"Food","tags":["Ipad","Pro","Creativity","Thunderbolt","Space"],"star":false,"vendor":"Maimuna’s Bakery","publishedOn":"Nov 1, 7:45 AM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/7.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') 2021 Apple 12.9-inch iPad Pro (Wi&#x2011;Fi, 128GB) - Space Gray
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $4
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Food
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Ipad
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Pro
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Creativity
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Thunderbolt
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Space
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Maimuna&rsquo;s Bakery
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 1, 7:45 AM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Amazon Basics Matte Black Wired Keyboard - US Layout (QWERTY)","productImage":"/products/8.png","price":"$98","category":"Fashion","tags":["Keyboard","Smooth","Butter","RGB","Black"],"star":false,"vendor":"Green fashion","publishedOn":"Nov 3, 12:27 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/8.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Amazon Basics Matte Black Wired Keyboard - US Layout (QWERTY)
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $98
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Fashion
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Keyboard
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Smooth
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Butter
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 RGB
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Black
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Green fashion
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 3, 12:27 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Apple Magic Mouse (Wireless, Rechargable) - Silver","productImage":"/products/10.png","price":"$568","category":"Fashion","tags":["Apple","Wireless","Battery","Magic","Performance"],"star":false,"vendor":"Eastacy","publishedOn":"Nov 1, 9:39 AM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/10.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Apple Magic Mouse (Wireless, Rechargable) - Silver
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $568
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Fashion
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Apple
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Wireless
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Battery
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Magic
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Performance
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Eastacy
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 1, 9:39 AM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"HORI Racing Wheel Apex for PlayStation 4_3, and PC","productImage":"/products/12.png","price":"$17","category":"Drinks","tags":["Steering","Gaming","PS4/3","Racing","Apex"],"star":false,"vendor":"BrewerBro","publishedOn":"Oct 30, 3:49 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/12.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') HORI Racing Wheel Apex for PlayStation 4_3, and PC
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $17
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Drinks
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Steering
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Gaming
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 PS4/3
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Racing
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Apex
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') BrewerBro
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Oct 30, 3:49 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Apple Pencil (2nd Generation)","productImage":"/products/21.png","price":"$28","category":"Fashion","tags":["Apple","Creativity","Color","Stunning","Apex"],"star":false,"vendor":"Eastacy","publishedOn":"Nov 25, 5:00 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/21.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Apple Pencil (2nd Generation)
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $28
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Fashion
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Apple
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Creativity
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Color
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Stunning
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Apex
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Eastacy
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Nov 25, 5:00 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Apple AirPods (2nd Generation)","productImage":"/products/16.png","price":"$20","category":"Fashion","tags":["Music","Audio","Meeting","Record","Sound"],"star":true,"vendor":"FutureTech Inc","publishedOn":"Sep 20, 1:00 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/16.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Apple AirPods (2nd Generation)
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $20
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Fashion
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Music
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Audio
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Meeting
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Record
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Sound
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      span.fas.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') FutureTech Inc
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Sep 20, 1:00 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Xbox Series S","productImage":"/products/17.png","price":"$30","category":"Gadget","tags":["Lifestyle","Audio","Magic","Performance","Apex"],"star":false,"vendor":"FutureTech Inc","publishedOn":"Oct 18, 3:40 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/17.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Xbox Series S
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $30
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Gadget
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Lifestyle
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Audio
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Magic
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Performance
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Apex
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') FutureTech Inc
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Oct 18, 3:40 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Seagate Portable 2TB External Hard Drive Portable HDD","productImage":"/products/18.png","price":"$50","category":"Accessories","tags":["Portable","Gaming","Magic","Performance","Black"],"star":false,"vendor":"Kizzstore","publishedOn":"Sep 20, 1:00 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/18.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Seagate Portable 2TB External Hard Drive Portable HDD
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $50
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Accessories
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Portable
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Gaming
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Magic
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Performance
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Black
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Kizzstore
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Sep 20, 1:00 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"Intel Core i9-11900K Desktop Processor 8 Cores up to 5.3 GHz Unlocked","productImage":"/products/19.png","price":"$80","category":"Accessories","tags":["Intel","Gaming","Apex","Performance","Lifestyle"],"star":true,"vendor":"BrewerBro","publishedOn":"Dec 01, 12:00 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/19.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') Intel Core i9-11900K Desktop Processor 8 Cores up to 5.3 GHz Unlocked
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $80
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Accessories
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Intel
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Gaming
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Apex
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Performance
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Lifestyle
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      span.fas.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') BrewerBro
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Dec 01, 12:00 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+                  tr.position-static
+                    td.fs-9.align-middle
+                      .form-check.mb-0.fs-8
+                        input.form-check-input(type='checkbox' data-bulk-select-row='{"product":"ASUS TUF Gaming F15 Gaming Laptop","productImage":"/products/20.png","price":"$150","category":"Computer","tags":["Gaming","Battery","Performance","Wireless"],"star":false,"vendor":"Kizzstore","publishedOn":"Dec 01, 12:00 PM"}')
+                    td.align-middle.white-space-nowrap.py-0
+                      a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
+                        img(src='/assets/img//products/20.png' alt='' width='53')
+                    td.product.align-middle.ps-4
+                      a.fw-semibold.line-clamp-3.mb-0(href='../../../apps/e-commerce/landing/product-details.html') ASUS TUF Gaming F15 Gaming Laptop
+                    td.price.align-middle.white-space-nowrap.text-end.fw-bold.text-body-tertiary.ps-4 $150
+                    td.category.align-middle.white-space-nowrap.text-body-quaternary.fs-9.ps-4.fw-semibold Computer
+                    td.tags.align-middle.review.pb-2.ps-3(style='min-width:225px;')
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Gaming
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Battery
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Performance
+                      a.text-decoration-none(href='#!')
+                        span.badge.badge-tag.me-2.mb-2 Wireless
+                    td.align-middle.review.fs-8.text-center.ps-4
+                      .d-toggle-container
+                        .d-block-hover
+                          span.fas.fa-star.text-warning
+                        .d-none-hover
+                          span.far.fa-star.text-warning
+                    td.vendor.align-middle.text-start.fw-semibold.ps-4
+                      a(href='#!') Kizzstore
+                    td.time.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4 Dec 01, 12:00 PM
+                    td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
+                      .btn-reveal-trigger.position-static
+                        button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                          span.fas.fa-ellipsis-h.fs-10
+                        .dropdown-menu.dropdown-menu-end.py-2
+                          a.dropdown-item(href='#!') View
+                          a.dropdown-item(href='#!') Export
+                          .dropdown-divider
+                          a.dropdown-item.text-danger(href='#!') Remove
+            .row.align-items-center.justify-content-between.py-2.pe-0.fs-9
+              .col-auto.d-flex
+                p.mb-0.d-none.d-sm-block.me-3.fw-semibold.text-body(data-list-info='data-list-info')
+                a.fw-semibold(href='#!' data-list-view='*')
+                  | View all
+                  span.fas.fa-angle-right.ms-1(data-fa-transform='down-1')
+                a.fw-semibold.d-none(href='#!' data-list-view='less')
+                  | View Less
+                  span.fas.fa-angle-right.ms-1(data-fa-transform='down-1')
+              .col-auto.d-flex
+                button.page-link(data-list-pagination='prev')
+                  span.fas.fa-chevron-left
+                ul.mb-0.pagination
+                button.page-link.pe-0(data-list-pagination='next')
+                  span.fas.fa-chevron-right
+    script.
+      var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
+      var navbarTop = document.querySelector('.navbar-top');
+      if (navbarTopStyle === 'darker') {
+      navbarTop.setAttribute('data-navbar-appearance', 'darker');
+      }
+      var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
+      var navbarVertical = document.querySelector('.navbar-vertical');
+      if (navbarVertical && navbarVerticalStyle === 'darker') {
+      navbarVertical.setAttribute('data-navbar-appearance', 'darker');
+      }
+    .support-chat-container
+      .container-fluid.support-chat
+        .card.bg-body-emphasis
+          .card-header.d-flex.flex-between-center.px-4.py-3.border-bottom.border-translucent
+            h5.mb-0.d-flex.align-items-center.gap-2
+              | Demo widget
+              span.fa-solid.fa-circle.text-success.fs-11
+            .btn-reveal-trigger
+              button#support-chat-dropdown.btn.btn-link.p-0.dropdown-toggle.dropdown-caret-none.transition-none.d-flex(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
+                span.fas.fa-ellipsis-h.text-body
+              .dropdown-menu.dropdown-menu-end.py-2(aria-labelledby='support-chat-dropdown')
+                a.dropdown-item(href='#!') Request a callback
+                a.dropdown-item(href='#!') Search in chat
+                a.dropdown-item(href='#!') Show history
+                a.dropdown-item(href='#!') Report to Admin
+                a.dropdown-item.btn-support-chat(href='#!') Close Support
+          .card-body.chat.p-0
+            .d-flex.flex-column-reverse.scrollbar.h-100.p-3
+              .text-end.mt-6
+                a.mb-2.d-inline-flex.align-items-center.text-decoration-none.text-body-emphasis.bg-body-hover.rounded-pill.border.border-primary.py-2.ps-4.pe-3(href='#!')
+                  p.mb-0.fw-semibold.fs-9 I need help with something
+                  span.fa-solid.fa-paper-plane.text-primary.fs-9.ms-3
+                a.mb-2.d-inline-flex.align-items-center.text-decoration-none.text-body-emphasis.bg-body-hover.rounded-pill.border.border-primary.py-2.ps-4.pe-3(href='#!')
+                  p.mb-0.fw-semibold.fs-9 I can&rsquo;t reorder a product I previously ordered
+                  span.fa-solid.fa-paper-plane.text-primary.fs-9.ms-3
+                a.mb-2.d-inline-flex.align-items-center.text-decoration-none.text-body-emphasis.bg-body-hover.rounded-pill.border.border-primary.py-2.ps-4.pe-3(href='#!')
+                  p.mb-0.fw-semibold.fs-9 How do I place an order?
+                  span.fa-solid.fa-paper-plane.text-primary.fs-9.ms-3
+                a.false.d-inline-flex.align-items-center.text-decoration-none.text-body-emphasis.bg-body-hover.rounded-pill.border.border-primary.py-2.ps-4.pe-3(href='#!')
+                  p.mb-0.fw-semibold.fs-9 My payment method not working
+                  span.fa-solid.fa-paper-plane.text-primary.fs-9.ms-3
+              .text-center.mt-auto
+                .avatar.avatar-3xl.status-online
+                  img.rounded-circle.border.border-3.border-light-subtle(src='/assets/img/team/30.webp' alt='')
+                h5.mt-2.mb-3 Eric
+                p.text-center.text-body-emphasis.mb-0 Ask us anything &ndash; we&rsquo;ll get back to you here or by email within 24 hours.
+          .card-footer.d-flex.align-items-center.gap-2.border-top.border-translucent.ps-3.pe-4.py-3
+            .d-flex.align-items-center.flex-1.gap-3.border.border-translucent.rounded-pill.px-4
+              input.form-control.outline-none.border-0.flex-1.fs-9.px-0(type='text' placeholder='Write message')
+              label.btn.btn-link.d-flex.p-0.text-body-quaternary.fs-9.border-0(for='supportChatPhotos')
+                span.fa-solid.fa-image
+              input#supportChatPhotos.d-none(type='file' accept='image/*')
+              label.btn.btn-link.d-flex.p-0.text-body-quaternary.fs-9.border-0(for='supportChatAttachment')
+                span.fa-solid.fa-paperclip
+              input#supportChatAttachment.d-none(type='file')
+            button.btn.p-0.border-0.send-btn
+              span.fa-solid.fa-paper-plane.fs-9
+      button.btn.btn-support-chat.p-0.border.border-translucent
+        span.fs-8.btn-text.text-primary.text-nowrap Chat demo
+        span.ping-icon-wrapper.mt-n4.ms-n6.mt-sm-0.ms-sm-2.position-absolute.position-sm-relative
+          span.ping-icon-bg
+          span.fa-solid.fa-circle.ping-icon
+        span.fa-solid.fa-headset.text-primary.fs-8.d-sm-none
+        span.fa-solid.fa-chevron-down.text-primary.fs-7
