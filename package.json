@@ -2,16 +2,22 @@
   "name": "dunteva_mvc",
   "version": "1.0.0",
   "main": "index.js",
-  "module": "module",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "di": "node ./seed/seeder.js -i",
+    "dd": "node ./seed/seeder.js -e"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mysql2": "^3.12.0",
     "nodemon": "^3.1.9",
-    "pug": "^3.0.3"
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.5"
   }
 }

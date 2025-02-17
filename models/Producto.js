@@ -1,0 +1,42 @@
+import { DataTypes } from "sequelize";
+import db from "../config/db.js";
+import { text } from "express";
+
+const Producto = db.define("productos", {
+    sku: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4, // Genera automáticamente un UUID v4
+        allowNull: false,
+        unique: true,
+      },
+    nombre: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+    descripcion: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+    precio: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+      },
+    capacidad: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+      },
+    concentracion: {
+        type: DataTypes.STRING(20),
+        allowNull: true,
+      }   
+},{
+    paranoid: true,
+    indexes: [
+        {
+          unique: true,
+          fields: ["sku"],
+        },
+      ],
+});
+
+export default Producto;

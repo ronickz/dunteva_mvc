@@ -1,0 +1,19 @@
+-- Deshabilitar restricciones de claves foráneas
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Eliminar datos de las tablas
+DROP TABLE  productos;
+DROP TABLE  proveedores;
+DROP TABLE unidades_medidas;
+DROP TABLE marcas;
+DROP TABLE  categorias;
+
+-- Restablecer los contadores de auto-incremento
+ALTER TABLE productos AUTO_INCREMENT = 1;
+ALTER TABLE proveedores AUTO_INCREMENT = 1;
+ALTER TABLE unidades_medidas AUTO_INCREMENT = 1;
+ALTER TABLE marcas AUTO_INCREMENT = 1;
+ALTER TABLE categorias AUTO_INCREMENT = 1;
+
+-- Habilitar restricciones de claves foráneas
+SET FOREIGN_KEY_CHECKS = 1;
