@@ -1,130 +1,112 @@
 extends ../layout/index
 
+//- MIXINS
+include ../mixins/botones/confirmar
+include ../mixins/combos/combo_add
+include ../mixins/secciones/pestana
 
 block contenido
     .content
-      form.mb-9
+      form.mb-9(method='POST' action='/stock/add_producto' enctype='multipart/form-data')
         .row.g-3.flex-between-end.mb-5
           .col-auto
             h2.mb-2 Añadir Producto
             h5.text-body-tertiary.fw-semibold Añade productos a tu tienda
           .col-auto
-            button.btn.btn-danger.me-2.mb-2.mb-sm-0.text-white(type='button') Descartar
+            a.text-white(href="/stock/listar_productos")
+              button(id="addBtn" class=("btn btn-danger mx-2") type='button')
+                span.me-2
+                  | Descartar
             button.btn.btn-primary.mb-2.mb-sm-0(type='submit') Publicar Producto
         .row.g-5
           .col-12.col-xl-8
             h4.mb-3 Nombre Producto
-            input.form-control.mb-5(type='text' placeholder='Escriba aqui...' name="nombre")
+            input.form-control.mb-5(type='text' placeholder='Escriba aqui...' required name="nombre")
             .mb-6
             h4.mb-3.mt-3 Inventario
             .row.g-0.border-top.border-bottom
               .col-sm-4
                 .nav.flex-sm-column.border-bottom.border-bottom-sm-0.border-end-sm.fs-9.vertical-tab.h-100.justify-content-between(role='tablist' aria-orientation='vertical')    
-                  a#skuTab.nav-link.border-end.border-end-sm-0.border-bottom-sm.text-center.text-sm-start.cursor-pointer.outline-none.d-sm-flex.align-items-sm-center.active(data-bs-toggle='tab' data-bs-target='#skuTabContent' role='tab' aria-controls='skuTabContent' aria-selected='false')
-                    span.me-sm-2.fs-4.nav-icons(data-feather='lock')
-                    span.d-none.d-sm-inline SKU           
-                  a#pricingTab.nav-link.border-end.border-end-sm-0.border-bottom-sm.text-center.text-sm-start.cursor-pointer.outline-none.d-sm-flex.align-items-sm-center(data-bs-toggle='tab' data-bs-target='#pricingTabContent' role='tab' aria-controls='pricingTabContent' aria-selected='true')
-                    span.me-sm-2.fs-4.nav-icons(data-feather='tag')
-                    span.d-none.d-sm-inline Precio
-                  a#restockTab.nav-link.border-end.border-end-sm-0.border-bottom-sm.text-center.text-sm-start.cursor-pointer.outline-none.d-sm-flex.align-items-sm-center(data-bs-toggle='tab' data-bs-target='#restockTabContent' role='tab' aria-controls='restockTabContent' aria-selected='false')
-                    span.me-sm-2.fs-4.nav-icons(data-feather='package')
-                    span.d-none.d-sm-inline Restock
-                  a#attributesTab.nav-link.border-end.border-end-sm-0.border-bottom-sm.text-center.text-sm-start.cursor-pointer.outline-none.d-sm-flex.align-items-sm-center(data-bs-toggle='tab' data-bs-target='#attributesTabContent' role='tab' aria-controls='attributesTabContent' aria-selected='false')
-                    span.me-sm-2.fs-4.nav-icons(data-feather='sliders')
-                    span.d-none.d-sm-inline Capacidad-Concentracion
+                  +pestana('skuTab', 'lock', 'SKU', '#skuTabContent', true)
+                  +pestana('precioTab', 'tag', 'Precio', '#precioTabContent')
+                  +pestana('restockTab', 'package', 'Restock', '#restockTabContent')
+                  +pestana('attributesTab', 'sliders', 'Capacidad-Concentracion', '#attributesTabContent')
               .col-sm-8
                 .tab-content.py-3.ps-sm-4.h-100
-                  #skuTabContent.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='skuTab')
-                        h5.mb-2.text-body-highlight SKU
-                        input.form-control(type='text' placeholder='Ingrese el SKU correspondiente al producto')
-                  #pricingTabContent.tab-pane.fade(role='tabpanel')
-                    h4.mb-3.d-sm-none Pricing
-                    .row.g-3
-                      .col-12.col-lg-6
-                        h5.mb-2.text-body-highlight Costo
-                        input.form-control(type='number' placeholder='$1000')
-                      .col-12.col-lg-6
-                        h5.mb-2.text-body-highlight Venta
-                        input.form-control(type='number' placeholder='$1500')
-                  #restockTabContent.tab-pane.fade.h-100(role='tabpanel' aria-labelledby='restockTab')
-                    .d-flex.flex-column.h-100
-                      h5.mb-3.text-body-highlight Añadir stock
-                      .row.g-3.flex-1.mb-4
-                        .col-sm-7
-                          input.form-control(type='number' placeholder='Cantidad')
-                        .col-sm
-                          button.btn.btn-primary(type='button')
-                            span.fa-solid.fa-check.me-1.fs-10
-                            | Confirmar
-                      table
-                        thead
-                          tr
-                            th(style='width: 200px;')
-                            th
-                        tbody
-                          tr
-                            td.text-body-highlight.fw-bold.py-1 Stock actual:
-                            td.text-body-tertiary.fw-semibold.py-1
-                              | $1,090
-                              button.btn.p-0(type='button')
-                                span.fa-solid.fa-rotate.text-body.ms-1(style='--phoenix-text-opacity: .6;')
-                          tr
-                            td.text-body-highlight.fw-bold.py-1 Ultima modificacion:
-                            td.text-body-tertiary.fw-semibold.py-1 30th June, 2021
-                  #productsTabContent.tab-pane.fade(role='tabpanel' aria-labelledby='productsTab')
-                    h5.mb-3.text-body-highlight Global Delivery
-                    .mb-3
-                      .form-check
-                        input#worldwideDelivery.form-check-input(type='radio' name='deliveryRadio')
-                        label.form-check-label.fs-8.text-body(for='worldwideDelivery') Worldwide delivery
-                      .ps-4
-                        p.fs-9.mb-0.text-body-secondary
-                          | Only available with Shipping method: 
-                          a(href='#!') Fullfilled by Phoenix
-                    .mb-3
-                      .form-check
-                        input#selectedCountry.form-check-input(type='radio' name='deliveryRadio' checked='checked')
-                        label.form-check-label.fs-8.text-body(for='selectedCountry') Selected Countries
-                      .ps-4(style='max-width: 350px;')
-                        select#organizerMultiple.form-select.ps-4(data-choices='data-choices' multiple='multiple' data-options='{"removeItemButton":true,"placeholder":true}')
-                          option(value='') Type Country name
-                          option United States of America
-                          option United Kingdom
-                          option Canada
-                          option Mexico
-                    div
-                      .form-check
-                        input#localDelivery.form-check-input(type='radio' name='deliveryRadio')
-                        label.form-check-label.fs-8.text-body(for='localDelivery') Local delivery
-                      p.fs-9.ms-4.mb-0.text-body-secondary
-                        | Deliver to your country of residence 
-                        a(href='#!') Change profile address 
-                  #attributesTabContent.tab-pane.fade.row(role='tabpanel' aria-labelledby='attributesTab')
-                      h5.mb-3.text-body-highlight Indique cantidad, ej: 10L - 10LITROS
+                  +contenidoPestana('skuTabContent', true)
+                    .row
+                      h5.mb-2.text-body-highlight SKU
+                    .row
+                      .col-6
+                        input.form-control(type='text' placeholder='Ingrese el SKU correspondiente al producto' required name="sku")
+                      .col-6
+                        +botonConfirmar('confirmarSkuBtn')
+
+                  +contenidoPestana('precioTabContent', false)
                       .row
-                          .col-6
-                              input.form-control(type='number' placeholder='10')
-                          .col-6
-                              select.form-select.mb-3(aria-label='unidad_medida')
-                                  option(value='Litros') Litros
-                                  option(value='Gramos') Gramos
-                                  option(value='Cencimetros Cubicos') Cencimetros Cubicos
-            h4.mt-3.mb-3 Añadir Imagen
-            #dropzone-single.dropzone.dropzone-single.p-0(data-dropzone='data-dropzone' data-options='{"url":"valid/url","maxFiles":1,"maxFilesize":5,"acceptedFiles":"image/*","dictDefaultMessage":"Choose or Drop a file here"}')
-              .fallback
-                input(type='file' name='file')
-              .dz-message(data-dz-message='data-dz-message')
-                .dz-message-text
-                  img.me-2(src='/assets/img/icons/cloud-upload.svg' width='25' alt='')
-                  | Importa tus archivos
-                button.btn.dz-upload-btn.border-0.position-absolute.z-5.bg-black.bg-opacity-50.text-white.mt-3.ms-3.px-3(data-dz-message='data-dz-message')
-                  | Change Picture
-                  span.fa-solid.fa-camera.fs-10.ms-1
-              .dz-preview.d-block.m-0
-                .rounded-2.position-relative(style='height: 144px')
-                  img.rounded-2.w-100.h-100.object-fit-cover(src='/assets/img/icons/file-bg.png' alt='...' data-dz-thumbnail='data-dz-thumbnail')
-                  button.btn.border-0.position-absolute.top-0.end-0.z-5.bg-black.bg-opacity-50.text-white.mt-3.me-3.px-3.cursor-pointer(data-dz-remove='data-dz-remove')
-                    span.fa-solid.fa-xmark.cursor-pointer
+                        h5.mb-2.text-body-highlight Precio
+                      .row
+                        .col-6
+                          input.form-control(type='number' placeholder='$1000' required name="precio")
+                        .col-6
+                          +botonConfirmar('confirmarPrecioBtn')
+                  +contenidoPestana('restockTabContent')
+                     .d-flex.flex-column.h-100
+                         h5.mb-3.text-body-highlight Añadir stock
+                         .row.g-3.flex-1.mb-4
+                            .col-sm-7
+                              input.form-control(type='number' placeholder='Cantidad' required name="stock")
+                            .col-sm
+                              +botonConfirmar('confirmarStockBtn')
+                            table
+                              thead
+                                tr
+                                  th(style='width: 200px;')
+                                  th
+                              tbody
+                                tr
+                                  td.text-body-highlight.fw-bold.py-1 Stock actual:
+                                  td.text-body-tertiary.fw-semibold.py-1
+                                    | 0
+                                    button.btn.p-0(type='button')
+                                      span.fa-solid.fa-rotate.text-body.ms-1(style='--phoenix-text-opacity: .6;')
+                                tr
+                                  td.text-body-highlight.fw-bold.py-1 Ultima modificacion:
+                                  td.text-body-tertiary.fw-semibold.py-1 30th June, 2021
+                  #productsTabContent.tab-pane.fade(role='tabpanel' aria-labelledby='productsTab')
+                  #attributesTabContent.tab-pane.fade.row(role='tabpanel' aria-labelledby='attributesTab')
+                      h5.mb-3.text-body-highlight Indique cantidad, ej: 10
+                      .row
+                          .col-12
+                              input.form-control.mb-3(type='number' placeholder='10' required name="cantidad")
+                              +combo_add("Unidad medida","No existe? Crea una nueva medida",data.unidades)
+
+            h4.mt-3.mb-5 Añadir Imagen
+                #dropzone.dropzone.dropzone-multiple.p-0(data-dropzone='data-dropzone' data-options='{"url":"valid/url","maxFiles":1,"dictDefaultMessage":"Choose or Drop a file here"}')
+                  .fallback
+                    input(type='file' name='imagen')
+                  .dz-message(data-dz-message='data-dz-message')
+                    .dz-message-text
+                      img.me-2(src='../../../assets/img/icons/cloud-upload.svg' width='25' alt='')
+                      | Suelta tus archivos aqui
+                  .dz-preview.dz-preview-multiple.m-0.d-flex.flex-column
+                    .d-flex.pb-3.border-bottom.border-translucent.media.px-2
+                      .border.p-2.rounded-2.me-2
+                        img.rounded-2.dz-image(src='../../../assets/img/icons/file.png' alt='...' data-dz-thumbnail='data-dz-thumbnail')
+                      .flex-1.d-flex.flex-between-center
+                        div
+                          h6(data-dz-name='data-dz-name')
+                          .d-flex.align-items-center
+                            p.mb-0.fs-9.text-body-quaternary.lh-1(data-dz-size='data-dz-size')
+                            .dz-progress
+                              span.dz-upload(data-dz-uploadprogress='')
+                          span.fs-10.text-danger(data-dz-errormessage='data-dz-errormessage')
+                        .dropdown
+                          button.btn.btn-link.text-body-quaternary.btn-sm.dropdown-toggle.btn-reveal.dropdown-caret-none(type='button' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                            span.fas.fa-ellipsis-h
+                            .dropdown-menu.dropdown-menu-end.border.border-translucent.py-2
+                              a.dropdown-item(href='#!' data-dz-remove='data-dz-remove') Remove File
+
           .col-12.col-xl-4
             .row.g-2
               .col-12.col-xl-12
@@ -134,21 +116,30 @@ block contenido
                     .row.gx-3
                       .col-12.col-sm-6.col-xl-12
                         .mb-4
-                          .d-flex.flex-wrap.mb-2
-                            h5.mb-0.text-body-highlight.me-2 Marca
-                            a.fw-bold.fs-9(href='#!') Añade nueva marca
-                          select.form-select.mb-3(aria-label='marca')
+                          +combo_add("Marca","No existe? Crea una nueva marca", data.marcas)
                       .col-12.col-sm-6.col-xl-12
                         .mb-4
-                          .d-flex.flex-wrap.mb-2
-                            h5.mb-0.text-body-highlight.me-2 Categoria
-                            a.fw-bold.fs-9(href='#!') Añade nueva categoria
-                          select.form-select.mb-3(aria-label='categoria')
+                          +combo_add("Categoria","No existe? Crea una nueva categoria", data.categorias)
                       .col-12.col-sm-6.col-xl-12
-                        .d-flex.flex-wrap.mb-2
-                          h5.mb-0.text-body-highlight.me-2 Proveedores
-                          a.fw-bold.fs-9(href='#!') Añade nuevos proveedores
-                        select.form-select.mb-3(aria-label='proveedores')
-                          option(value='men-cloth') Men&apos;s Clothing
-                          option(value='women-cloth') Womens&apos;s Clothing
-                          option(value='kid-cloth') Kid&apos;s Clothing
+                        .mb-4
+                          +combo_add("Proveedor","No existe? Crea un nuevo proveedor", data.proveedores)
+    script.
+      document.addEventListener('DOMContentLoaded', function () {
+        const btnConfirmarSku = document.getElementById('confirmarSkuBtn');
+        const btnConfirmarPrecio = document.getElementById('confirmarPrecioBtn');
+        const btnConfirmarStock = document.getElementById('confirmarStockBtn');
+
+        btnConfirmarSku.addEventListener('click', function () {
+          const precioTab = new bootstrap.Tab(document.getElementById('precioTab'));
+          precioTab.show();
+        });
+        btnConfirmarPrecio.addEventListener('click', function () {
+          const restockTab = new bootstrap.Tab(document.getElementById('restockTab'));
+          restockTab.show();
+        });
+
+        btnConfirmarStock.addEventListener('click', function () {
+          const attributesTab = new bootstrap.Tab(document.getElementById('attributesTab'));
+          attributesTab.show();
+        });
+     });

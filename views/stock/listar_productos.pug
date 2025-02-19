@@ -1,5 +1,8 @@
 extends ../layout/index
 
+//- Mixins
+
+include ../mixins/tablas/tablas
 
 block contenido
   
@@ -31,17 +34,16 @@ block contenido
               table.table.fs-9.mb-0.table-striped.table-hover
                 thead
                   tr
-                    th.sort.white-space-nowrap.align-middle.fs-10(scope='col' style='width:70px;')
-                    th.sort.white-space-nowrap.align-middle.ps-4.text-center(scope='col' style='width:350px;' data-sort='sku') SKU 
-                    th.sort.white-space-nowrap.align-middle.ps-4.text-center(scope='col' style='width:350px;' data-sort='nombre') NOMBRE
-                    th.sort.white-space-nowrap.align-middle.ps-4.text-center(scope='col' style='width:350px;' data-sort='marca') MARCA
-                    th.sort.align-middle.ps-4.text-center(scope='col' data-sort='categoria' style='width:150px;') CATEGORIA
-                    th.sort.align-middle.text-center.ps-4(scope='col' data-sort='medida') MEDIDA
-                    th.sort.align-middle.text-center.ps-4(scope='col' data-sort='precio' style='width:150px;') PRECIO
-                    th.sort.align-middle.ps-4.text-center(scope='col' data-sort='stock' style='width:250px;') STOCK
-                    th.sort.align-middle.ps-4.text-center(scope='col' data-sort='proveedor' style='width:200px;') PROVEEDOR
-                    th.sort.align-middle.ps-4.text-center(scope='col' data-sort='fecha' style='width:200px;') FECHA
-                    th.sort.text-end.align-middle.pe-0.ps-4(scope='col')
+                  +tableHeader('', '70px', '')
+                  +tableHeader('SKU', '350px', 'sku')
+                  +tableHeader('NOMBRE', '350px', 'nombre')
+                  +tableHeader('MARCA', '350px', 'marca')
+                  +tableHeader('CATEGORIA', '150px', 'categoria')
+                  +tableHeader('MEDIDA', '', 'medida')
+                  +tableHeader('PRECIO', '150px', 'precio')
+                  +tableHeader('STOCK', '250px', 'stock')
+                  +tableHeader('PROVEEDOR', '200px', 'proveedor')
+                  +tableHeader('FECHA', '200px', 'fecha')
                 tbody#products-table-body.list
                   each producto in productos
                     tr.position-static

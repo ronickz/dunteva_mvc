@@ -1,0 +1,21 @@
+mixin pestana(id, icon, label, target, active=false)
+  a.nav-link.border-end.border-end-sm-0.border-bottom-sm.text-center.text-sm-start.cursor-pointer.outline-none.d-sm-flex.align-items-sm-center(
+    class=active ? 'active' : '',
+    id=id,
+    data-bs-toggle='tab',
+    data-bs-target=target,
+    role='tab',
+    aria-controls=target,
+    aria-selected=active
+  )
+    span.me-sm-2.fs-4.nav-icons(data-feather=icon)
+    span.d-none.d-sm-inline= label
+
+mixin contenidoPestana(id, active=false)
+  .tab-pane.fade(
+    id=id,
+    role='tabpanel',
+    aria-labelledby=id,
+    class=active ? 'show active' : ''
+  )
+    block
