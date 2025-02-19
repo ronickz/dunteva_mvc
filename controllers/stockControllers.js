@@ -17,7 +17,7 @@ const listar_productos = async (req, res) => {
         {
           model: UnidadMedida,
           as: 'unidad',
-          attributes: ['abreviatura']
+          attributes: ['nombre']
         },
         {
           model: Proveedor,
@@ -26,20 +26,22 @@ const listar_productos = async (req, res) => {
         }
       ]
     });
+
+  /*
     productos.forEach(producto => {
-      console.log(`ID: ${producto.id}`);
-      console.log(`SKU: ${producto.sku}`);
-      console.log(`Nombre: ${producto.nombre}`);
-      console.log(`Descripción: ${producto.descripcion}`);
-      console.log(`Precio: ${producto.precio}`);
-      console.log(`Capacidad: ${producto.capacidad}`);
-      console.log(`Concentración: ${producto.concentracion}`);
-      console.log(`Categoría: ${producto.categoria ? producto.categoria.nombre : 'N/A'}`);
-      console.log(`Marca: ${producto.marca ? producto.marca.nombre : 'N/A'}`);
-      console.log(`Unidad: ${producto.unidad ? producto.unidad.abreviatura : 'N/A'}`);
-      console.log(`Proveedor: ${producto.proveedor ? producto.proveedor.nombre : 'N/A'}`);
-      console.log('-------------------------');
-    });
+       console.log(`ID: ${producto.id}`);
+       console.log(`SKU: ${producto.sku}`);
+       console.log(`Nombre: ${producto.nombre}`);
+       console.log(`Precio: ${producto.precio}`);
+       console.log(`Categoría: ${producto.categoria ? producto.categoria.nombre : 'N/A'}`);
+       console.log(`Marca: ${producto.marca ? producto.marca.nombre : 'N/A'}`);
+       console.log(`Capacidad: ${producto.capacidad}`);
+       console.log(`Unidad: ${producto.unidad ? producto.unidad.nombre : 'N/A'}`);
+       console.log(`Proveedor: ${producto.proveedor ? producto.proveedor.nombre : 'N/A'}`);
+       console.log('-------------------------');
+     });
+
+    */
     res.render("stock/listar_productos",{
       productos
     });
@@ -49,4 +51,8 @@ const listar_productos = async (req, res) => {
   }
 };
 
-export { listar_productos };
+const add_producto = async (req, res) => {
+  res.render("stock/add_producto");
+};
+
+export { listar_productos, add_producto };

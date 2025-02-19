@@ -13,10 +13,6 @@ const Producto = db.define("productos", {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-    descripcion: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
     precio: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
@@ -24,10 +20,6 @@ const Producto = db.define("productos", {
     capacidad: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
-      },
-    concentracion: {
-        type: DataTypes.STRING(20),
-        allowNull: true,
       },
     stock:{
         type: DataTypes.INTEGER,

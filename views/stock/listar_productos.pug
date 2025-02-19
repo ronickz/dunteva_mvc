@@ -10,18 +10,19 @@ block contenido
           .col-auto
             h2.mb-0 Productos
         
-        #products(data-list='{"valueNames":["sku","nombre","marca","categoria","precio","stock","proveedor","fecha"],"page":5,"pagination":true}')
+        #products(data-list='{"valueNames":["sku","nombre","marca","categoria","medida","precio","stock","proveedor","fecha"],"page":5,"pagination":true}')
           .mb-4
             .d-flex.flex-wrap.gap-3
               .search-box
                 form.position-relative
-                  input.form-control.search-input.search(type='search' placeholder='Search products' aria-label='Search')
+                  input.form-control.search-input.search(type='search' placeholder='Buscar productos' aria-label='Search')
                   span.fas.fa-search.search-box-icon
               .scrollbar.overflow-hidden-y
               .ms-xxl-auto
-                button.btn.btn-link.text-body.me-4.px-0
-                  span.fa-solid.fa-file-export.fs-9.me-2
-                  | Exportar
+              button.btn.btn-link.text-body.me-4.px-0
+                span.fa-solid.fa-file-export.fs-9.me-2
+                | Exportar
+              a.text-white(href="/stock/add_producto")
                 button#addBtn.btn.btn-primary
                   span.fas.fa-plus.me-2
                   | Añadir Producto
@@ -33,13 +34,13 @@ block contenido
                     th.sort.white-space-nowrap.align-middle.fs-10(scope='col' style='width:70px;')
                     th.sort.white-space-nowrap.align-middle.ps-4.text-center(scope='col' style='width:350px;' data-sort='sku') SKU 
                     th.sort.white-space-nowrap.align-middle.ps-4.text-center(scope='col' style='width:350px;' data-sort='nombre') NOMBRE
-                    th.sort.white-space-nowrap.align-middle.ps-4.text-center(scope='col' style='width:350px;' data-sort='marca') DESC
                     th.sort.white-space-nowrap.align-middle.ps-4.text-center(scope='col' style='width:350px;' data-sort='marca') MARCA
                     th.sort.align-middle.ps-4.text-center(scope='col' data-sort='categoria' style='width:150px;') CATEGORIA
+                    th.sort.align-middle.text-center.ps-4(scope='col' data-sort='medida') MEDIDA
                     th.sort.align-middle.text-center.ps-4(scope='col' data-sort='precio' style='width:150px;') PRECIO
-                    th.sort.align-middle.ps-3.text-center(scope='col' data-sort='stock' style='width:250px;') STOCK
+                    th.sort.align-middle.ps-4.text-center(scope='col' data-sort='stock' style='width:250px;') STOCK
                     th.sort.align-middle.ps-4.text-center(scope='col' data-sort='proveedor' style='width:200px;') PROVEEDOR
-                      th.sort.align-middle.ps-4.text-center(scope='col' data-sort='fecha' style='width:200px;') FECHA
+                    th.sort.align-middle.ps-4.text-center(scope='col' data-sort='fecha' style='width:200px;') FECHA
                     th.sort.text-end.align-middle.pe-0.ps-4(scope='col')
                 tbody#products-table-body.list
                   each producto in productos
@@ -47,38 +48,36 @@ block contenido
                       td.align-middle.white-space-nowrap.py-0
                         a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
                           img(src='/assets/img//products/1.png' alt='' width='53')
-                      td.sku.align-middle.white-space-nowrap.text-body-quaternary.fs-8.ps-4.fw-bold.text-center= producto.sku
+                      td.sku.align-middle.white-space-nowrap.fs-8.ps-4.fw-bold.text-center= producto.sku
                       td.nombre.align-middle.ps-4
                         a.fw-semibold.line-clamp-3.mb-0.text-center(href='../../../apps/e-commerce/landing/product-details.html')= producto.nombre
-                      td.descripcion.align-middle.white-space-nowrap.text-body-quaternary.fs-8.ps-4.fw-bold.text-center= producto.descripcion
-                      td.marca.align-middle.white-space-nowrap.text-body-quaternary.fs-8.ps-4.fw-bold.text-center= producto.marca.nombre
-                      td.categoria.align-middle.review.pb-2.ps-3.text-center(style='min-width:225px;')
+                      td.marca.align-middle.white-space-nowrap.fs-8.ps-4.fw-bold.text-center= producto.marca.nombre
+                      td.categoria.align-middle.pb-2.ps-3.text-center(style='min-width:225px;')
                         a.text-decoration-none.text-center(href='#!')
                         span.badge.badge-tag.mb-2.fs-8.text-center= producto.categoria.nombre
-                      td.precio.align-middle.white-space-nowrap.text-center.fw-bold.text-body-tertiary.ps-4.fs-8= `$${producto.precio}`
-                      td.stock.align-middle.review.pb-2.ps-3.text-center(style='min-width:225px;')
+                      td.medida.align-middle.white-space-nowrap.text-center.fw-bold.ps-4.fs-8= `${producto.capacidad} ${producto.unidad.nombre}`
+                      td.precio.align-middle.white-space-nowrap.text-center.fw-bold.ps-4.fs-8= `${producto.precio}`
+                      td.stock.align-middle.pb-2.ps-3.text-center(style='min-width:225px;')
                         a.text-decoration-none(href='#!')
-                          span.badge.badge-tag.mb-2.fs-8.bg-success.px-5.text-dark= producto.stock
+                          span.badge.badge-tag.mb-2.fs-8.px-5.text-dark(class=producto.stock <= 10 ? 'bg-danger' : 'bg-success')= producto.stock
                       td.proveedor.align-middle.text-start.fw-semibold.ps-4.text-center.fs-8
                         a(href='#!')= producto.proveedor.nombre
-                      td.fecha.align-middle.white-space-nowrap.text-body-tertiary.text-opacity-85.ps-4.text-center= producto.createdAt.toLocaleDateString()
+                      td.fecha.align-middle.white-space-nowrap.ps-4.fw-bold.text-center= producto.updatedAt.toLocaleDateString()
                       td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
                         .btn-reveal-trigger.position-static
                           button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
                            span.fas.fa-ellipsis-h.fs-10
                            .dropdown-menu.dropdown-menu-end.py-2
-                             a.dropdown-item(href='#!') View
-                             a.dropdown-item(href='#!') Export
-                              .dropdown-divider
-                              a.dropdown-item.text-danger(href='#!') Remove
+                             a.dropdown-item(href='#!') Editar
+                             a.dropdown-item.text-danger(href='#!') Eliminar
           .row.align-items-center.justify-content-between.py-2.pe-0.fs-9
             .col-auto.d-flex
               p.mb-0.d-none.d-sm-block.me-3.fw-semibold.text-body(data-list-info='data-list-info')
               a.fw-semibold(href='#!' data-list-view='*')
-                | View all
+                | Mostrar todos los registros
                 span.fas.fa-angle-right.ms-1(data-fa-transform='down-1')
               a.fw-semibold.d-none(href='#!' data-list-view='less')
-                | View Less
+                | Mostrar menos registros
                 span.fas.fa-angle-right.ms-1(data-fa-transform='down-1')
             .col-auto.d-flex
               button.page-link(data-list-pagination='prev')
