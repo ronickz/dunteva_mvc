@@ -1,10 +1,12 @@
-mixin combo_add(titulo, descripcion, data, nombre)
+mixin combo_add(titulo, descripcion, data, nombre, valorSeleccionado)
   .d-flex.flex-wrap.mb-2
     h5.mb-3.text-body-highlight.me-2= titulo
     a.fw-bold.fs-9(href='#!')= descripcion
     select.form-select.mb-3(name=nombre required)
+      if !valorSeleccionado
+        option(value='' selected) Selecciona una opción
       if data && data.length
         each item in data
-          option(value=item.id)= item.nombre
+          option(value=item.id selected=item.id == valorSeleccionado)= item.nombre
       else
         option(value='') No hay opciones disponibles

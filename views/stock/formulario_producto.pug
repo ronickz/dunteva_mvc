@@ -7,13 +7,13 @@ include ../mixins/secciones/pestana
 
 block contenido
     .content
-      form.mb-9(method='POST' action='/stock/nuevo' enctype='multipart/form-data')
+      form.mb-9(method='POST' action= accion enctype='multipart/form-data')
         .row.g-3.flex-between-end.mb-5
           .col-auto
-            h2.mb-2 Añadir Producto
-            h5.text-body-tertiary.fw-semibold Añade productos a tu tienda
+            h2.mb-2= titulo
+            h5.text-body-tertiary.fw-semibold= descripcion
           .col-auto
-            a.text-white(href="/stock/listar_productos")
+            a.text-white(href=`${endpoints.listarProductos}`)
               button(id="addBtn" class=("btn btn-danger mx-2") type='button')
                 span.me-2
                   | Descartar
@@ -21,7 +21,7 @@ block contenido
         .row.g-5
           .col-12.col-xl-8
             h4.mb-3 Nombre Producto
-            input.form-control.mb-5(type='text' placeholder='Escriba aqui...' required name="nombre")
+            input.form-control.mb-5(type='text' placeholder='Escriba aqui...' required name="nombre" value= producto.nombre || '')
             .mb-6
             h4.mb-3.mt-3 Inventario
             .row.g-0.border-top.border-bottom
@@ -38,7 +38,7 @@ block contenido
                       h5.mb-2.text-body-highlight SKU
                     .row
                       .col-6
-                        input.form-control(type='text' placeholder='Ingrese el SKU correspondiente al producto' required name="sku")
+                        input.form-control(type='text' placeholder='Ingrese el SKU correspondiente al producto' required name="sku" value= producto.sku || '')
                       .col-6
                         +botonConfirmar('confirmarSkuBtn')
 
@@ -47,7 +47,7 @@ block contenido
                         h5.mb-2.text-body-highlight Precio
                       .row
                         .col-6
-                          input.form-control(type='number' placeholder='$1000' required name="precio")
+                          input.form-control(type='number' placeholder='$1000' min="1" required name="precio" value= producto.precio || '')
                         .col-6
                           +botonConfirmar('confirmarPrecioBtn')
                   +contenidoPestana('restockTabContent')
@@ -55,7 +55,7 @@ block contenido
                          h5.mb-3.text-body-highlight Añadir stock
                          .row.g-3.flex-1.mb-4
                             .col-sm-7
-                              input.form-control(type='number' placeholder='Cantidad' required name="stock")
+                              input.form-control(type='number' placeholder='Cantidad' min="1" required name="stock")
                             .col-sm
                               +botonConfirmar('confirmarStockBtn')
                             table
@@ -65,21 +65,23 @@ block contenido
                                   th
                               tbody
                                 tr
-                                  td.text-body-highlight.fw-bold.py-1 Stock actual:
+                                  td.text-body-highlight.fw-bold.py-1 Stock actual
                                   td.text-body-tertiary.fw-semibold.py-1
-                                    | 0
+                                    | #{producto.stock || 0}
                                     button.btn.p-0(type='button')
                                       span.fa-solid.fa-rotate.text-body.ms-1(style='--phoenix-text-opacity: .6;')
                                 tr
                                   td.text-body-highlight.fw-bold.py-1 Ultima modificacion:
-                                  td.text-body-tertiary.fw-semibold.py-1 30th June, 2021
+                                  td.text-body-tertiary.fw-semibold.py-1
+                                    if producto.updatedAt
+                                        = producto.updatedAt.toLocaleDateString() + ' ' + producto.updatedAt.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
                   #productsTabContent.tab-pane.fade(role='tabpanel' aria-labelledby='productsTab')
                   #attributesTabContent.tab-pane.fade.row(role='tabpanel' aria-labelledby='attributesTab')
                       h5.mb-3.text-body-highlight Indique cantidad, ej: 10
                       .row
                           .col-12
-                              input.form-control.mb-3(type='number' placeholder='10' required name="capacidad")
-                              +combo_add("Unidad medida","No existe? Crea una nueva medida",data.unidades,"unidad_medida")
+                              input.form-control.mb-3(type='number' placeholder='10' min="1" required name="capacidad" value= producto.capacidad || '')
+                              +combo_add("Unidad medida","No existe? Crea una nueva medida",data.unidades,"unidad_medida",producto.unidadId)
 
             h4.mt-3.mb-5 Añadir Imagen
             label.form-label Upload Image
@@ -95,13 +97,13 @@ block contenido
                     .row.gx-3
                       .col-12.col-sm-6.col-xl-12
                         .mb-4
-                          +combo_add("Marca","No existe? Crea una nueva marca", data.marcas,"marca")
+                          +combo_add("Marca","No existe? Crea una nueva marca", data.marcas,"marca",producto.marcaId)
                       .col-12.col-sm-6.col-xl-12
                         .mb-4
-                          +combo_add("Categoria","No existe? Crea una nueva categoria", data.categorias,"categoria")
+                          +combo_add("Categoria","No existe? Crea una nueva categoria", data.categorias,"categoria",producto.categoriaId)
                       .col-12.col-sm-6.col-xl-12
                         .mb-4
-                          +combo_add("Proveedor","No existe? Crea un nuevo proveedor", data.proveedores,"proveedor")
+                          +combo_add("Proveedor","No existe? Crea un nuevo proveedor", data.proveedores,"proveedor",producto.proveedorId)
     script.
       document.addEventListener('DOMContentLoaded', function () {
         const btnConfirmarSku = document.getElementById('confirmarSkuBtn');

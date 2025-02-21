@@ -5,8 +5,8 @@ extends ../layout/index
 include ../mixins/tablas/tablas
 
 block contenido
-  
     .content
+
       nav.mb-3(aria-label='breadcrumb')
       .mb-9
         .row.g-3.mb-4
@@ -25,7 +25,7 @@ block contenido
               button.btn.btn-link.text-body.me-4.px-0
                 span.fa-solid.fa-file-export.fs-9.me-2
                 | Exportar
-              a.text-white(href="/stock/nuevo")
+              a.text-white(href=`${endpoints.formularioProducto}`)
                 button#addBtn.btn.btn-primary
                   span.fas.fa-plus.me-2
                   | Añadir Producto
@@ -49,7 +49,7 @@ block contenido
                     tr.position-static
                       td.align-middle.white-space-nowrap.py-0
                         a.d-block.border.border-translucent.rounded-2(href='../../../apps/e-commerce/landing/product-details.html')
-                          img(src='/assets/img//products/1.png' alt='' width='53')
+                          img(src=`${producto.img}` alt='' width='53')
                       td.sku.align-middle.white-space-nowrap.fs-8.ps-4.fw-bold.text-center= producto.sku
                       td.nombre.align-middle.ps-4
                         a.fw-semibold.line-clamp-3.mb-0.text-center(href='../../../apps/e-commerce/landing/product-details.html')= producto.nombre
@@ -68,10 +68,12 @@ block contenido
                       td.align-middle.white-space-nowrap.text-end.pe-0.ps-4.btn-reveal-trigger
                         .btn-reveal-trigger.position-static
                           button.btn.btn-sm.dropdown-toggle.dropdown-caret-none.transition-none.btn-reveal.fs-10(type='button' data-bs-toggle='dropdown' data-boundary='window' aria-haspopup='true' aria-expanded='false' data-bs-reference='parent')
-                           span.fas.fa-ellipsis-h.fs-10
-                           .dropdown-menu.dropdown-menu-end.py-2
-                             a.dropdown-item(href='#!') Editar
-                             a.dropdown-item.text-danger(href='#!') Eliminar
+                            span.fas.fa-ellipsis-h.fs-10
+                          .dropdown-menu.dropdown-menu-end.py-2
+                            a.dropdown-item(href=`${endpoints.formularioProducto}/${producto.sku}`) View
+                            a.dropdown-item(href='#!') Export
+                            .dropdown-divider
+                            a.dropdown-item.text-danger(href='#!') Remove
           .row.align-items-center.justify-content-between.py-2.pe-0.fs-9
             .col-auto.d-flex
               p.mb-0.d-none.d-sm-block.me-3.fw-semibold.text-body(data-list-info='data-list-info')
@@ -87,6 +89,7 @@ block contenido
               ul.mb-0.pagination
               button.page-link.pe-0(data-list-pagination='next')
                 span.fas.fa-chevron-right
+          div#sweetalert-params(data-confirmado='true' data-title='Exito' style='display:none;')
 
     script.
       var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
