@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { listar_productos, add_producto} from "../controllers/stockControllers.js";
+import { listarProductos, formularioProducto, insertarProducto} from "../controllers/stockControllers.js";
 
 const router = Router();
 
-router.get("/listar_productos", listar_productos );
-router.get("/add_producto", add_producto );
+router.get("/", listarProductos );
+router.get("/nuevo", formularioProducto);
+router.post("/nuevo", insertarProducto);
 
 export default router;

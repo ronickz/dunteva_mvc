@@ -6,7 +6,7 @@ import {obtenerTodosProductos,obtenerCombosBox} from "../helpers/stockHelpers.js
 
 
 //Obtengo todos los productos y renderizo la vista
-const listar_productos = async (req, res) => {
+const listarProductos = async (req, res) => {
   try {
     const productos = await obtenerTodosProductos();    
     res.status(200).render("stock/listar_productos", {
@@ -20,13 +20,13 @@ const listar_productos = async (req, res) => {
 
 
 //Obtengo las categorias, marcas, proveedores y unidades de medida y renderizo la vista
-const add_producto = async (req, res) => {
+const formularioProducto = async (req, res) => {
   try {
 
     //Obtengo las categorias, marcas, proveedores y unidades de medida
     const {categorias, marcas, proveedores, unidades} = await obtenerCombosBox();
 
-    res.render("stock/add_producto",{
+    res.render("stock/insertar_producto",{
       data: {
         categorias,
         marcas,
@@ -41,4 +41,28 @@ const add_producto = async (req, res) => {
   }
 };
 
-export { listar_productos, add_producto };
+const insertarProducto = async (req, res) => {
+  try {
+    const { nombre, sku, precio, stock, capacidad,unidad_medida, marca,categoria, proveedor } = req.body;
+    const imagen = req.files.imagen.name ? req.files.imagen.name : "";
+
+    const producto = await Producto.create({
+      nombre,
+      sku,
+      precio,
+      stock,
+      capacidad,
+      categoriaId: categoria, // Cambiado a categoriaId
+      marcaId: marca,         // Cambiado a marcaId
+      proveedorId: proveedor, // Cambiado a proveedorId
+      unidadId: unidad_medida, // Cambiado a unidadId
+      img: imagen,
+    });
+    res.status(200).redirect("/stock");
+  } catch (error) {
+    console.error("Error al insertar producto:", error);
+    res.status(500).send("Error al insertar producto");
+  }
+};
+
+export { listarProductos, formularioProducto, insertarProducto };

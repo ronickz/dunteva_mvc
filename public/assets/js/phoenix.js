@@ -1827,7 +1827,7 @@
         const data = userOptions.data ? userOptions.data : {};
         const options = merge$1(
           {
-            url: '/assets/php/',
+            url: '/stock/nuevo',
             addRemoveLinks: false,
             previewsContainer: item.querySelector(Selector.DZ_PREVIEW),
             previewTemplate: item.querySelector(Selector.DZ_PREVIEW).innerHTML,
