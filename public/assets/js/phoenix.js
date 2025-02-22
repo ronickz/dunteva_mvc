@@ -714,13 +714,17 @@
     }
   ];
 
-  const advanceAjaxTableInit = () => {
+
+
+  const advanceAjaxTableInit = async () => {
+    const data = await fetch('http://localhost:3000/stock/api/productos');
+    const productos = await data.json();
     const togglePaginationButtonDisable = (button, disabled) => {
       button.disabled = disabled;
       button.classList[disabled ? 'add' : 'remove']('disabled');
     };
     // Selectors
-    const table = document.getElementById('advanceAjaxTable');
+    const table = document.getElementById('products');
 
     if (table) {
       const options = {
@@ -730,15 +734,7 @@
         },
         item: values => {
           const {
-            orderId,
-            id,
-            customer,
-            date,
-            address,
-            deliveryType,
-            status,
-            badge,
-            amount
+            sku,nombre,marca,categoria,medida,precio,stock,proveedor,fecha
           } = values;
           return `
           <tr class="btn-reveal-trigger">

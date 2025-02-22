@@ -143,4 +143,14 @@ const insertarProducto = async (req, res) => {
 
 const actualizarProducto = async(req,res) => {};
 
-export { listarProductos, formularioProducto, insertarProducto,edicionformularioProducto,actualizarProducto };
+
+const listar_productos = async (req,res) => {
+  const productos = await obtenerTodosProductos();
+  return res.json({
+    productos
+  })
+}
+const test = async(req,res) =>{
+  res.render("stock/test")
+}
+export { listarProductos, formularioProducto, insertarProducto,edicionformularioProducto,actualizarProducto,listar_productos,test };
