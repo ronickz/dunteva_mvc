@@ -15,6 +15,8 @@ head
   link(rel='icon' type='image/png' sizes='16x16' href='/assets/img/icons/logo_dunteva.png')
   link(rel='shortcut icon' type='image/x-icon' href='/assets/img/icons/logo_dunteva.png')
   link(rel='manifest' href='/assets/img/favicons/manifest.json')
+  <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+
   meta(name='msapplication-TileImage' content='/assets/img/favicons/mstile-150x150.png')
   meta(name='theme-color' content='#ffffff')
 
@@ -52,7 +54,14 @@ body
     include header
     block contenido
 
-    include footer
+
+    //Cargo las dependencias de phoenix
+    include ../bundlesScripts/phoenixScripts
+    //Cargo mis dependencias
+    include ../bundlesScripts/DataTables/datatables
+
+//Phoenix config global
+script(src='/assets/js/phoenix.js')
 
 
   

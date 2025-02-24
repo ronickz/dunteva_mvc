@@ -6543,6 +6543,104 @@ const miSweetAlert = () => {
     }
 }
 
+
+
+$(document).ready(function() {
+  var table = $('#productos').DataTable({
+    lengthPages: [5,10,15],
+    searching: true,
+    paging: true,
+    ordering: true,
+    processing: true,
+    serverSide: true,
+    ajax: {
+      url: "http://localhost:3001/stock/api/productos",
+      type: 'GET',
+    },
+
+    columns: [
+      { data: 'img' },
+      { data: 'sku', },
+      { data: 'nombre' },
+      { data: 'marca' },
+      { data: 'categoria' },
+      { data: 'capacidad' },
+      { data: 'unidad' },
+      { data: 'precio' },
+      { data: 'stock' },
+      { data: 'proveedor' },
+      { data: 'fecha' }
+    ],
+    columnDefs: [
+      { className: "text-center", targets: "_all" },
+      {className:"align-middle", targets: "_all"},
+      {
+        targets: 0, // Imagen
+        render: function(data) {
+            return `<a href="../../../apps/e-commerce/landing/product-details.html" class="d-block border border-translucent rounded-2">
+                        <img src="${data}" alt="" width="53">
+                    </a>`;
+        },
+
+    },
+    {
+        targets: 1, // SKU
+        className: "sku align-middle white-space-nowrap fs-9 ps-4 fw-bold",
+    },
+    {
+        targets: 2, // Nombre con link
+        render: function(data) {
+            return `<a href="../../../apps/e-commerce/landing/product-details.html" class="fw-semibold line-clamp-3 mb-0">${data}</a>`;
+        }
+    },
+    {
+        targets: 3, // Marca
+        className: "marca align-middle white-space-nowrap fs-8 ps-4 fw-bold",
+    },
+    {
+        targets: 4, // Categoría con badge
+        className: "categoria pb-2 ps-3 fw-bold",
+    },
+    {
+        targets: 5, // Capacidad + Unidad
+        render: function(data, type, row) {
+            return `${row.capacidad}`;
+        },
+        className: "medida align-middle white-space-nowrap text-center fw-bold ps-4 fs-8"
+    },
+    {
+        targets: 6, //Unidad
+        className: "precio align-middle white-space-nowrap text-center fw-bold ps-4 fs-10",
+        width:"500px"
+    },
+    {
+      targets: 7, // Precio con badge dinámico
+      render: function(data) {
+          return `<span class="badge badge-tag mb-2 fs-8 px-2 text-dark bg-primary d-flex align-items-center justify-content-center">${data}</span>`;
+      },
+      className: "stock align-middle  text-center",
+  },
+  
+    {
+      targets: 8, // Precio con badge dinámico
+      render: function(data) {
+          let colorClass = data <= 10 ? 'bg-danger' : 'bg-success';
+          return `<span class="badge badge-tag mb-2 fs-8 px-5 text-dark ${colorClass}">${data}</span>`;
+      },
+      className: "stock align-middle pb-2 ps-3 text-center",
+    },
+
+  ],
+    order: [[1, 'asc']], // Orden inicial por nombre (columna 1, ascendente)
+    
+
+  });
+
+  // Aplica estilos personalizados al selector "entries per page"
+  $('#productos_length select').addClass('form-select form-select-sm').css('width', 'auto');
+});
+
+
   /* eslint-disable no-new */
 
   window.initMap = initMap;
@@ -6553,7 +6651,6 @@ const miSweetAlert = () => {
   docReady(featherIconsInit);
   docReady(basicEchartsInit);
   docReady(bulkSelectInit);
-  docReady(listInit);
   docReady(anchorJSInit);
   docReady(popoverInit);
   docReady(formValidationInit);
@@ -6593,7 +6690,6 @@ const miSweetAlert = () => {
   docReady(randomColorInit);
   docReady(faqTabInit);
   docReady(createBoardInit);
-  docReady(advanceAjaxTableInit);
   docReady(kanbanInit);
   docReady(towFAVerificarionInit);
   docReady(mapboxInit);
@@ -6637,6 +6733,3 @@ const miSweetAlert = () => {
 
 }));
 //# sourceMappingURL=phoenix.js.map
-
-
-

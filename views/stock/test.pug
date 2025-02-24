@@ -1,56 +1,31 @@
-
 extends ../layout/index
 include ../mixins/tablas/tablas
 
 block contenido
     .content
-       #products()
-         .mb-4
-           .d-flex.flex-wrap.gap-3
-             .search-box
-               form.position-relative
-                 input.form-control.search-input.search(type='search' placeholder='Buscar productos' aria-label='Search')
-                 span.fas.fa-search.search-box-icon
-             .scrollbar.overflow-hidden-y
-             .ms-xxl-auto
-             button.btn.btn-link.text-body.me-4.px-0
-               span.fa-solid.fa-file-export.fs-9.me-2
-               | Exportar
-             a.text-white(href=``)
-               button#addBtn.btn.btn-primary
-                 span.fas.fa-plus.me-2
-                 | Añadir Producto
-         .mx-n4.px-4.mx-lg-n6.px-lg-6.bg-body-emphasis.border-top.border-bottom.border-translucent.position-relative.top-1
-           .table-responsive.scrollbar.mx-n1.px-1
-             table.table.fs-9.mb-0.table-striped.table-hover
-               thead
-                 tr
-                 +tableHeader('', '70px', '')
-                 +tableHeader('SKU', '350px', 'sku')
-                 +tableHeader('NOMBRE', '350px', 'nombre')
-                 +tableHeader('MARCA', '350px', 'marca')
-                 +tableHeader('CATEGORIA', '150px', 'categoria')
-                 +tableHeader('MEDIDA', '', 'medida')
-                 +tableHeader('PRECIO', '150px', 'precio')
-                 +tableHeader('STOCK', '250px', 'stock')
-                 +tableHeader('PROVEEDOR', '200px', 'proveedor')
-                 +tableHeader('FECHA', '200px', 'fecha')
-               tbody#products-table-body.list
-                 
-       
-         .row.align-items-center.justify-content-between.py-2.pe-0.fs-9
-           .col-auto.d-flex
-             p.mb-0.d-none.d-sm-block.me-3.fw-semibold.text-body(data-list-info='data-list-info')
-             a.fw-semibold(href='#!' data-list-view='*')
-               | Mostrar todos los registros
-               span.fas.fa-angle-right.ms-1(data-fa-transform='down-1')
-             a.fw-semibold.d-none(href='#!' data-list-view='less')
-               | Mostrar menos registros
-               span.fas.fa-angle-right.ms-1(data-fa-transform='down-1')
-           .col-auto.d-flex
-             button.page-link(data-list-pagination='prev')
-               span.fas.fa-chevron-left
-             ul.mb-0.pagination
-             button.page-link.pe-0(data-list-pagination='next')
-               span.fas.fa-chevron-right
-         div#sweetalert-params(data-confirmado='true' data-title='Exito' style='display:none;')
+      nav(aria-label='breadcrumb')
+      .mb-9
+        .row.d-flex.justify-content-between.mb-4
+          .col-auto
+            h2 Productos
+          .col-auto
+            a.text-white(href=``)
+              button#addBtn.btn.btn-primary
+                span.fas.fa-plus.me-2
+                | Añadir Producto
+
+        table#productos.table.fs-9.mb-0.table-striped.table-hover.table-sm()
+           thead
+             tr
+               +tableHeader('IMAGEN', '')
+               +tableHeader('SKU',  'sku')
+               +tableHeader('NOMBRE',  'nombre')
+               +tableHeader('MARCA',  'marca')
+               +tableHeader('CATEGORIA',  'categoria')
+               +tableHeader('CAPACIDAD',  'capacidad')
+               +tableHeader('UNIDAD',  'unidad')
+               +tableHeader('PRECIO',  'precio')
+               +tableHeader('STOCK',  'stock')
+               +tableHeader('PROVEEDOR',  'proveedor')
+               +tableHeader('FECHA','fecha')
+           tbody

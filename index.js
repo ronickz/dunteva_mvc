@@ -1,6 +1,7 @@
 import express from "express";
 import fileUpload from "express-fileupload";
 import db from "./config/db.js";
+import cors from "cors";
 
 //Imports de rutas
 import stockRoutes from "./routes/stockRoutes.js";
@@ -9,7 +10,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 
 // App
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 //Database
 try {
@@ -20,7 +21,7 @@ try {
   console.error("Unable to connect to the database:", error);
 }
 
-
+app.use(cors())
 // Pug
 app.set("view engine", "pug");
 app.set("views", "./views");

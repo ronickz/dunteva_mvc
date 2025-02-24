@@ -1,5 +1,5 @@
 mixin tableHeader(name, width, sortKey)
-  th.sort.white-space-nowrap.align-middle.ps-4.text-center(scope='col' style=`width:${width};` data-sort=sortKey)= name
+  th.align-middle(scope='col' style=`width:${width};` data-sort=sortKey)= name
 
 mixin tableRow(producto)
   tr.position-static
