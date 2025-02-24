@@ -19,6 +19,12 @@ block contenido
                   | Descartar
             button.btn.btn-primary.mb-2.mb-sm-0(type='submit') Publicar Producto
         .row.g-5
+          if(errores)
+            .alert.alert-outline-danger.d-flex.align-items-center(role='alert')
+              span.fas.fa-times-circle.text-danger.fs-5 .me-3
+              p.mb-0.flex-1.mx-2 Ya existe un producto con ese SKU
+              button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
+
           .col-12.col-xl-8
             h4.mb-3 Nombre Producto
             input.form-control.mb-5(type='text' placeholder='Escriba aqui...' required name="nombre" value= producto.nombre || '')

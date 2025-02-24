@@ -8,8 +8,6 @@ import {
 } from "../models/index.js";
 import { Op } from "sequelize";
 
-import dataTable from "sequelize-datatables";
-
 // Helpers
 import {
   obtenerTodosProductos,
@@ -19,17 +17,14 @@ import {
 // Mis rutas
 
 import endpoints from "../config/endpoints.js";
-
 import cloudinary from "../config/cloudinary.js";
 import fs from "fs";
-import { where } from "sequelize";
+
 
 //Obtengo todos los productos y renderizo la vista
 const listarProductos = async (req, res) => {
   try {
-    const productos = await obtenerTodosProductos();
     res.status(200).render(`${endpoints.vistaListado}`, {
-      productos,
       endpoints,
     });
   } catch (error) {
@@ -104,17 +99,27 @@ const edicionformularioProducto = async (req, res) => {
 
 const insertarProducto = async (req, res) => {
   try {
-    const {
-      nombre,
-      sku,
-      precio,
-      stock,
-      capacidad,
-      unidad_medida,
-      marca,
-      categoria,
-      proveedor,
-    } = req.body;
+    const { nombre, sku, precio, stock, capacidad, unidad_medida, marca, categoria, proveedor} = req.body;
+    let errores = [];
+
+    if(Producto.findOne({where: {sku}})){
+      errores.push("El SKU ya existe");
+      res.render(`${endpoints.vistaFormulario}`, {
+        accion: endpoints.insertarProducto,
+        endpoints,
+        titulo: "Añadir",
+        producto: {},
+        errores,
+        descripcion: "Añade un producto a tu tienda",
+        data: {
+          categorias,
+          marcas,
+          proveedores,
+          unidades,
+          errores
+        },
+      })
+    }
     let imagenUrl = "";
     if (req.files && req.files.imagen) {
       const imagen = req.files.imagen;
@@ -159,6 +164,11 @@ const insertarProducto = async (req, res) => {
 
 const actualizarProducto = async (req, res) => { };
 
+
+
+
+//API
+
 const listar_productos = async (req, res) => {
   try {
     const { draw, start, length, search, order, columns } = req.query;
@@ -183,66 +193,67 @@ const listar_productos = async (req, res) => {
       : {};
 
     // Construir la cláusula order para el ordenamiento
-    let orderColumnIndex; // Índice de columna desde DataTables
-    let orderDirection; // Dirección de orden ('asc' o 'desc')
+    let indiceColumna;
+    let ordenColumna;
 
     if (typeof order == "undefined") {
-      orderColumnIndex = 0;
-      orderDirection = "ASC";
+      indiceColumna = 0;
+      ordenColumna = "ASC";
     } else {
-      orderColumnIndex = order[0].column;
-      orderDirection = order[0].dir;
+      indiceColumna = order[0].column;
+      ordenColumna = order[0].dir;
     }
 
-    const orderColumn = columns[orderColumnIndex].data;
-    const orderClause = [];
-    switch (orderColumn) {
+
+    const nombreColumna = columns[indiceColumna].data;
+    const listaRelaciones = [];
+    switch (nombreColumna) {
       case "marca":
-        orderClause.push([
+        listaRelaciones.push([
           { model: Marca, as: "marca" },
           "nombre",
-          orderDirection,
+          ordenColumna,
         ]);
         break;
       case "categoria":
-        orderClause.push([
+        listaRelaciones.push([
           { model: Categoria, as: "categoria" },
           "nombre",
-          orderDirection,
+          ordenColumna,
         ]);
         break;
       case "proveedor":
-        orderClause.push([
+        listaRelaciones.push([
           { model: Proveedor, as: "proveedor" },
           "nombre",
-          orderDirection,
+          ordenColumna,
         ]);
         break;
       case "unidad":
-        orderClause.push([
+        listaRelaciones.push([
           { model: UnidadMedida, as: "unidad" },
           "nombre",
-          orderDirection,
+          ordenColumna,
         ]);
         break;
       case "fecha":
-        orderClause.push(["updatedAt", orderDirection]);
+        listaRelaciones.push(["updatedAt", ordenColumna]);
         break;
       default:
-        orderClause.push([orderColumn, orderDirection]);
+        listaRelaciones.push([nombreColumna, ordenColumna]);
         break;
     }
 
     const totalRecords = await Producto.count();
     const filteredRecords = await Producto.count({
-      where: whereClause,
-      include: modelos
-    });
+       where: whereClause,
+       include: modelos
+     });
 
     const productos = await Producto.findAll({
       where: whereClause,
       include: modelos,
-      order: orderClause,
+      order: listaRelaciones,
       offset: parseInt(start),
       limit: parseInt(length),
     });
@@ -265,10 +276,12 @@ const listar_productos = async (req, res) => {
       };
     });
 
+    console.log("filter,", filteredRecords);
+
     return res.json({
       draw: parseInt(draw),
       recordsTotal: totalRecords,
-      recordsFiltered: filteredRecords,
+      recordsFiltered: totalRecords,
       data: productosTransformados,
     });
   } catch (error) {
@@ -277,9 +290,6 @@ const listar_productos = async (req, res) => {
   }
 };
 
-const test = async (req, res) => {
-  res.render("stock/test");
-};
 export {
   listarProductos,
   formularioProducto,
@@ -287,5 +297,4 @@ export {
   edicionformularioProducto,
   actualizarProducto,
   listar_productos,
-  test,
 };

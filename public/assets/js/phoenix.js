@@ -1,34 +1,41 @@
+
+
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('bootstrap')) :
-  typeof define === 'function' && define.amd ? define(['bootstrap'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.phoenix = factory(global.bootstrap));
-})(this, (function (bootstrap) { 'use strict';
+  typeof exports === "object" && typeof module !== "undefined"
+    ? (module.exports = factory(require("bootstrap")))
+    : typeof define === "function" && define.amd
+    ? define(["bootstrap"], factory)
+    : ((global =
+        typeof globalThis !== "undefined" ? globalThis : global || self),
+      (global.phoenix = factory(global.bootstrap)));
+})(this, function (bootstrap) {
+  "use strict";
 
   /* -------------------------------------------------------------------------- */
   /*                                    Utils                                   */
   /* -------------------------------------------------------------------------- */
-  const docReady = fn => {
+  const docReady = (fn) => {
     // see if DOM is already available
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', fn);
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", fn);
     } else {
       setTimeout(fn, 1);
     }
   };
 
   const toggleColor = (lightColor, darkColor) => {
-    const currentMode = getItemFromStore('phoenixTheme');
-    const mode = currentMode === 'auto' ? getSystemTheme() : currentMode;
-    return mode === 'light' ? lightColor : darkColor;
+    const currentMode = getItemFromStore("phoenixTheme");
+    const mode = currentMode === "auto" ? getSystemTheme() : currentMode;
+    return mode === "light" ? lightColor : darkColor;
   };
 
-  const resize = fn => window.addEventListener('resize', fn);
+  const resize = (fn) => window.addEventListener("resize", fn);
 
-  const isIterableArray = array => Array.isArray(array) && !!array.length;
+  const isIterableArray = (array) => Array.isArray(array) && !!array.length;
 
-  const camelize = str => {
+  const camelize = (str) => {
     const text = str.replace(/[-_\s.]+(.)?/g, (_, c) =>
-      c ? c.toUpperCase() : ''
+      c ? c.toUpperCase() : ""
     );
     return `${text.substr(0, 1).toLowerCase()}${text.substr(1)}`;
   };
@@ -43,9 +50,9 @@
 
   /* ----------------------------- Colors function ---------------------------- */
 
-  const hexToRgb = hexValue => {
+  const hexToRgb = (hexValue) => {
     let hex;
-    hexValue.indexOf('#') === 0
+    hexValue.indexOf("#") === 0
       ? (hex = hexValue.substring(1))
       : (hex = hexValue);
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -57,12 +64,12 @@
       ? [
           parseInt(result[1], 16),
           parseInt(result[2], 16),
-          parseInt(result[3], 16)
+          parseInt(result[3], 16),
         ]
       : null;
   };
 
-  const rgbaColor = (color = '#fff', alpha = 0.5) =>
+  const rgbaColor = (color = "#fff", alpha = 0.5) =>
     `rgba(${hexToRgb(color)}, ${alpha})`;
 
   /* --------------------------------- Colors --------------------------------- */
@@ -79,14 +86,15 @@
     el.classList.add(className);
   };
 
-  const getOffset = el => {
+  const getOffset = (el) => {
     const rect = el.getBoundingClientRect();
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollLeft =
+      window.pageXOffset || document.documentElement.scrollLeft;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
   };
 
-  const isScrolledIntoView = el => {
+  const isScrolledIntoView = (el) => {
     let top = el.offsetTop;
     let left = el.offsetLeft;
     const width = el.offsetWidth;
@@ -109,7 +117,7 @@
         top < window.pageYOffset + window.innerHeight &&
         left < window.pageXOffset + window.innerWidth &&
         top + height > window.pageYOffset &&
-        left + width > window.pageXOffset
+        left + width > window.pageXOffset,
     };
   };
 
@@ -119,20 +127,20 @@
     md: 768,
     lg: 992,
     xl: 1200,
-    xxl: 1540
+    xxl: 1540,
   };
 
-  const getBreakpoint = el => {
+  const getBreakpoint = (el) => {
     const classes = el && el.classList.value;
     let breakpoint;
     if (classes) {
       breakpoint =
         breakpoints[
           classes
-            .split(' ')
-            .filter(cls => cls.includes('navbar-expand-'))
+            .split(" ")
+            .filter((cls) => cls.includes("navbar-expand-"))
             .pop()
-            .split('-')
+            .split("-")
             .pop()
         ];
     }
@@ -142,28 +150,28 @@
   /* --------------------------------- Cookie --------------------------------- */
 
   const setCookie = (name, value, seconds) => {
-    const expires = window.dayjs().add(seconds, 'second').toDate();
+    const expires = window.dayjs().add(seconds, "second").toDate();
     document.cookie = `${name}=${value};expires=${expires}`;
   };
 
-  const getCookie = name => {
+  const getCookie = (name) => {
     const keyValue = document.cookie.match(`(^|;) ?${name}=([^;]*)(;|$)`);
     return keyValue ? keyValue[2] : keyValue;
   };
 
   const settings = {
     tinymce: {
-      theme: 'oxide'
+      theme: "oxide",
     },
     chart: {
-      borderColor: 'rgba(255, 255, 255, 0.8)'
-    }
+      borderColor: "rgba(255, 255, 255, 0.8)",
+    },
   };
 
   /* -------------------------- Chart Initialization -------------------------- */
 
   const newChart = (chart, config) => {
-    const ctx = chart.getContext('2d');
+    const ctx = chart.getContext("2d");
     return new window.Chart(ctx, config);
   };
 
@@ -189,11 +197,7 @@
 
   /* get Dates between */
 
-  const getDates = (
-    startDate,
-    endDate,
-    interval = 1000 * 60 * 60 * 24
-  ) => {
+  const getDates = (startDate, endDate, interval = 1000 * 60 * 60 * 24) => {
     const duration = endDate - startDate;
     const steps = duration / interval;
     return Array.from(
@@ -202,17 +206,17 @@
     );
   };
 
-  const getPastDates = duration => {
+  const getPastDates = (duration) => {
     let days;
 
     switch (duration) {
-      case 'week':
+      case "week":
         days = 7;
         break;
-      case 'month':
+      case "month":
         days = 30;
         break;
-      case 'year':
+      case "year":
         days = 365;
         break;
 
@@ -232,7 +236,9 @@
   };
 
   const getSystemTheme = () =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
 
   // export const handleThemeDropdownIcon = value => {
   //   document.querySelectorAll('[data-theme-dropdown-toggle-icon]').forEach(el => {
@@ -274,39 +280,42 @@
     getDates,
     getPastDates,
     getRandomNumber,
-    getSystemTheme
+    getSystemTheme,
     // handleThemeDropdownIcon
   };
 
   const docComponentInit = () => {
-    const componentCards = document.querySelectorAll('[data-component-card]');
-    const iconCopiedToast = document.getElementById('icon-copied-toast');
+    const componentCards = document.querySelectorAll("[data-component-card]");
+    const iconCopiedToast = document.getElementById("icon-copied-toast");
     const iconCopiedToastInstance = new bootstrap.Toast(iconCopiedToast);
 
-    componentCards.forEach(card => {
-      const copyCodeBtn = card.querySelector('.copy-code-btn');
-      const copyCodeEl = card.querySelector('.code-to-copy');
-      const previewBtn = card.querySelector('.preview-btn');
-      const collapseElement = card.querySelector('.code-collapse');
-      const collapseInstance = bootstrap.Collapse.getOrCreateInstance(collapseElement, {
-        toggle: false
-      });
+    componentCards.forEach((card) => {
+      const copyCodeBtn = card.querySelector(".copy-code-btn");
+      const copyCodeEl = card.querySelector(".code-to-copy");
+      const previewBtn = card.querySelector(".preview-btn");
+      const collapseElement = card.querySelector(".code-collapse");
+      const collapseInstance = bootstrap.Collapse.getOrCreateInstance(
+        collapseElement,
+        {
+          toggle: false,
+        }
+      );
 
-      previewBtn?.addEventListener('click', () => {
+      previewBtn?.addEventListener("click", () => {
         collapseInstance.toggle();
       });
 
-      copyCodeBtn?.addEventListener('click', () => {
-        const el = document.createElement('textarea');
+      copyCodeBtn?.addEventListener("click", () => {
+        const el = document.createElement("textarea");
         el.value = copyCodeEl.innerHTML;
         document.body.appendChild(el);
 
         el.select();
-        document.execCommand('copy');
+        document.execCommand("copy");
         document.body.removeChild(el);
 
         iconCopiedToast.querySelector(
-          '.toast-body'
+          ".toast-body"
         ).innerHTML = `<code class='text-body-quaternary'>Code has been copied to clipboard.</code>`;
         iconCopiedToastInstance.show();
       });
@@ -317,424 +326,434 @@
   const orders = [
     {
       id: 1,
-      dropdownId: 'order-dropdown-1',
-      orderId: '#2181',
-      mailLink: 'mailto:carry@example.com',
-      customer: 'Carry Anna',
-      date: '10/03/2023',
-      address: 'Carry Anna, 2392 Main Avenue, Penasauka, New Jersey 02149',
-      deliveryType: 'Cash on Delivery',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$99'
+      dropdownId: "order-dropdown-1",
+      orderId: "#2181",
+      mailLink: "mailto:carry@example.com",
+      customer: "Carry Anna",
+      date: "10/03/2023",
+      address: "Carry Anna, 2392 Main Avenue, Penasauka, New Jersey 02149",
+      deliveryType: "Cash on Delivery",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$99",
     },
     {
       id: 2,
-      dropdownId: 'order-dropdown-2',
-      orderId: '#2182',
-      mailLink: 'mailto:milind@example.com',
-      customer: 'Milind Mikuja',
-      date: '10/03/2023',
-      address: 'Milind Mikuja, 1 Hollywood Blvd,Beverly Hills, California 90210',
-      deliveryType: 'Cash on Delivery',
-      status: 'Processing',
-      badge: { type: 'primary', icon: 'fas fa-redo' },
-      amount: '$120'
+      dropdownId: "order-dropdown-2",
+      orderId: "#2182",
+      mailLink: "mailto:milind@example.com",
+      customer: "Milind Mikuja",
+      date: "10/03/2023",
+      address:
+        "Milind Mikuja, 1 Hollywood Blvd,Beverly Hills, California 90210",
+      deliveryType: "Cash on Delivery",
+      status: "Processing",
+      badge: { type: "primary", icon: "fas fa-redo" },
+      amount: "$120",
     },
     {
       id: 3,
-      dropdownId: 'order-dropdown-3',
-      orderId: '#2183',
-      mailLink: 'mailto:stanly@example.com',
-      customer: 'Stanly Drinkwater',
-      date: '30/04/2023',
-      address: 'Stanly Drinkwater, 1 Infinite Loop, Cupertino, California 90210',
-      deliveryType: 'Local Delivery',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$70'
+      dropdownId: "order-dropdown-3",
+      orderId: "#2183",
+      mailLink: "mailto:stanly@example.com",
+      customer: "Stanly Drinkwater",
+      date: "30/04/2023",
+      address:
+        "Stanly Drinkwater, 1 Infinite Loop, Cupertino, California 90210",
+      deliveryType: "Local Delivery",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$70",
     },
     {
       id: 4,
-      dropdownId: 'order-dropdown-4',
-      orderId: '#2184',
-      mailLink: 'mailto:bucky@example.com',
-      customer: 'Bucky Robert',
-      date: '30/04/2023',
-      address: 'Bucky Robert, 1 Infinite Loop, Cupertino, California 90210',
-      deliveryType: 'Free Shipping',
-      status: 'Pending',
-      badge: { type: 'warning', icon: 'fas fa-stream' },
-      amount: '$92'
+      dropdownId: "order-dropdown-4",
+      orderId: "#2184",
+      mailLink: "mailto:bucky@example.com",
+      customer: "Bucky Robert",
+      date: "30/04/2023",
+      address: "Bucky Robert, 1 Infinite Loop, Cupertino, California 90210",
+      deliveryType: "Free Shipping",
+      status: "Pending",
+      badge: { type: "warning", icon: "fas fa-stream" },
+      amount: "$92",
     },
     {
       id: 5,
-      dropdownId: 'order-dropdown-5',
-      orderId: '#2185',
-      mailLink: 'mailto:josef@example.com',
-      customer: 'Josef Stravinsky',
-      date: '30/04/2023',
-      address: 'Josef Stravinsky, 1 Infinite Loop, Cupertino, California 90210',
-      deliveryType: 'Via Free Road',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$120'
+      dropdownId: "order-dropdown-5",
+      orderId: "#2185",
+      mailLink: "mailto:josef@example.com",
+      customer: "Josef Stravinsky",
+      date: "30/04/2023",
+      address: "Josef Stravinsky, 1 Infinite Loop, Cupertino, California 90210",
+      deliveryType: "Via Free Road",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$120",
     },
     {
       id: 6,
-      dropdownId: 'order-dropdown-6',
-      orderId: '#2186',
-      mailLink: 'mailto:igor@example.com',
-      customer: 'Igor Borvibson',
-      date: '30/04/2023',
-      address: 'Igor Borvibson, 1 Infinite Loop, Cupertino, California 90210',
-      deliveryType: 'Free Shipping',
-      status: 'Processing',
-      badge: { type: 'primary', icon: 'fas fa-redo' },
-      amount: '$145'
+      dropdownId: "order-dropdown-6",
+      orderId: "#2186",
+      mailLink: "mailto:igor@example.com",
+      customer: "Igor Borvibson",
+      date: "30/04/2023",
+      address: "Igor Borvibson, 1 Infinite Loop, Cupertino, California 90210",
+      deliveryType: "Free Shipping",
+      status: "Processing",
+      badge: { type: "primary", icon: "fas fa-redo" },
+      amount: "$145",
     },
     {
       id: 7,
-      dropdownId: 'order-dropdown-7',
-      orderId: '#2187',
-      mailLink: 'mailto:katerina@example.com',
-      customer: 'Katerina Karenin',
-      date: '30/04/2023',
-      address: 'Katerina Karenin, 1 Infinite Loop, Cupertino, California 90210',
-      deliveryType: 'Flat Rate',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$55'
+      dropdownId: "order-dropdown-7",
+      orderId: "#2187",
+      mailLink: "mailto:katerina@example.com",
+      customer: "Katerina Karenin",
+      date: "30/04/2023",
+      address: "Katerina Karenin, 1 Infinite Loop, Cupertino, California 90210",
+      deliveryType: "Flat Rate",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$55",
     },
     {
       id: 8,
-      dropdownId: 'order-dropdown-8',
-      orderId: '#2188',
-      mailLink: 'mailto:roy@example.com',
-      customer: 'Roy Anderson',
-      date: '29/04/2023',
-      address: 'Roy Anderson, 1 Infinite Loop, Cupertino, California 90210',
-      deliveryType: 'Local Delivery',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$90'
+      dropdownId: "order-dropdown-8",
+      orderId: "#2188",
+      mailLink: "mailto:roy@example.com",
+      customer: "Roy Anderson",
+      date: "29/04/2023",
+      address: "Roy Anderson, 1 Infinite Loop, Cupertino, California 90210",
+      deliveryType: "Local Delivery",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$90",
     },
     {
       id: 9,
-      dropdownId: 'order-dropdown-9',
-      orderId: '#2189',
-      mailLink: 'mailto:Stephenson@example.com',
-      customer: 'Thomas Stephenson',
-      date: '29/04/2023',
-      address: 'Thomas Stephenson, 116 Ballifeary Road, Bamff',
-      deliveryType: 'Flat Rate',
-      status: 'Processing',
-      badge: { type: 'primary', icon: 'fas fa-redo' },
-      amount: '$52'
+      dropdownId: "order-dropdown-9",
+      orderId: "#2189",
+      mailLink: "mailto:Stephenson@example.com",
+      customer: "Thomas Stephenson",
+      date: "29/04/2023",
+      address: "Thomas Stephenson, 116 Ballifeary Road, Bamff",
+      deliveryType: "Flat Rate",
+      status: "Processing",
+      badge: { type: "primary", icon: "fas fa-redo" },
+      amount: "$52",
     },
     {
       id: 10,
-      dropdownId: 'order-dropdown-10',
-      orderId: '#2190',
-      mailLink: 'mailto:eviewsing@example.com',
-      customer: 'Evie Singh',
-      date: '29/04/2023',
-      address: 'Evie Singh, 54 Castledore Road, Tunstead',
-      deliveryType: 'Flat Rate',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$90'
+      dropdownId: "order-dropdown-10",
+      orderId: "#2190",
+      mailLink: "mailto:eviewsing@example.com",
+      customer: "Evie Singh",
+      date: "29/04/2023",
+      address: "Evie Singh, 54 Castledore Road, Tunstead",
+      deliveryType: "Flat Rate",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$90",
     },
     {
       id: 11,
-      dropdownId: 'order-dropdown-11',
-      orderId: '#2191',
-      mailLink: 'mailto:peter@example.com',
-      customer: 'David Peters',
-      date: '29/04/2023',
-      address: 'David Peters, Rhyd Y Groes, Rhosgoch, LL66 0AT',
-      deliveryType: 'Local Delivery',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$69'
+      dropdownId: "order-dropdown-11",
+      orderId: "#2191",
+      mailLink: "mailto:peter@example.com",
+      customer: "David Peters",
+      date: "29/04/2023",
+      address: "David Peters, Rhyd Y Groes, Rhosgoch, LL66 0AT",
+      deliveryType: "Local Delivery",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$69",
     },
     {
       id: 12,
-      dropdownId: 'order-dropdown-12',
-      orderId: '#2192',
-      mailLink: 'mailto:jennifer@example.com',
-      customer: 'Jennifer Johnson',
-      date: '28/04/2023',
-      address: 'Jennifer Johnson, Rhyd Y Groes, Rhosgoch, LL66 0AT',
-      deliveryType: 'Flat Rate',
-      status: 'Processing',
-      badge: { type: 'primary', icon: 'fas fa-redo' },
-      amount: '$112'
+      dropdownId: "order-dropdown-12",
+      orderId: "#2192",
+      mailLink: "mailto:jennifer@example.com",
+      customer: "Jennifer Johnson",
+      date: "28/04/2023",
+      address: "Jennifer Johnson, Rhyd Y Groes, Rhosgoch, LL66 0AT",
+      deliveryType: "Flat Rate",
+      status: "Processing",
+      badge: { type: "primary", icon: "fas fa-redo" },
+      amount: "$112",
     },
     {
       id: 13,
-      dropdownId: 'order-dropdown-13',
-      orderId: '#2193',
-      mailLink: 'mailto:okuneva@example.com',
-      customer: 'Demarcus Okuneva',
-      date: '28/04/2023',
-      address: 'Demarcus Okuneva, 90555 Upton Drive Jeffreyview, UT 08771',
-      deliveryType: 'Flat Rate',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$99'
+      dropdownId: "order-dropdown-13",
+      orderId: "#2193",
+      mailLink: "mailto:okuneva@example.com",
+      customer: "Demarcus Okuneva",
+      date: "28/04/2023",
+      address: "Demarcus Okuneva, 90555 Upton Drive Jeffreyview, UT 08771",
+      deliveryType: "Flat Rate",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$99",
     },
     {
       id: 14,
-      dropdownId: 'order-dropdown-14',
-      orderId: '#2194',
-      mailLink: 'mailto:simeon@example.com',
-      customer: 'Simeon Harber',
-      date: '27/04/2023',
+      dropdownId: "order-dropdown-14",
+      orderId: "#2194",
+      mailLink: "mailto:simeon@example.com",
+      customer: "Simeon Harber",
+      date: "27/04/2023",
       address:
-        'Simeon Harber, 702 Kunde Plain Apt. 634 East Bridgetview, HI 13134-1862',
-      deliveryType: 'Free Shipping',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$129'
+        "Simeon Harber, 702 Kunde Plain Apt. 634 East Bridgetview, HI 13134-1862",
+      deliveryType: "Free Shipping",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$129",
     },
     {
       id: 15,
-      dropdownId: 'order-dropdown-15',
-      orderId: '#2195',
-      mailLink: 'mailto:lavon@example.com',
-      customer: 'Lavon Haley',
-      date: '27/04/2023',
-      address: 'Lavon Haley, 30998 Adonis Locks McGlynnside, ID 27241',
-      deliveryType: 'Free Shipping',
-      status: 'Pending',
-      badge: { type: 'warning', icon: 'fas fa-stream' },
-      amount: '$70'
+      dropdownId: "order-dropdown-15",
+      orderId: "#2195",
+      mailLink: "mailto:lavon@example.com",
+      customer: "Lavon Haley",
+      date: "27/04/2023",
+      address: "Lavon Haley, 30998 Adonis Locks McGlynnside, ID 27241",
+      deliveryType: "Free Shipping",
+      status: "Pending",
+      badge: { type: "warning", icon: "fas fa-stream" },
+      amount: "$70",
     },
     {
       id: 16,
-      dropdownId: 'order-dropdown-16',
-      orderId: '#2196',
-      mailLink: 'mailto:ashley@example.com',
-      customer: 'Ashley Kirlin',
-      date: '26/04/2023',
+      dropdownId: "order-dropdown-16",
+      orderId: "#2196",
+      mailLink: "mailto:ashley@example.com",
+      customer: "Ashley Kirlin",
+      date: "26/04/2023",
       address:
-        'Ashley Kirlin, 43304 Prosacco Shore South Dejuanfurt, MO 18623-0505',
-      deliveryType: 'Local Delivery',
-      status: 'Processing',
-      badge: { type: 'primary', icon: 'fas fa-redo' },
-      amount: '$39'
+        "Ashley Kirlin, 43304 Prosacco Shore South Dejuanfurt, MO 18623-0505",
+      deliveryType: "Local Delivery",
+      status: "Processing",
+      badge: { type: "primary", icon: "fas fa-redo" },
+      amount: "$39",
     },
     {
       id: 17,
-      dropdownId: 'order-dropdown-17',
-      orderId: '#2197',
-      mailLink: 'mailto:johnnie@example.com',
-      customer: 'Johnnie Considine',
-      date: '26/04/2023',
+      dropdownId: "order-dropdown-17",
+      orderId: "#2197",
+      mailLink: "mailto:johnnie@example.com",
+      customer: "Johnnie Considine",
+      date: "26/04/2023",
       address:
-        'Johnnie Considine, 6008 Hermann Points Suite 294 Hansenville, TN 14210',
-      deliveryType: 'Flat Rate',
-      status: 'Pending',
-      badge: { type: 'warning', icon: 'fas fa-stream' },
-      amount: '$70'
+        "Johnnie Considine, 6008 Hermann Points Suite 294 Hansenville, TN 14210",
+      deliveryType: "Flat Rate",
+      status: "Pending",
+      badge: { type: "warning", icon: "fas fa-stream" },
+      amount: "$70",
     },
     {
       id: 18,
-      dropdownId: 'order-dropdown-18',
-      orderId: '#2198',
-      mailLink: 'mailto:trace@example.com',
-      customer: 'Trace Farrell',
-      date: '26/04/2023',
-      address: 'Trace Farrell, 431 Steuber Mews Apt. 252 Germanland, AK 25882',
-      deliveryType: 'Free Shipping',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$70'
+      dropdownId: "order-dropdown-18",
+      orderId: "#2198",
+      mailLink: "mailto:trace@example.com",
+      customer: "Trace Farrell",
+      date: "26/04/2023",
+      address: "Trace Farrell, 431 Steuber Mews Apt. 252 Germanland, AK 25882",
+      deliveryType: "Free Shipping",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$70",
     },
     {
       id: 19,
-      dropdownId: 'order-dropdown-19',
-      orderId: '#2199',
-      mailLink: 'mailto:nienow@example.com',
-      customer: 'Estell Nienow',
-      date: '26/04/2023',
-      address: 'Estell Nienow, 4167 Laverna Manor Marysemouth, NV 74590',
-      deliveryType: 'Free Shipping',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$59'
+      dropdownId: "order-dropdown-19",
+      orderId: "#2199",
+      mailLink: "mailto:nienow@example.com",
+      customer: "Estell Nienow",
+      date: "26/04/2023",
+      address: "Estell Nienow, 4167 Laverna Manor Marysemouth, NV 74590",
+      deliveryType: "Free Shipping",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$59",
     },
     {
       id: 20,
-      dropdownId: 'order-dropdown-20',
-      orderId: '#2200',
-      mailLink: 'mailto:howe@example.com',
-      customer: 'Daisha Howe',
-      date: '25/04/2023',
+      dropdownId: "order-dropdown-20",
+      orderId: "#2200",
+      mailLink: "mailto:howe@example.com",
+      customer: "Daisha Howe",
+      date: "25/04/2023",
       address:
-        'Daisha Howe, 829 Lavonne Valley Apt. 074 Stehrfort, RI 77914-0379',
-      deliveryType: 'Free Shipping',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$39'
+        "Daisha Howe, 829 Lavonne Valley Apt. 074 Stehrfort, RI 77914-0379",
+      deliveryType: "Free Shipping",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$39",
     },
     {
       id: 21,
-      dropdownId: 'order-dropdown-21',
-      orderId: '#2201',
-      mailLink: 'mailto:haley@example.com',
-      customer: 'Miles Haley',
-      date: '24/04/2023',
-      address: 'Miles Haley, 53150 Thad Squares Apt. 263 Archibaldfort, MO 00837',
-      deliveryType: 'Flat Rate',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$55'
+      dropdownId: "order-dropdown-21",
+      orderId: "#2201",
+      mailLink: "mailto:haley@example.com",
+      customer: "Miles Haley",
+      date: "24/04/2023",
+      address:
+        "Miles Haley, 53150 Thad Squares Apt. 263 Archibaldfort, MO 00837",
+      deliveryType: "Flat Rate",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$55",
     },
     {
       id: 22,
-      dropdownId: 'order-dropdown-22',
-      orderId: '#2202',
-      mailLink: 'mailto:watsica@example.com',
-      customer: 'Brenda Watsica',
-      date: '24/04/2023',
+      dropdownId: "order-dropdown-22",
+      orderId: "#2202",
+      mailLink: "mailto:watsica@example.com",
+      customer: "Brenda Watsica",
+      date: "24/04/2023",
       address: "Brenda Watsica, 9198 O'Kon Harbors Morarborough, IA 75409-7383",
-      deliveryType: 'Free Shipping',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$89'
+      deliveryType: "Free Shipping",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$89",
     },
     {
       id: 23,
-      dropdownId: 'order-dropdown-23',
-      orderId: '#2203',
-      mailLink: 'mailto:ellie@example.com',
+      dropdownId: "order-dropdown-23",
+      orderId: "#2203",
+      mailLink: "mailto:ellie@example.com",
       customer: "Ellie O'Reilly",
-      date: '24/04/2023',
+      date: "24/04/2023",
       address:
         "Ellie O'Reilly, 1478 Kaitlin Haven Apt. 061 Lake Muhammadmouth, SC 35848",
-      deliveryType: 'Free Shipping',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$47'
+      deliveryType: "Free Shipping",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$47",
     },
     {
       id: 24,
-      dropdownId: 'order-dropdown-24',
-      orderId: '#2204',
-      mailLink: 'mailto:garry@example.com',
-      customer: 'Garry Brainstrow',
-      date: '23/04/2023',
-      address: 'Garry Brainstrow, 13572 Kurt Mews South Merritt, IA 52491',
-      deliveryType: 'Free Shipping',
-      status: 'Completed',
-      badge: { type: 'success', icon: 'fas fa-check' },
-      amount: '$139'
+      dropdownId: "order-dropdown-24",
+      orderId: "#2204",
+      mailLink: "mailto:garry@example.com",
+      customer: "Garry Brainstrow",
+      date: "23/04/2023",
+      address: "Garry Brainstrow, 13572 Kurt Mews South Merritt, IA 52491",
+      deliveryType: "Free Shipping",
+      status: "Completed",
+      badge: { type: "success", icon: "fas fa-check" },
+      amount: "$139",
     },
     {
       id: 25,
-      dropdownId: 'order-dropdown-25',
-      orderId: '#2205',
-      mailLink: 'mailto:estell@example.com',
-      customer: 'Estell Pollich',
-      date: '23/04/2023',
-      address: 'Estell Pollich, 13572 Kurt Mews South Merritt, IA 52491',
-      deliveryType: 'Free Shipping',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$49'
+      dropdownId: "order-dropdown-25",
+      orderId: "#2205",
+      mailLink: "mailto:estell@example.com",
+      customer: "Estell Pollich",
+      date: "23/04/2023",
+      address: "Estell Pollich, 13572 Kurt Mews South Merritt, IA 52491",
+      deliveryType: "Free Shipping",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$49",
     },
     {
       id: 26,
-      dropdownId: 'order-dropdown-26',
-      orderId: '#2206',
-      mailLink: 'mailto:ara@example.com',
-      customer: 'Ara Mueller',
-      date: '23/04/2023',
-      address: 'Ara Mueller, 91979 Kohler Place Waelchiborough, CT 41291',
-      deliveryType: 'Flat Rate',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$19'
+      dropdownId: "order-dropdown-26",
+      orderId: "#2206",
+      mailLink: "mailto:ara@example.com",
+      customer: "Ara Mueller",
+      date: "23/04/2023",
+      address: "Ara Mueller, 91979 Kohler Place Waelchiborough, CT 41291",
+      deliveryType: "Flat Rate",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$19",
     },
     {
       id: 27,
-      dropdownId: 'order-dropdown-27',
-      orderId: '#2207',
-      mailLink: 'mailto:blick@example.com',
-      customer: 'Lucienne Blick',
-      date: '23/04/2023',
+      dropdownId: "order-dropdown-27",
+      orderId: "#2207",
+      mailLink: "mailto:blick@example.com",
+      customer: "Lucienne Blick",
+      date: "23/04/2023",
       address:
-        'Lucienne Blick, 6757 Giuseppe Meadows Geraldinemouth, MO 48819-4970',
-      deliveryType: 'Flat Rate',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$59'
+        "Lucienne Blick, 6757 Giuseppe Meadows Geraldinemouth, MO 48819-4970",
+      deliveryType: "Flat Rate",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$59",
     },
     {
       id: 28,
-      dropdownId: 'order-dropdown-28',
-      orderId: '#2208',
-      mailLink: 'mailto:haag@example.com',
-      customer: 'Laverne Haag',
-      date: '22/04/2023',
-      address: 'Laverne Haag, 2327 Kaylee Mill East Citlalli, AZ 89582-3143',
-      deliveryType: 'Flat Rate',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$49'
+      dropdownId: "order-dropdown-28",
+      orderId: "#2208",
+      mailLink: "mailto:haag@example.com",
+      customer: "Laverne Haag",
+      date: "22/04/2023",
+      address: "Laverne Haag, 2327 Kaylee Mill East Citlalli, AZ 89582-3143",
+      deliveryType: "Flat Rate",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$49",
     },
     {
       id: 29,
-      dropdownId: 'order-dropdown-29',
-      orderId: '#2209',
-      mailLink: 'mailto:bednar@example.com',
-      customer: 'Brandon Bednar',
-      date: '22/04/2023',
+      dropdownId: "order-dropdown-29",
+      orderId: "#2209",
+      mailLink: "mailto:bednar@example.com",
+      customer: "Brandon Bednar",
+      date: "22/04/2023",
       address:
-        'Brandon Bednar, 25156 Isaac Crossing Apt. 810 Lonborough, CO 83774-5999',
-      deliveryType: 'Flat Rate',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$39'
+        "Brandon Bednar, 25156 Isaac Crossing Apt. 810 Lonborough, CO 83774-5999",
+      deliveryType: "Flat Rate",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$39",
     },
     {
       id: 30,
-      dropdownId: 'order-dropdown-30',
-      orderId: '#2210',
-      mailLink: 'mailto:dimitri@example.com',
-      customer: 'Dimitri Boehm',
-      date: '23/04/2023',
-      address: 'Dimitri Boehm, 71603 Wolff Plains Apt. 885 Johnstonton, MI 01581',
-      deliveryType: 'Flat Rate',
-      status: 'On Hold',
-      badge: { type: 'secondary', icon: 'fas fa-ban' },
-      amount: '$111'
-    }
+      dropdownId: "order-dropdown-30",
+      orderId: "#2210",
+      mailLink: "mailto:dimitri@example.com",
+      customer: "Dimitri Boehm",
+      date: "23/04/2023",
+      address:
+        "Dimitri Boehm, 71603 Wolff Plains Apt. 885 Johnstonton, MI 01581",
+      deliveryType: "Flat Rate",
+      status: "On Hold",
+      badge: { type: "secondary", icon: "fas fa-ban" },
+      amount: "$111",
+    },
   ];
 
-
-
   const advanceAjaxTableInit = async () => {
-    const data = await fetch('http://localhost:3000/stock/api/productos');
+    const data = await fetch("http://localhost:3000/stock/api/productos");
     const productos = await data.json();
     const togglePaginationButtonDisable = (button, disabled) => {
       button.disabled = disabled;
-      button.classList[disabled ? 'add' : 'remove']('disabled');
+      button.classList[disabled ? "add" : "remove"]("disabled");
     };
     // Selectors
-    const table = document.getElementById('products');
+    const table = document.getElementById("products");
 
     if (table) {
       const options = {
         page: 10,
         pagination: {
-          item: "<li><button class='page' type='button'></button></li>"
+          item: "<li><button class='page' type='button'></button></li>",
         },
-        item: values => {
+        item: (values) => {
           const {
-            sku,nombre,marca,categoria,medida,precio,stock,proveedor,fecha
+            sku,
+            nombre,
+            marca,
+            categoria,
+            medida,
+            precio,
+            stock,
+            proveedor,
+            fecha,
           } = values;
           return `
           <tr class="btn-reveal-trigger">
@@ -781,7 +800,7 @@
             </td>
           </tr>
         `;
-        }
+        },
       };
       const paginationButtonNext = table.querySelector(
         '[data-list-pagination="next"]'
@@ -791,22 +810,22 @@
       );
       const viewAll = table.querySelector('[data-list-view="*"]');
       const viewLess = table.querySelector('[data-list-view="less"]');
-      const listInfo = table.querySelector('[data-list-info]');
-      const listFilter = document.querySelector('[data-list-filter]');
+      const listInfo = table.querySelector("[data-list-info]");
+      const listFilter = document.querySelector("[data-list-filter]");
 
       const orderList = new window.List(table, options, orders);
 
       // Fallback
-      orderList.on('updated', item => {
+      orderList.on("updated", (item) => {
         const fallback =
-          table.querySelector('.fallback') ||
+          table.querySelector(".fallback") ||
           document.getElementById(options.fallback);
 
         if (fallback) {
           if (item.matchingItems.length === 0) {
-            fallback.classList.remove('d-none');
+            fallback.classList.remove("d-none");
           } else {
-            fallback.classList.add('d-none');
+            fallback.classList.add("d-none");
           }
         }
       });
@@ -814,14 +833,14 @@
       const totalItem = orderList.items.length;
       const itemsPerPage = orderList.page;
       const btnDropdownClose =
-        orderList.listContainer.querySelector('.btn-close');
+        orderList.listContainer.querySelector(".btn-close");
       let pageQuantity = Math.ceil(totalItem / itemsPerPage);
       let numberOfcurrentItems = orderList.visibleItems.length;
       let pageCount = 1;
 
       btnDropdownClose &&
-        btnDropdownClose.addEventListener('search.close', () =>
-          orderList.fuzzySearch('')
+        btnDropdownClose.addEventListener("search.close", () =>
+          orderList.fuzzySearch("")
         );
 
       const updateListControls = () => {
@@ -843,7 +862,7 @@
       updateListControls();
 
       if (paginationButtonNext) {
-        paginationButtonNext.addEventListener('click', e => {
+        paginationButtonNext.addEventListener("click", (e) => {
           e.preventDefault();
           pageCount += 1;
 
@@ -856,7 +875,7 @@
       }
 
       if (paginationButtonPrev) {
-        paginationButtonPrev.addEventListener('click', e => {
+        paginationButtonPrev.addEventListener("click", (e) => {
           e.preventDefault();
           pageCount -= 1;
 
@@ -868,12 +887,12 @@
       }
 
       const toggleViewBtn = () => {
-        viewLess.classList.toggle('d-none');
-        viewAll.classList.toggle('d-none');
+        viewLess.classList.toggle("d-none");
+        viewAll.classList.toggle("d-none");
       };
 
       if (viewAll) {
-        viewAll.addEventListener('click', () => {
+        viewAll.addEventListener("click", () => {
           orderList.show(1, totalItem);
           pageQuantity = 1;
           pageCount = 1;
@@ -883,7 +902,7 @@
         });
       }
       if (viewLess) {
-        viewLess.addEventListener('click', () => {
+        viewLess.addEventListener("click", () => {
           orderList.show(1, itemsPerPage);
           pageQuantity = Math.ceil(totalItem / itemsPerPage);
           pageCount = 1;
@@ -893,8 +912,8 @@
         });
       }
       if (options.pagination) {
-        table.querySelector('.pagination').addEventListener('click', e => {
-          if (e.target.classList[0] === 'page') {
+        table.querySelector(".pagination").addEventListener("click", (e) => {
+          if (e.target.classList[0] === "page") {
             pageCount = Number(e.target.innerText);
             updateListControls();
           }
@@ -902,9 +921,9 @@
       }
       if (options.filter) {
         const { key } = options.filter;
-        listFilter.addEventListener('change', e => {
-          orderList.filter(item => {
-            if (e.target.value === '') {
+        listFilter.addEventListener("change", (e) => {
+          orderList.filter((item) => {
+            if (e.target.value === "") {
               return true;
             }
             return item
@@ -921,9 +940,9 @@
 
   const anchorJSInit = () => {
     const anchors = new window.AnchorJS({
-      icon: '#'
+      icon: "#",
     });
-    anchors.add('[data-anchor]');
+    anchors.add("[data-anchor]");
   };
 
   /* -------------------------------------------------------------------------- */
@@ -932,17 +951,17 @@
   const bigPictureInit = () => {
     const { getData } = window.phoenix.utils;
     if (window.BigPicture) {
-      const bpItems = document.querySelectorAll('[data-bigpicture]');
-      bpItems.forEach(bpItem => {
-        const userOptions = getData(bpItem, 'bigpicture');
+      const bpItems = document.querySelectorAll("[data-bigpicture]");
+      bpItems.forEach((bpItem) => {
+        const userOptions = getData(bpItem, "bigpicture");
         const defaultOptions = {
           el: bpItem,
           noLoader: true,
-          allowfullscreen: true
+          allowfullscreen: true,
         };
         const options = window._.merge(defaultOptions, userOptions);
 
-        bpItem.addEventListener('click', () => {
+        bpItem.addEventListener("click", () => {
           window.BigPicture(options);
         });
       });
@@ -1012,7 +1031,7 @@
     // eslint-disable-next-line class-methods-use-this
     camelize(str) {
       const text = str.replace(/[-_\s.]+(.)?/g, (_, c) =>
-        c ? c.toUpperCase() : ''
+        c ? c.toUpperCase() : ""
       );
       return `${text.substr(0, 1).toLowerCase()}${text.substr(1)}`;
     }
@@ -1028,8 +1047,8 @@
     constructor(element, option) {
       this.element = element;
       this.option = {
-        displayNoneClassName: 'd-none',
-        ...option
+        displayNoneClassName: "d-none",
+        ...option,
       };
       elementMap.set(this.element, this);
     }
@@ -1050,14 +1069,14 @@
 
     getSelectedRows() {
       return Array.from(this.bulkSelectRows)
-        .filter(row => row.checked)
-        .map(row => getData(row, 'bulk-select-row'));
+        .filter((row) => row.checked)
+        .map((row) => getData(row, "bulk-select-row"));
     }
 
     attachNodes() {
       const { body, actions, replacedElement } = getData(
         this.element,
-        'bulk-select'
+        "bulk-select"
       );
 
       this.actions = new DomNode(document.getElementById(actions));
@@ -1066,7 +1085,7 @@
       );
       this.bulkSelectRows = document
         .getElementById(body)
-        .querySelectorAll('[data-bulk-select-row]');
+        .querySelectorAll("[data-bulk-select-row]");
     }
 
     attachRowNodes(elms) {
@@ -1075,23 +1094,23 @@
 
     clickBulkCheckbox() {
       // Handle click event in bulk checkbox
-      this.element.addEventListener('click', () => {
-        if (this.element.indeterminate === 'indeterminate') {
+      this.element.addEventListener("click", () => {
+        if (this.element.indeterminate === "indeterminate") {
           this.actions.addClass(this.option.displayNoneClassName);
           this.replacedElement.removeClass(this.option.displayNoneClassName);
 
           this.removeBulkCheck();
 
-          this.bulkSelectRows.forEach(el => {
+          this.bulkSelectRows.forEach((el) => {
             const rowCheck = new DomNode(el);
             rowCheck.checked = false;
-            rowCheck.setAttribute('checked', false);
+            rowCheck.setAttribute("checked", false);
           });
           return;
         }
 
         this.toggleDisplay();
-        this.bulkSelectRows.forEach(el => {
+        this.bulkSelectRows.forEach((el) => {
           el.checked = this.element.checked;
         });
       });
@@ -1099,25 +1118,25 @@
 
     clickRowCheckbox() {
       // Handle click event in checkbox of each row
-      this.bulkSelectRows.forEach(el => {
+      this.bulkSelectRows.forEach((el) => {
         const rowCheck = new DomNode(el);
-        rowCheck.on('click', () => {
-          if (this.element.indeterminate !== 'indeterminate') {
+        rowCheck.on("click", () => {
+          if (this.element.indeterminate !== "indeterminate") {
             this.element.indeterminate = true;
-            this.element.setAttribute('indeterminate', 'indeterminate');
+            this.element.setAttribute("indeterminate", "indeterminate");
             this.element.checked = true;
-            this.element.setAttribute('checked', true);
+            this.element.setAttribute("checked", true);
 
             this.actions.removeClass(this.option.displayNoneClassName);
             this.replacedElement.addClass(this.option.displayNoneClassName);
           }
 
-          if ([...this.bulkSelectRows].every(element => element.checked)) {
+          if ([...this.bulkSelectRows].every((element) => element.checked)) {
             this.element.indeterminate = false;
-            this.element.setAttribute('indeterminate', false);
+            this.element.setAttribute("indeterminate", false);
           }
 
-          if ([...this.bulkSelectRows].every(element => !element.checked)) {
+          if ([...this.bulkSelectRows].every((element) => !element.checked)) {
             this.removeBulkCheck();
             this.toggleDisplay();
           }
@@ -1127,9 +1146,9 @@
 
     removeBulkCheck() {
       this.element.indeterminate = false;
-      this.element.removeAttribute('indeterminate');
+      this.element.removeAttribute("indeterminate");
       this.element.checked = false;
-      this.element.setAttribute('checked', false);
+      this.element.setAttribute("checked", false);
     }
 
     toggleDisplay(replacedElement, actions) {
@@ -1144,18 +1163,18 @@
     deselectAll(replacedElement, actions) {
       this.removeBulkCheck();
       this.toggleDisplay(replacedElement, actions);
-      this.bulkSelectRows.forEach(el => {
+      this.bulkSelectRows.forEach((el) => {
         el.checked = false;
-        el.removeAttribute('checked');
+        el.removeAttribute("checked");
       });
     }
   }
 
   const bulkSelectInit = () => {
-    const bulkSelects = document.querySelectorAll('[data-bulk-select]');
+    const bulkSelects = document.querySelectorAll("[data-bulk-select]");
 
     if (bulkSelects.length) {
-      bulkSelects.forEach(el => {
+      bulkSelects.forEach((el) => {
         const bulkSelect = new BulkSelect(el);
         bulkSelect.init();
       });
@@ -1173,8 +1192,8 @@
     responsiveOptions
   ) => {
     const { breakpoints, resize } = window.phoenix.utils;
-    const handleResize = options => {
-      Object.keys(options).forEach(item => {
+    const handleResize = (options) => {
+      Object.keys(options).forEach((item) => {
         if (window.innerWidth > breakpoints[item]) {
           chart.setOption(options[item]);
         }
@@ -1186,10 +1205,10 @@
     chart.setOption(merge$2(getDefaultOptions(), userOptions));
 
     const navbarVerticalToggle = document.querySelector(
-      '.navbar-vertical-toggle'
+      ".navbar-vertical-toggle"
     );
     if (navbarVerticalToggle) {
-      navbarVerticalToggle.addEventListener('navbar.vertical.toggle', () => {
+      navbarVerticalToggle.addEventListener("navbar.vertical.toggle", () => {
         chart.resize();
         if (responsiveOptions) {
           handleResize(responsiveOptions);
@@ -1208,9 +1227,9 @@
     }
 
     themeController.addEventListener(
-      'clickControl',
+      "clickControl",
       ({ detail: { control } }) => {
-        if (control === 'phoenixTheme') {
+        if (control === "phoenixTheme") {
           chart.setOption(window._.merge(getDefaultOptions(), userOptions));
         }
         if (responsiveOptions) {
@@ -1221,15 +1240,15 @@
   };
   // -------------------end config.js--------------------
 
-  const echartTabs = document.querySelectorAll('[data-tab-has-echarts]');
+  const echartTabs = document.querySelectorAll("[data-tab-has-echarts]");
   if (echartTabs) {
-    echartTabs.forEach(tab => {
-      tab.addEventListener('shown.bs.tab', e => {
+    echartTabs.forEach((tab) => {
+      tab.addEventListener("shown.bs.tab", (e) => {
         const el = e.target;
         const { hash } = el;
         const id = hash || el.dataset.bsTarget;
         const content = document.getElementById(id.substring(1));
-        const chart = content?.querySelector('[data-echart-tab]');
+        const chart = content?.querySelector("[data-echart-tab]");
         if (chart) {
           window.echarts.init(chart).resize();
         }
@@ -1242,7 +1261,7 @@
     if (window.innerWidth <= 540) {
       const tooltipHeight = dom.offsetHeight;
       const obj = { top: pos[1] - tooltipHeight - 20 };
-      obj[pos[0] < size.viewSize[0] / 2 ? 'left' : 'right'] = 5;
+      obj[pos[0] < size.viewSize[0] / 2 ? "left" : "right"] = 5;
       return obj;
     }
     return null; // else default behaviour
@@ -1256,58 +1275,58 @@
   const basicEchartsInit = () => {
     const { getColor, getData, getDates } = window.phoenix.utils;
 
-    const $echartBasicCharts = document.querySelectorAll('[data-echarts]');
-    $echartBasicCharts.forEach($echartBasicChart => {
-      const userOptions = getData($echartBasicChart, 'echarts');
+    const $echartBasicCharts = document.querySelectorAll("[data-echarts]");
+    $echartBasicCharts.forEach(($echartBasicChart) => {
+      const userOptions = getData($echartBasicChart, "echarts");
       const chart = window.echarts.init($echartBasicChart);
       const getDefaultOptions = () => ({
-        color: getColor('primary'),
+        color: getColor("primary"),
         tooltip: {
-          trigger: 'item',
+          trigger: "item",
           padding: [7, 10],
-          backgroundColor: getColor('body-highlight-bg'),
-          borderColor: getColor('border-color'),
-          textStyle: { color: getColor('light-text-emphasis') },
+          backgroundColor: getColor("body-highlight-bg"),
+          borderColor: getColor("border-color"),
+          textStyle: { color: getColor("light-text-emphasis") },
           borderWidth: 1,
           transitionDuration: 0,
-          extraCssText: 'z-index: 1000'
+          extraCssText: "z-index: 1000",
         },
         xAxis: {
-          type: 'category',
+          type: "category",
           data: getDates(
-            new Date('5/1/2022'),
-            new Date('5/7/2022'),
+            new Date("5/1/2022"),
+            new Date("5/7/2022"),
             1000 * 60 * 60 * 24
           ),
           show: true,
           boundaryGap: false,
           axisLine: {
             show: true,
-            lineStyle: { color: getColor('secondary-bg') }
+            lineStyle: { color: getColor("secondary-bg") },
           },
           axisTick: {
-            show: false
+            show: false,
           },
           axisLabel: {
-            formatter: value => window.dayjs(value).format('DD MMM'),
+            formatter: (value) => window.dayjs(value).format("DD MMM"),
             interval: 6,
             showMinLabel: true,
             showMaxLabel: true,
-            color: getColor('secondary-color')
-          }
+            color: getColor("secondary-color"),
+          },
         },
         yAxis: {
           show: false,
-          type: 'value',
-          boundaryGap: false
+          type: "value",
+          boundaryGap: false,
         },
         series: [
           {
-            type: 'bar',
-            symbol: 'none'
-          }
+            type: "bar",
+            symbol: "none",
+          },
         ],
-        grid: { left: 22, right: 22, top: 0, bottom: 20 }
+        grid: { left: 22, right: 22, top: 0, bottom: 20 },
       });
       echartSetOption(chart, userOptions, getDefaultOptions);
     });
@@ -1320,18 +1339,18 @@
   const reportsDetailsChartInit = () => {
     const { getColor, getData, toggleColor } = window.phoenix.utils;
     // const phoenixTheme = window.config.config;
-    const $chartEl = document.querySelector('.echart-reports-details');
+    const $chartEl = document.querySelector(".echart-reports-details");
 
-    const tooltipFormatter = (params, dateFormatter = 'MMM DD') => {
+    const tooltipFormatter = (params, dateFormatter = "MMM DD") => {
       let tooltipItem = ``;
-      params.forEach(el => {
+      params.forEach((el) => {
         tooltipItem += `<div class='ms-1'>
           <h6 class="text-body-tertiary"><span class="fas fa-circle me-1 fs-10" style="color:${
             el.color
           }"></span>
             ${el.seriesName} : ${
-        typeof el.value === 'object' ? el.value[1] : el.value
-      }
+          typeof el.value === "object" ? el.value[1] : el.value
+        }
           </h6>
         </div>`;
       });
@@ -1339,7 +1358,7 @@
               <p class='mb-2 text-body-tertiary'>
                 ${
                   window.dayjs(params[0].axisValue).isValid()
-                    ? window.dayjs(params[0].axisValue).format('DD MMM, YYYY')
+                    ? window.dayjs(params[0].axisValue).format("DD MMM, YYYY")
                     : params[0].axisValue
                 }
               </p>
@@ -1351,24 +1370,24 @@
     const data = [64, 40, 45, 62, 82];
 
     if ($chartEl) {
-      const userOptions = getData($chartEl, 'echarts');
+      const userOptions = getData($chartEl, "echarts");
       const chart = window.echarts.init($chartEl);
 
       const getDefaultOptions = () => ({
-        color: [getColor('primary-lighter'), getColor('info-light')],
+        color: [getColor("primary-lighter"), getColor("info-light")],
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           padding: [7, 10],
-          backgroundColor: getColor('body-highlight-bg'),
-          borderColor: getColor('border-color'),
-          textStyle: { color: getColor('light-text-emphasis') },
+          backgroundColor: getColor("body-highlight-bg"),
+          borderColor: getColor("border-color"),
+          textStyle: { color: getColor("light-text-emphasis") },
           borderWidth: 1,
           transitionDuration: 0,
           axisPointer: {
-            type: 'none'
+            type: "none",
           },
           formatter: tooltipFormatter,
-          extraCssText: 'z-index: 1000'
+          extraCssText: "z-index: 1000",
         },
         // legend: {
         //   left: '76%',
@@ -1376,29 +1395,35 @@
         //   icon: 'circle',
         // },
         xAxis: {
-          type: 'category',
-          data: ['Analysis', 'Statement', 'Action', 'Offering', 'Interlocution'],
+          type: "category",
+          data: [
+            "Analysis",
+            "Statement",
+            "Action",
+            "Offering",
+            "Interlocution",
+          ],
           axisLabel: {
-            color: getColor('body-color'),
-            fontFamily: 'Nunito Sans',
+            color: getColor("body-color"),
+            fontFamily: "Nunito Sans",
             fontWeight: 600,
             fontSize: 12.8,
             rotate: 30,
-            formatter: value => `${value.slice(0, 5)}...`
+            formatter: (value) => `${value.slice(0, 5)}...`,
           },
           axisLine: {
             lineStyle: {
-              color: getColor('secondary-bg')
-            }
+              color: getColor("secondary-bg"),
+            },
           },
-          axisTick: false
+          axisTick: false,
         },
         yAxis: {
-          type: 'value',
+          type: "value",
           splitLine: {
             lineStyle: {
-              color: getColor('secondary-bg')
-            }
+              color: getColor("secondary-bg"),
+            },
           },
           // splitLine: {
           //   show: true,
@@ -1407,44 +1432,47 @@
           //   }
           // },
           axisLabel: {
-            color: getColor('body-color'),
-            fontFamily: 'Nunito Sans',
+            color: getColor("body-color"),
+            fontFamily: "Nunito Sans",
             fontWeight: 700,
             fontSize: 12.8,
             margin: 24,
-            formatter: value => `${value}%`
-          }
+            formatter: (value) => `${value}%`,
+          },
         },
         series: [
           {
-            name: 'Revenue',
-            type: 'bar',
-            barWidth: '32px',
-            barGap: '48%',
+            name: "Revenue",
+            type: "bar",
+            barWidth: "32px",
+            barGap: "48%",
             showBackground: true,
             backgroundStyle: {
               color: toggleColor(
-                getColor('primary-bg-subtle'),
-                getColor('body-highlight-bg')
-              )
+                getColor("primary-bg-subtle"),
+                getColor("body-highlight-bg")
+              ),
             },
             label: {
-              show: false
+              show: false,
             },
             itemStyle: {
-              color: toggleColor(getColor('primary-light'), getColor('primary'))
+              color: toggleColor(
+                getColor("primary-light"),
+                getColor("primary")
+              ),
             },
-            data
-          }
+            data,
+          },
         ],
         grid: {
-          right: '0',
-          left: '0',
+          right: "0",
+          left: "0",
           bottom: 0,
           top: 10,
-          containLabel: true
+          containLabel: true,
         },
-        animation: false
+        animation: false,
       });
 
       echartSetOption(chart, userOptions, getDefaultOptions);
@@ -1458,11 +1486,11 @@
     const { getData } = window.phoenix.utils;
 
     const Selector = {
-      CHAT_SIDEBAR: '.chat-sidebar',
-      CHAT_TEXT_AREA: '.chat-textarea',
-      CHAT_THREADS: '[data-chat-thread]',
-      CHAT_THREAD_TAB: '[data-chat-thread-tab]',
-      CHAT_THREAD_TAB_CONTENT: '[data-chat-thread-tab-content]'
+      CHAT_SIDEBAR: ".chat-sidebar",
+      CHAT_TEXT_AREA: ".chat-textarea",
+      CHAT_THREADS: "[data-chat-thread]",
+      CHAT_THREAD_TAB: "[data-chat-thread-tab]",
+      CHAT_THREAD_TAB_CONTENT: "[data-chat-thread-tab-content]",
     };
 
     const $chatSidebar = document.querySelector(Selector.CHAT_SIDEBAR);
@@ -1474,20 +1502,22 @@
     );
 
     if (threadTab) {
-      const threadTabItems = threadTab.querySelectorAll("[data-bs-toggle='tab']");
+      const threadTabItems = threadTab.querySelectorAll(
+        "[data-bs-toggle='tab']"
+      );
 
       const list = new window.List(threadTabContent, {
-        valueNames: ['read', 'unreadItem']
+        valueNames: ["read", "unreadItem"],
       });
 
-      const chatBox = document.querySelector('.chat .card-body');
+      const chatBox = document.querySelector(".chat .card-body");
       chatBox.scrollTop = chatBox.scrollHeight;
 
-      threadTabItems.forEach(tabEl =>
-        tabEl.addEventListener('shown.bs.tab', () => {
-          const value = getData(tabEl, 'chat-thread-list');
-          list.filter(item => {
-            if (value === 'all') {
+      threadTabItems.forEach((tabEl) =>
+        tabEl.addEventListener("shown.bs.tab", () => {
+          const value = getData(tabEl, "chat-thread-list");
+          list.filter((item) => {
+            if (value === "all") {
               return true;
             }
             return item.elm.classList.contains(value);
@@ -1497,15 +1527,15 @@
     }
 
     $chatThreads.forEach((thread, index) => {
-      thread.addEventListener('click', () => {
+      thread.addEventListener("click", () => {
         const chatContentArea = document.querySelector(
           `.chat-content-body-${index}`
         );
         chatContentArea.scrollTop = chatContentArea.scrollHeight;
-        $chatSidebar.classList.remove('show');
-        if (thread.classList.contains('unread')) {
-          thread.classList.remove('unread');
-          const unreadBadge = thread.querySelector('.unread-badge');
+        $chatSidebar.classList.remove("show");
+        if (thread.classList.contains("unread")) {
+          thread.classList.remove("unread");
+          const unreadBadge = thread.querySelector(".unread-badge");
           if (unreadBadge) {
             unreadBadge.remove();
           }
@@ -1514,7 +1544,7 @@
     });
 
     if ($chatTextArea) {
-      $chatTextArea.setAttribute('placeholder', 'Type your message...');
+      $chatTextArea.setAttribute("placeholder", "Type your message...");
     }
   };
 
@@ -1525,63 +1555,65 @@
     const { getData } = window.phoenix.utils;
 
     if (window.Choices) {
-      const elements = document.querySelectorAll('[data-choices]');
-      elements.forEach(item => {
-        const userOptions = getData(item, 'options');
+      const elements = document.querySelectorAll("[data-choices]");
+      elements.forEach((item) => {
+        const userOptions = getData(item, "options");
         const choices = new window.Choices(item, {
-          itemSelectText: '',
+          itemSelectText: "",
           addItems: true,
           allowHTML: true,
-          ...userOptions
+          ...userOptions,
         });
 
-        const needsValidation = document.querySelectorAll('.needs-validation');
+        const needsValidation = document.querySelectorAll(".needs-validation");
 
-        needsValidation.forEach(validationItem => {
+        needsValidation.forEach((validationItem) => {
           const selectFormValidation = () => {
-            validationItem.querySelectorAll('.choices').forEach(choicesItem => {
-              const singleSelect = choicesItem.querySelector(
-                '.choices__list--single'
-              );
-              const multipleSelect = choicesItem.querySelector(
-                '.choices__list--multiple'
-              );
+            validationItem
+              .querySelectorAll(".choices")
+              .forEach((choicesItem) => {
+                const singleSelect = choicesItem.querySelector(
+                  ".choices__list--single"
+                );
+                const multipleSelect = choicesItem.querySelector(
+                  ".choices__list--multiple"
+                );
 
-              if (choicesItem.querySelector('[required]')) {
-                if (singleSelect) {
-                  if (
-                    singleSelect
-                      .querySelector('.choices__item--selectable')
-                      ?.getAttribute('data-value') !== ''
-                  ) {
-                    choicesItem.classList.remove('invalid');
-                    choicesItem.classList.add('valid');
-                  } else {
-                    choicesItem.classList.remove('valid');
-                    choicesItem.classList.add('invalid');
+                if (choicesItem.querySelector("[required]")) {
+                  if (singleSelect) {
+                    if (
+                      singleSelect
+                        .querySelector(".choices__item--selectable")
+                        ?.getAttribute("data-value") !== ""
+                    ) {
+                      choicesItem.classList.remove("invalid");
+                      choicesItem.classList.add("valid");
+                    } else {
+                      choicesItem.classList.remove("valid");
+                      choicesItem.classList.add("invalid");
+                    }
                   }
-                }
-                // ----- for multiple select only ----------
-                if (multipleSelect) {
-                  if (choicesItem.getElementsByTagName('option').length) {
-                    choicesItem.classList.remove('invalid');
-                    choicesItem.classList.add('valid');
-                  } else {
-                    choicesItem.classList.remove('valid');
-                    choicesItem.classList.add('invalid');
+                  // ----- for multiple select only ----------
+                  if (multipleSelect) {
+                    if (choicesItem.getElementsByTagName("option").length) {
+                      choicesItem.classList.remove("invalid");
+                      choicesItem.classList.add("valid");
+                    } else {
+                      choicesItem.classList.remove("valid");
+                      choicesItem.classList.add("invalid");
+                    }
                   }
-                }
 
-                // ------ select end ---------------
-              }
-            });
+                  // ------ select end ---------------
+                }
+              });
           };
 
-          validationItem.addEventListener('submit', () => {
+          validationItem.addEventListener("submit", () => {
             selectFormValidation();
           });
 
-          item.addEventListener('change', () => {
+          item.addEventListener("change", () => {
             selectFormValidation();
           });
         });
@@ -1598,22 +1630,22 @@
   const copyLink = () => {
     const { getData } = window.phoenix.utils;
 
-    const copyButtons = document.querySelectorAll('[data-copy]');
+    const copyButtons = document.querySelectorAll("[data-copy]");
 
-    copyButtons.forEach(button => {
+    copyButtons.forEach((button) => {
       const tooltip = new window.bootstrap.Tooltip(button);
 
-      button.addEventListener('mouseover', () => tooltip.show());
-      button.addEventListener('mouseleave', () => tooltip.hide());
+      button.addEventListener("mouseover", () => tooltip.show());
+      button.addEventListener("mouseleave", () => tooltip.hide());
 
-      button.addEventListener('click', () => {
-        button.setAttribute('data-bs-original-title', 'Copied');
+      button.addEventListener("click", () => {
+        button.setAttribute("data-bs-original-title", "Copied");
         tooltip.show();
-        const inputID = getData(button, 'copy');
+        const inputID = getData(button, "copy");
         const input = document.querySelector(inputID);
         input.select();
         navigator.clipboard.writeText(input.value);
-        button.setAttribute('data-bs-original-title', 'click to copy');
+        button.setAttribute("data-bs-original-title", "click to copy");
       });
     });
   };
@@ -1625,14 +1657,14 @@
   const countupInit = () => {
     const { getData } = window.phoenix.utils;
     if (window.countUp) {
-      const countups = document.querySelectorAll('[data-countup]');
-      countups.forEach(node => {
-        const { endValue, ...options } = getData(node, 'countup');
+      const countups = document.querySelectorAll("[data-countup]");
+      countups.forEach((node) => {
+        const { endValue, ...options } = getData(node, "countup");
         const countUp = new window.countUp.CountUp(node, endValue, {
           duration: 4,
           // suffix: '+',
 
-          ...options
+          ...options,
         });
         if (!countUp.error) {
           countUp.start();
@@ -1649,25 +1681,25 @@
   const createBoardInit = () => {
     const { getData } = window.phoenix.utils;
     const selectors = {
-      CREATE_BOARD: '[data-create-board]',
-      TOGGLE_BUTTON_EL: '[data-wizard-step]',
-      FORMS: '[data-wizard-form]',
-      PASSWORD_INPUT: '[data-wizard-password]',
-      CONFIRM_PASSWORD_INPUT: '[data-wizard-confirm-password]',
-      NEXT_BTN: '[data-wizard-next-btn]',
-      PREV_BTN: '[data-wizard-prev-btn]',
-      FOOTER: '[data-wizard-footer]',
-      KANBAN_STEP: '[data-kanban-step]',
-      BOARD_PREV_BTN: '[data-board-prev-btn]',
-      CUSTOM_COLOR: '[data-custom-color-radio]'
+      CREATE_BOARD: "[data-create-board]",
+      TOGGLE_BUTTON_EL: "[data-wizard-step]",
+      FORMS: "[data-wizard-form]",
+      PASSWORD_INPUT: "[data-wizard-password]",
+      CONFIRM_PASSWORD_INPUT: "[data-wizard-confirm-password]",
+      NEXT_BTN: "[data-wizard-next-btn]",
+      PREV_BTN: "[data-wizard-prev-btn]",
+      FOOTER: "[data-wizard-footer]",
+      KANBAN_STEP: "[data-kanban-step]",
+      BOARD_PREV_BTN: "[data-board-prev-btn]",
+      CUSTOM_COLOR: "[data-custom-color-radio]",
     };
 
     const events = {
-      SUBMIT: 'submit',
-      SHOW: 'show.bs.tab',
-      SHOWN: 'shown.bs.tab',
-      CLICK: 'click',
-      CHANGE: 'change'
+      SUBMIT: "submit",
+      SHOW: "show.bs.tab",
+      SHOWN: "shown.bs.tab",
+      CLICK: "click",
+      CHANGE: "change",
     };
 
     const createBoard = document.querySelector(selectors.CREATE_BOARD);
@@ -1675,7 +1707,7 @@
       const tabToggleButtonEl = createBoard.querySelectorAll(
         selectors.TOGGLE_BUTTON_EL
       );
-      const tabs = Array.from(tabToggleButtonEl).map(item => {
+      const tabs = Array.from(tabToggleButtonEl).map((item) => {
         return window.bootstrap.Tab.getOrCreateInstance(item);
       });
 
@@ -1687,9 +1719,9 @@
 
       // update kanban step
       if (tabToggleButtonEl.length) {
-        tabToggleButtonEl.forEach(item => {
+        tabToggleButtonEl.forEach((item) => {
           item.addEventListener(events.SHOW, () => {
-            const step = getData(item, 'wizard-step');
+            const step = getData(item, "wizard-step");
             const kanbanStep = document.querySelector(selectors.KANBAN_STEP);
             if (kanbanStep) {
               kanbanStep.textContent = step;
@@ -1700,7 +1732,7 @@
 
       const forms = createBoard.querySelectorAll(selectors.FORMS);
       forms.forEach((form, index) => {
-        form.addEventListener(events.SUBMIT, e => {
+        form.addEventListener(events.SUBMIT, (e) => {
           e.preventDefault();
           const formData = new FormData(e.target);
           Object.fromEntries(formData.entries());
@@ -1711,13 +1743,13 @@
         });
       });
       // custom color
-      const colorPicker = document.querySelector('#customColorInput');
-      colorPicker?.addEventListener(events.CHANGE, event => {
+      const colorPicker = document.querySelector("#customColorInput");
+      colorPicker?.addEventListener(events.CHANGE, (event) => {
         const selectedColor = event.target.value;
         const customColorRadioBtn = document.querySelector(
           selectors.CUSTOM_COLOR
         );
-        customColorRadioBtn.setAttribute('checked', 'checked');
+        customColorRadioBtn.setAttribute("checked", "checked");
         customColorRadioBtn.value = selectedColor;
       });
     }
@@ -1730,21 +1762,21 @@
   const detectorInit = () => {
     const { addClass } = window.phoenix.utils;
     const { is } = window;
-    const html = document.querySelector('html');
+    const html = document.querySelector("html");
 
-    is.opera() && addClass(html, 'opera');
-    is.mobile() && addClass(html, 'mobile');
-    is.firefox() && addClass(html, 'firefox');
-    is.safari() && addClass(html, 'safari');
-    is.ios() && addClass(html, 'ios');
-    is.iphone() && addClass(html, 'iphone');
-    is.ipad() && addClass(html, 'ipad');
-    is.ie() && addClass(html, 'ie');
-    is.edge() && addClass(html, 'edge');
-    is.chrome() && addClass(html, 'chrome');
-    is.mac() && addClass(html, 'osx');
-    is.windows() && addClass(html, 'windows');
-    navigator.userAgent.match('CriOS') && addClass(html, 'chrome');
+    is.opera() && addClass(html, "opera");
+    is.mobile() && addClass(html, "mobile");
+    is.firefox() && addClass(html, "firefox");
+    is.safari() && addClass(html, "safari");
+    is.ios() && addClass(html, "ios");
+    is.iphone() && addClass(html, "iphone");
+    is.ipad() && addClass(html, "ipad");
+    is.ie() && addClass(html, "ie");
+    is.edge() && addClass(html, "edge");
+    is.chrome() && addClass(html, "chrome");
+    is.mac() && addClass(html, "osx");
+    is.windows() && addClass(html, "windows");
+    navigator.userAgent.match("CriOS") && addClass(html, "chrome");
   };
 
   /* -------------------------------------------------------------------------- */
@@ -1752,23 +1784,23 @@
   /* -------------------------------------------------------------------------- */
 
   const dropdownOnHover = () => {
-    const navbarArea = document.querySelector('[data-dropdown-on-hover]');
+    const navbarArea = document.querySelector("[data-dropdown-on-hover]");
 
     if (navbarArea) {
-      navbarArea.addEventListener('mouseover', e => {
+      navbarArea.addEventListener("mouseover", (e) => {
         if (
-          e.target?.classList.contains('dropdown-toggle') &&
-          !e.target.parentNode.className.includes('dropdown-inside') &&
+          e.target?.classList.contains("dropdown-toggle") &&
+          !e.target.parentNode.className.includes("dropdown-inside") &&
           window.innerWidth > 992
         ) {
           const dropdownInstance = new window.bootstrap.Dropdown(e.target);
 
           /* eslint-disable no-underscore-dangle */
-          dropdownInstance._element.classList.add('show');
-          dropdownInstance._menu.classList.add('show');
-          dropdownInstance._menu.setAttribute('data-bs-popper', 'none');
+          dropdownInstance._element.classList.add("show");
+          dropdownInstance._menu.classList.add("show");
+          dropdownInstance._menu.setAttribute("data-bs-popper", "none");
 
-          e.target.parentNode.addEventListener('mouseleave', () => {
+          e.target.parentNode.addEventListener("mouseleave", () => {
             if (window.innerWidth > 992) {
               dropdownInstance.hide();
             }
@@ -1789,8 +1821,8 @@
   const featherIconsInit = () => {
     if (window.feather) {
       window.feather.replace({
-        width: '16px',
-        height: '16px'
+        width: "16px",
+        height: "16px",
       });
     }
   };
@@ -1801,23 +1833,26 @@
 
   const flatpickrInit = () => {
     const { getData } = window.phoenix.utils;
-    document.querySelectorAll('.datetimepicker').forEach(item => {
-      const userOptions = getData(item, 'options');
+    document.querySelectorAll(".datetimepicker").forEach((item) => {
+      const userOptions = getData(item, "options");
       window.flatpickr(item, {
         nextArrow: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 480c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L242.8 256L73.38 86.63c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25l-192 192C112.4 476.9 104.2 480 96 480z"/></svg>`,
         prevArrow: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M224 480c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l169.4 169.4c12.5 12.5 12.5 32.75 0 45.25C240.4 476.9 232.2 480 224 480z"/></svg>`,
         locale: {
           firstDayOfWeek: 1,
 
-          shorthand: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+          shorthand: ["S", "M", "T", "W", "T", "F", "S"],
         },
-        monthSelectorType: 'static',
+        monthSelectorType: "static",
         onDayCreate: (dObj, dStr, fp, dayElem) => {
-          if (dayElem.dateObj.getDay() === 6 || dayElem.dateObj.getDay() === 0) {
-            dayElem.className += ' weekend-days';
+          if (
+            dayElem.dateObj.getDay() === 6 ||
+            dayElem.dateObj.getDay() === 0
+          ) {
+            dayElem.className += " weekend-days";
           }
         },
-        ...userOptions
+        ...userOptions,
       });
 
       // datepicker.l10n.weekdays.shorthand = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -1829,17 +1864,17 @@
   /* -------------------------------------------------------------------------- */
 
   const formValidationInit = () => {
-    const forms = document.querySelectorAll('.needs-validation');
+    const forms = document.querySelectorAll(".needs-validation");
 
-    forms.forEach(form => {
+    forms.forEach((form) => {
       form.addEventListener(
-        'submit',
-        event => {
+        "submit",
+        (event) => {
           if (!form.checkValidity()) {
             event.preventDefault();
             event.stopPropagation();
           }
-          form.classList.add('was-validated');
+          form.classList.add("was-validated");
         },
         false
       );
@@ -1855,37 +1890,37 @@
 
     const options = merge(
       {
-        initialView: 'dayGridMonth',
-        weekNumberCalculation: 'ISO',
+        initialView: "dayGridMonth",
+        weekNumberCalculation: "ISO",
         editable: true,
-        direction: document.querySelector('html').getAttribute('dir'),
+        direction: document.querySelector("html").getAttribute("dir"),
         headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
         },
         buttonText: {
-          month: 'Month',
-          week: 'Week',
-          day: 'Day'
-        }
+          month: "Month",
+          week: "Week",
+          day: "Day",
+        },
       },
       option
     );
     const calendar = new window.FullCalendar.Calendar(el, options);
     calendar.render();
     document
-      .querySelector('.navbar-vertical-toggle')
-      ?.addEventListener('navbar.vertical.toggle', () => calendar.updateSize());
+      .querySelector(".navbar-vertical-toggle")
+      ?.addEventListener("navbar.vertical.toggle", () => calendar.updateSize());
     return calendar;
   };
 
   const fullCalendarInit = () => {
     const { getData } = window.phoenix.utils;
 
-    const calendars = document.querySelectorAll('[data-calendar]');
-    calendars.forEach(item => {
-      const options = getData(item, 'calendar');
+    const calendars = document.querySelectorAll("[data-calendar]");
+    calendars.forEach((item) => {
+      const options = getData(item, "calendar");
       renderCalendar(item, options);
     });
   };
@@ -1897,7 +1932,7 @@
   const glightboxInit = () => {
     if (window.GLightbox) {
       window.GLightbox({
-        selector: '[data-gallery]'
+        selector: "[data-gallery]",
       });
     }
   };
@@ -1909,22 +1944,22 @@
   function initMap() {
     const { getData } = window.phoenix.utils;
     const themeController = document.body;
-    const $googlemaps = document.querySelectorAll('[data-googlemap]');
+    const $googlemaps = document.querySelectorAll("[data-googlemap]");
     if ($googlemaps.length && window.google) {
       const createControlBtn = (map, type) => {
-        const controlButton = document.createElement('button');
+        const controlButton = document.createElement("button");
         controlButton.classList.add(type);
         controlButton.innerHTML =
-          type === 'zoomIn'
+          type === "zoomIn"
             ? '<span class="fas fa-plus text-body-emphasis"></span>'
             : '<span class="fas fa-minus text-body-emphasis"></span>';
 
-        controlButton.addEventListener('click', () => {
+        controlButton.addEventListener("click", () => {
           const zoom = map.getZoom();
-          if (type === 'zoomIn') {
+          if (type === "zoomIn") {
             map.setZoom(zoom + 1);
           }
-          if (type === 'zoomOut') {
+          if (type === "zoomOut") {
             map.setZoom(zoom - 1);
           }
         });
@@ -1934,468 +1969,468 @@
       const mapStyles = {
         SnazzyCustomLight: [
           {
-            featureType: 'administrative',
-            elementType: 'all',
+            featureType: "administrative",
+            elementType: "all",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'administrative',
-            elementType: 'labels',
+            featureType: "administrative",
+            elementType: "labels",
             stylers: [
               {
-                visibility: 'on'
-              }
-            ]
+                visibility: "on",
+              },
+            ],
           },
           {
-            featureType: 'administrative',
-            elementType: 'labels.text.fill',
+            featureType: "administrative",
+            elementType: "labels.text.fill",
             stylers: [
               {
-                color: '#525b75'
-              }
-            ]
+                color: "#525b75",
+              },
+            ],
           },
           {
-            featureType: 'administrative',
-            elementType: 'labels.text.stroke',
+            featureType: "administrative",
+            elementType: "labels.text.stroke",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'administrative',
-            elementType: 'labels.icon',
+            featureType: "administrative",
+            elementType: "labels.icon",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'administrative.country',
-            elementType: 'geometry.stroke',
+            featureType: "administrative.country",
+            elementType: "geometry.stroke",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#ffffff'
-              }
-            ]
+                color: "#ffffff",
+              },
+            ],
           },
           {
-            featureType: 'administrative.province',
-            elementType: 'geometry.stroke',
+            featureType: "administrative.province",
+            elementType: "geometry.stroke",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'landscape',
-            elementType: 'geometry',
+            featureType: "landscape",
+            elementType: "geometry",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#E3E6ED'
-              }
-            ]
+                color: "#E3E6ED",
+              },
+            ],
           },
           {
-            featureType: 'landscape.natural',
-            elementType: 'labels',
+            featureType: "landscape.natural",
+            elementType: "labels",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'poi',
-            elementType: 'all',
+            featureType: "poi",
+            elementType: "all",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'road',
-            elementType: 'all',
+            featureType: "road",
+            elementType: "all",
             stylers: [
               {
-                color: '#eff2f6'
-              }
-            ]
+                color: "#eff2f6",
+              },
+            ],
           },
           {
-            featureType: 'road',
-            elementType: 'labels',
+            featureType: "road",
+            elementType: "labels",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'road.arterial',
-            elementType: 'all',
+            featureType: "road.arterial",
+            elementType: "all",
             stylers: [
               {
-                visibility: 'on'
-              }
-            ]
+                visibility: "on",
+              },
+            ],
           },
           {
-            featureType: 'road.arterial',
-            elementType: 'geometry',
+            featureType: "road.arterial",
+            elementType: "geometry",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#eff2f6'
-              }
-            ]
+                color: "#eff2f6",
+              },
+            ],
           },
           {
-            featureType: 'road.arterial',
-            elementType: 'labels.text.fill',
+            featureType: "road.arterial",
+            elementType: "labels.text.fill",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#9fa6bc'
-              }
-            ]
+                color: "#9fa6bc",
+              },
+            ],
           },
           {
-            featureType: 'road.arterial',
-            elementType: 'labels.text.stroke',
+            featureType: "road.arterial",
+            elementType: "labels.text.stroke",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'road.local',
-            elementType: 'geometry.fill',
+            featureType: "road.local",
+            elementType: "geometry.fill",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#eff2f6'
-              }
-            ]
+                color: "#eff2f6",
+              },
+            ],
           },
           {
-            featureType: 'road.local',
-            elementType: 'labels.text.fill',
+            featureType: "road.local",
+            elementType: "labels.text.fill",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#9fa6bc'
-              }
-            ]
+                color: "#9fa6bc",
+              },
+            ],
           },
           {
-            featureType: 'road.local',
-            elementType: 'labels.text.stroke',
+            featureType: "road.local",
+            elementType: "labels.text.stroke",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'transit',
-            elementType: 'labels.icon',
+            featureType: "transit",
+            elementType: "labels.icon",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'transit.line',
-            elementType: 'geometry',
+            featureType: "transit.line",
+            elementType: "geometry",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'transit.line',
-            elementType: 'labels.text',
+            featureType: "transit.line",
+            elementType: "labels.text",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'transit.station.airport',
-            elementType: 'geometry',
+            featureType: "transit.station.airport",
+            elementType: "geometry",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'transit.station.airport',
-            elementType: 'labels',
+            featureType: "transit.station.airport",
+            elementType: "labels",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'water',
-            elementType: 'geometry',
+            featureType: "water",
+            elementType: "geometry",
             stylers: [
               {
-                color: '#F5F7FA'
-              }
-            ]
+                color: "#F5F7FA",
+              },
+            ],
           },
           {
-            featureType: 'water',
-            elementType: 'labels',
+            featureType: "water",
+            elementType: "labels",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
-          }
+                visibility: "off",
+              },
+            ],
+          },
         ],
         SnazzyCustomDark: [
           {
-            featureType: 'administrative',
-            elementType: 'all',
+            featureType: "administrative",
+            elementType: "all",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'administrative',
-            elementType: 'labels',
-            stylers: [{ visibility: 'on' }]
+            featureType: "administrative",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }],
           },
           {
-            featureType: 'administrative',
-            elementType: 'labels.text.fill',
+            featureType: "administrative",
+            elementType: "labels.text.fill",
             stylers: [
               {
-                color: '#8a94ad'
-              }
-            ]
+                color: "#8a94ad",
+              },
+            ],
           },
           {
-            featureType: 'administrative',
-            elementType: 'labels.text.stroke',
+            featureType: "administrative",
+            elementType: "labels.text.stroke",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'administrative',
-            elementType: 'labels.icon',
+            featureType: "administrative",
+            elementType: "labels.icon",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'administrative.country',
-            elementType: 'geometry.stroke',
+            featureType: "administrative.country",
+            elementType: "geometry.stroke",
             stylers: [
-              { visibility: 'on' },
+              { visibility: "on" },
               {
-                color: '#000000'
-              }
-            ]
+                color: "#000000",
+              },
+            ],
           },
           {
-            featureType: 'administrative.province',
-            elementType: 'geometry.stroke',
-            stylers: [{ visibility: 'off' }]
+            featureType: "administrative.province",
+            elementType: "geometry.stroke",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'landscape',
-            elementType: 'geometry',
-            stylers: [{ visibility: 'on' }, { color: '#222834' }]
+            featureType: "landscape",
+            elementType: "geometry",
+            stylers: [{ visibility: "on" }, { color: "#222834" }],
           },
           {
-            featureType: 'landscape.natural',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }]
+            featureType: "landscape.natural",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'poi',
-            elementType: 'all',
-            stylers: [{ visibility: 'off' }]
+            featureType: "poi",
+            elementType: "all",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'road',
-            elementType: 'all',
-            stylers: [{ color: '#141824' }]
+            featureType: "road",
+            elementType: "all",
+            stylers: [{ color: "#141824" }],
           },
           {
-            featureType: 'road',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }]
+            featureType: "road",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'road.arterial',
-            elementType: 'all',
-            stylers: [
-              {
-                visibility: 'on'
-              }
-            ]
-          },
-          {
-            featureType: 'road.arterial',
-            elementType: 'geometry',
+            featureType: "road.arterial",
+            elementType: "all",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
+              },
+            ],
+          },
+          {
+            featureType: "road.arterial",
+            elementType: "geometry",
+            stylers: [
+              {
+                visibility: "on",
               },
               {
-                color: '#141824'
-              }
-            ]
+                color: "#141824",
+              },
+            ],
           },
           {
-            featureType: 'road.arterial',
-            elementType: 'labels.text.fill',
+            featureType: "road.arterial",
+            elementType: "labels.text.fill",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#525b75'
-              }
-            ]
+                color: "#525b75",
+              },
+            ],
           },
           {
-            featureType: 'road.arterial',
-            elementType: 'labels.text.stroke',
+            featureType: "road.arterial",
+            elementType: "labels.text.stroke",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'road.local',
-            elementType: 'geometry.fill',
+            featureType: "road.local",
+            elementType: "geometry.fill",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#141824'
-              }
-            ]
+                color: "#141824",
+              },
+            ],
           },
           {
-            featureType: 'road.local',
-            elementType: 'labels.text.fill',
+            featureType: "road.local",
+            elementType: "labels.text.fill",
             stylers: [
               {
-                visibility: 'on'
+                visibility: "on",
               },
               {
-                color: '#67718A'
-              }
-            ]
+                color: "#67718A",
+              },
+            ],
           },
           {
-            featureType: 'road.local',
-            elementType: 'labels.text.stroke',
+            featureType: "road.local",
+            elementType: "labels.text.stroke",
             stylers: [
               {
-                visibility: 'off'
-              }
-            ]
+                visibility: "off",
+              },
+            ],
           },
           {
-            featureType: 'transit',
-            elementType: 'labels.icon',
-            stylers: [{ visibility: 'off' }]
+            featureType: "transit",
+            elementType: "labels.icon",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'transit.line',
-            elementType: 'geometry',
-            stylers: [{ visibility: 'off' }]
+            featureType: "transit.line",
+            elementType: "geometry",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'transit.line',
-            elementType: 'labels.text',
-            stylers: [{ visibility: 'off' }]
+            featureType: "transit.line",
+            elementType: "labels.text",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'transit.station.airport',
-            elementType: 'geometry',
-            stylers: [{ visibility: 'off' }]
+            featureType: "transit.station.airport",
+            elementType: "geometry",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'transit.station.airport',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }]
+            featureType: "transit.station.airport",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }],
           },
           {
-            featureType: 'water',
-            elementType: 'geometry',
-            stylers: [{ color: '#0f111a' }]
+            featureType: "water",
+            elementType: "geometry",
+            stylers: [{ color: "#0f111a" }],
           },
           {
-            featureType: 'water',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }]
-          }
-        ]
+            featureType: "water",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }],
+          },
+        ],
       };
 
-      $googlemaps.forEach(itm => {
-        const latLng = getData(itm, 'latlng').split(',');
+      $googlemaps.forEach((itm) => {
+        const latLng = getData(itm, "latlng").split(",");
         const markerPopup = itm.innerHTML;
-        const zoom = getData(itm, 'zoom');
+        const zoom = getData(itm, "zoom");
         const mapElement = itm;
-        const mapStyle = getData(itm, 'phoenixTheme');
+        const mapStyle = getData(itm, "phoenixTheme");
 
-        if (getData(itm, 'phoenixTheme') === 'streetview') {
-          const pov = getData(itm, 'pov');
+        if (getData(itm, "phoenixTheme") === "streetview") {
+          const pov = getData(itm, "pov");
           const mapOptions = {
             position: { lat: Number(latLng[0]), lng: Number(latLng[1]) },
             pov,
             zoom,
-            gestureHandling: 'none',
-            scrollwheel: false
+            gestureHandling: "none",
+            scrollwheel: false,
           };
 
           return new window.google.maps.StreetViewPanorama(
@@ -2410,28 +2445,28 @@
           clickableIcons: false,
           zoomControl: false,
           zoomControlOptions: {
-            position: window.google.maps.ControlPosition.LEFT
+            position: window.google.maps.ControlPosition.LEFT,
           },
-          scrollwheel: getData(itm, 'scrollwheel'),
+          scrollwheel: getData(itm, "scrollwheel"),
           disableDefaultUI: true,
           center: new window.google.maps.LatLng(latLng[0], latLng[1]),
           styles:
-            window.config.config.phoenixTheme === 'dark'
+            window.config.config.phoenixTheme === "dark"
               ? mapStyles.SnazzyCustomDark
-              : mapStyles[mapStyle || 'SnazzyCustomLight']
+              : mapStyles[mapStyle || "SnazzyCustomLight"],
         };
 
         const map = new window.google.maps.Map(mapElement, mapOptions);
         const infoWindow = new window.google.maps.InfoWindow({
-          content: markerPopup
+          content: markerPopup,
         });
 
         // Create the DIV to hold the control.
-        const controlDiv = document.createElement('div');
-        controlDiv.classList.add('google-map-control-btn');
+        const controlDiv = document.createElement("div");
+        controlDiv.classList.add("google-map-control-btn");
         // Create the control.
-        const zoomInBtn = createControlBtn(map, 'zoomIn');
-        const zoomOutBtn = createControlBtn(map, 'zoomOut');
+        const zoomInBtn = createControlBtn(map, "zoomIn");
+        const zoomOutBtn = createControlBtn(map, "zoomOut");
         // Append the control to the DIV.
         controlDiv.appendChild(zoomInBtn);
         controlDiv.appendChild(zoomOutBtn);
@@ -2441,21 +2476,21 @@
         const marker = new window.google.maps.Marker({
           position: new window.google.maps.LatLng(latLng[0], latLng[1]),
           // icon,
-          map
+          map,
         });
 
-        marker.addListener('click', () => {
+        marker.addListener("click", () => {
           infoWindow.open(map, marker);
         });
 
         themeController &&
           themeController.addEventListener(
-            'clickControl',
+            "clickControl",
             ({ detail: { control, value } }) => {
-              if (control === 'phoenixTheme') {
+              if (control === "phoenixTheme") {
                 map.set(
-                  'styles',
-                  value === 'dark'
+                  "styles",
+                  value === "dark"
                     ? mapStyles.SnazzyCustomDark
                     : mapStyles.SnazzyCustomLight
                 );
@@ -2473,19 +2508,19 @@
   /* -------------------------------------------------------------------------- */
 
   const iconCopiedInit = () => {
-    const iconList = document.getElementById('icon-list');
-    const iconCopiedToast = document.getElementById('icon-copied-toast');
+    const iconList = document.getElementById("icon-list");
+    const iconCopiedToast = document.getElementById("icon-copied-toast");
     const iconCopiedToastInstance = new window.bootstrap.Toast(iconCopiedToast);
 
     if (iconList) {
-      iconList.addEventListener('click', e => {
+      iconList.addEventListener("click", (e) => {
         const el = e.target;
-        if (el.tagName === 'INPUT') {
+        if (el.tagName === "INPUT") {
           el.select();
           el.setSelectionRange(0, 99999);
-          document.execCommand('copy');
+          document.execCommand("copy");
           iconCopiedToast.querySelector(
-            '.toast-body'
+            ".toast-body"
           ).innerHTML = `<span class="fw-black">Copied:</span>  <code>${el.value}</code>`;
           iconCopiedToastInstance.show();
         }
@@ -2500,42 +2535,44 @@
   const isotopeInit = () => {
     const { getData } = window.phoenix.utils;
     const Selector = {
-      ISOTOPE_ITEM: '.isotope-item',
-      DATA_ISOTOPE: '[data-sl-isotope]',
-      DATA_FILTER: '[data-filter]',
-      DATA_FILER_NAV: '[data-filter-nav]',
-      DATA_GALLERY_COLUMN: '[data-gallery-column]'
+      ISOTOPE_ITEM: ".isotope-item",
+      DATA_ISOTOPE: "[data-sl-isotope]",
+      DATA_FILTER: "[data-filter]",
+      DATA_FILER_NAV: "[data-filter-nav]",
+      DATA_GALLERY_COLUMN: "[data-gallery-column]",
     };
 
     const DATA_KEY = {
-      ISOTOPE: 'sl-isotope'
+      ISOTOPE: "sl-isotope",
     };
     const ClassName = {
-      ACTIVE: 'active'
+      ACTIVE: "active",
     };
 
     if (window.Isotope) {
       const masonryItems = document.querySelectorAll(Selector.DATA_ISOTOPE);
-      const columnGallery = document.querySelector(Selector.DATA_GALLERY_COLUMN);
+      const columnGallery = document.querySelector(
+        Selector.DATA_GALLERY_COLUMN
+      );
       if (masonryItems.length) {
-        masonryItems.forEach(masonryItem => {
+        masonryItems.forEach((masonryItem) => {
           window.imagesLoaded(masonryItem, () => {
-            document.querySelectorAll(Selector.ISOTOPE_ITEM).forEach(item => {
+            document.querySelectorAll(Selector.ISOTOPE_ITEM).forEach((item) => {
               // eslint-disable-next-line no-param-reassign
-              item.style.visibility = 'visible';
+              item.style.visibility = "visible";
             });
 
             const userOptions = getData(masonryItem, DATA_KEY.ISOTOPE);
             const defaultOptions = {
               itemSelector: Selector.ISOTOPE_ITEM,
-              layoutMode: 'packery'
+              layoutMode: "packery",
             };
 
             const options = window._.merge(defaultOptions, userOptions);
             const isotope = new window.Isotope(masonryItem, options);
             const addSeparator = (count = 4) => {
               for (let i = 1; i < count; i += 1) {
-                const separator = document.createElement('span');
+                const separator = document.createElement("span");
                 separator.classList.add(
                   `gallery-column-separator`,
                   `gallery-column-separator-${i}`
@@ -2546,15 +2583,17 @@
             const removeSeparator = () => {
               document
                 .querySelectorAll('span[class*="gallery-column-separator-"]')
-                .forEach(separatorEle => separatorEle.remove());
+                .forEach((separatorEle) => separatorEle.remove());
             };
             if (columnGallery) addSeparator();
             // --------- filter -----------------
-            const filterElement = document.querySelector(Selector.DATA_FILER_NAV);
-            filterElement?.addEventListener('click', e => {
+            const filterElement = document.querySelector(
+              Selector.DATA_FILER_NAV
+            );
+            filterElement?.addEventListener("click", (e) => {
               const item = e.target.dataset.filter;
               isotope.arrange({ filter: item });
-              document.querySelectorAll(Selector.DATA_FILTER).forEach(el => {
+              document.querySelectorAll(Selector.DATA_FILTER).forEach((el) => {
                 el.classList.remove(ClassName.ACTIVE);
               });
               e.target.classList.add(ClassName.ACTIVE);
@@ -2587,27 +2626,27 @@
   /* eslint-disable no-param-reassign */
   const togglePaginationButtonDisable = (button, disabled) => {
     button.disabled = disabled;
-    button.classList[disabled ? 'add' : 'remove']('disabled');
+    button.classList[disabled ? "add" : "remove"]("disabled");
   };
 
   const listInit = () => {
     const { getData } = window.phoenix.utils;
     if (window.List) {
-      const lists = document.querySelectorAll('[data-list]');
+      const lists = document.querySelectorAll("[data-list]");
 
       if (lists.length) {
-        lists.forEach(el => {
-          const bulkSelect = el.querySelector('[data-bulk-select]');
+        lists.forEach((el) => {
+          const bulkSelect = el.querySelector("[data-bulk-select]");
 
-          let options = getData(el, 'list');
+          let options = getData(el, "list");
 
           if (options.pagination) {
             options = {
               ...options,
               pagination: {
                 item: `<li><button class='page' type='button'></button></li>`,
-                ...options.pagination
-              }
+                ...options.pagination,
+              },
             };
           }
 
@@ -2619,15 +2658,16 @@
           );
           const viewAll = el.querySelector('[data-list-view="*"]');
           const viewLess = el.querySelector('[data-list-view="less"]');
-          const listInfo = el.querySelector('[data-list-info]');
-          const listFilter = el.querySelector('[data-list-filter]');
+          const listInfo = el.querySelector("[data-list-info]");
+          const listFilter = el.querySelector("[data-list-filter]");
           const list = new List(el, options);
 
           // ---------------------------------------
 
           let totalItem = list.items.length;
           const itemsPerPage = list.page;
-          const btnDropdownClose = list.listContainer.querySelector('.btn-close');
+          const btnDropdownClose =
+            list.listContainer.querySelector(".btn-close");
           let pageQuantity = Math.ceil(list.size() / list.page);
           let pageCount = 1;
           let numberOfcurrentItems =
@@ -2635,8 +2675,8 @@
           let isSearching = false;
 
           btnDropdownClose &&
-            btnDropdownClose.addEventListener('search.close', () => {
-              list.fuzzySearch('');
+            btnDropdownClose.addEventListener("search.close", () => {
+              list.fuzzySearch("");
             });
 
           const updateListControls = () => {
@@ -2664,7 +2704,7 @@
           updateListControls();
 
           if (paginationButtonNext) {
-            paginationButtonNext.addEventListener('click', e => {
+            paginationButtonNext.addEventListener("click", (e) => {
               e.preventDefault();
               pageCount += 1;
               const nextInitialIndex = list.i + itemsPerPage;
@@ -2674,7 +2714,7 @@
           }
 
           if (paginationButtonPrev) {
-            paginationButtonPrev.addEventListener('click', e => {
+            paginationButtonPrev.addEventListener("click", (e) => {
               e.preventDefault();
               pageCount -= 1;
               const prevItem = list.i - itemsPerPage;
@@ -2683,19 +2723,19 @@
           }
 
           const toggleViewBtn = () => {
-            viewLess.classList.toggle('d-none');
-            viewAll.classList.toggle('d-none');
+            viewLess.classList.toggle("d-none");
+            viewAll.classList.toggle("d-none");
           };
 
           if (viewAll) {
-            viewAll.addEventListener('click', () => {
+            viewAll.addEventListener("click", () => {
               list.show(1, totalItem);
               pageCount = 1;
               toggleViewBtn();
             });
           }
           if (viewLess) {
-            viewLess.addEventListener('click', () => {
+            viewLess.addEventListener("click", () => {
               list.show(1, itemsPerPage);
               pageCount = 1;
               toggleViewBtn();
@@ -2703,9 +2743,9 @@
           }
           // numbering pagination
           if (options.pagination) {
-            el.querySelector('.pagination').addEventListener('click', e => {
-              if (e.target.classList[0] === 'page') {
-                const pageNum = Number(e.target.getAttribute('data-i'));
+            el.querySelector(".pagination").addEventListener("click", (e) => {
+              if (e.target.classList[0] === "page") {
+                const pageNum = Number(e.target.getAttribute("data-i"));
                 if (pageNum) {
                   list.show(itemsPerPage * (pageNum - 1) + 1, list.page);
                   pageCount = pageNum;
@@ -2716,9 +2756,9 @@
           // filter
           if (options.filter) {
             const { key } = options.filter;
-            listFilter.addEventListener('change', e => {
-              list.filter(item => {
-                if (e.target.value === '') {
+            listFilter.addEventListener("change", (e) => {
+              list.filter((item) => {
+                if (e.target.value === "") {
                   return true;
                 }
                 pageQuantity = Math.ceil(list.matchingItems.length / list.page);
@@ -2737,23 +2777,23 @@
             const bulkSelectInstance =
               window.phoenix.BulkSelect.getInstance(bulkSelect);
             bulkSelectInstance.attachRowNodes(
-              list.items.map(item =>
-                item.elm.querySelector('[data-bulk-select-row]')
+              list.items.map((item) =>
+                item.elm.querySelector("[data-bulk-select-row]")
               )
             );
 
-            bulkSelect.addEventListener('change', () => {
+            bulkSelect.addEventListener("change", () => {
               if (list) {
                 if (bulkSelect.checked) {
-                  list.items.forEach(item => {
+                  list.items.forEach((item) => {
                     item.elm.querySelector(
-                      '[data-bulk-select-row]'
+                      "[data-bulk-select-row]"
                     ).checked = true;
                   });
                 } else {
-                  list.items.forEach(item => {
+                  list.items.forEach((item) => {
                     item.elm.querySelector(
-                      '[data-bulk-select-row]'
+                      "[data-bulk-select-row]"
                     ).checked = false;
                   });
                 }
@@ -2761,14 +2801,14 @@
             });
           }
 
-          list.on('searchStart', () => {
+          list.on("searchStart", () => {
             isSearching = true;
           });
-          list.on('searchComplete', () => {
+          list.on("searchComplete", () => {
             isSearching = false;
           });
 
-          list.on('updated', item => {
+          list.on("updated", (item) => {
             if (!list.matchingItems.length) {
               pageQuantity = Math.ceil(list.size() / list.page);
             } else {
@@ -2793,24 +2833,24 @@
               updateListControls();
               listInfo &&
                 (listInfo.innerHTML = `${
-                list.matchingItems.length === 0 ? 0 : list.i
-              } to ${
-                list.matchingItems.length === 0 ? 0 : numberOfcurrentItems
-              } <span class='text-body-tertiary'> Items of </span>${
-                list.matchingItems.length
-              }`);
+                  list.matchingItems.length === 0 ? 0 : list.i
+                } to ${
+                  list.matchingItems.length === 0 ? 0 : numberOfcurrentItems
+                } <span class='text-body-tertiary'> Items of </span>${
+                  list.matchingItems.length
+                }`);
             }
 
             // -------fallback-----------
             const fallback =
-              el.querySelector('.fallback') ||
+              el.querySelector(".fallback") ||
               document.getElementById(options.fallback);
 
             if (fallback) {
               if (item.matchingItems.length === 0) {
-                fallback.classList.remove('d-none');
+                fallback.classList.remove("d-none");
               } else {
-                fallback.classList.add('d-none');
+                fallback.classList.add("d-none");
               }
             }
           });
@@ -2821,18 +2861,18 @@
 
   const lottieInit = () => {
     const { getData } = window.phoenix.utils;
-    const lotties = document.querySelectorAll('.lottie');
+    const lotties = document.querySelectorAll(".lottie");
     if (lotties.length) {
-      lotties.forEach(item => {
-        const options = getData(item, 'options');
+      lotties.forEach((item) => {
+        const options = getData(item, "options");
         window.bodymovin.loadAnimation({
           container: item,
-          path: '../img/animated-icons/warning-light.json',
-          renderer: 'svg',
+          path: "../img/animated-icons/warning-light.json",
+          renderer: "svg",
           loop: true,
           autoplay: true,
-          name: 'Hello World',
-          ...options
+          name: "Hello World",
+          ...options,
         });
       });
     }
@@ -2843,35 +2883,37 @@
   /* ----------------------------------------------------------------- */
 
   const modalInit = () => {
-    const $modals = document.querySelectorAll('[data-phoenix-modal]');
+    const $modals = document.querySelectorAll("[data-phoenix-modal]");
 
     if ($modals) {
       const { getData, getCookie, setCookie } = window.phoenix.utils;
-      $modals.forEach(modal => {
-        const userOptions = getData(modal, 'phoenix-modal');
+      $modals.forEach((modal) => {
+        const userOptions = getData(modal, "phoenix-modal");
         const defaultOptions = {
-          autoShow: false
+          autoShow: false,
         };
         const options = window._.merge(defaultOptions, userOptions);
         if (options.autoShow) {
           const autoShowModal = new window.bootstrap.Modal(modal);
           const disableModalBtn = modal.querySelector(
-            '[data-disable-modal-auto-show]'
+            "[data-disable-modal-auto-show]"
           );
 
-          disableModalBtn.addEventListener('click', () => {
+          disableModalBtn.addEventListener("click", () => {
             const seconds = 24 * 60 * 60;
-            setCookie('disableAutoShowModal', 'true', seconds);
+            setCookie("disableAutoShowModal", "true", seconds);
           });
 
-          const disableAutoShowModalCookie = getCookie('disableAutoShowModal');
+          const disableAutoShowModalCookie = getCookie("disableAutoShowModal");
           if (!disableAutoShowModalCookie) {
             autoShowModal.show();
           }
         } else {
-          modal.addEventListener('shown.bs.modal', () => {
-            const $autofocusEls = modal.querySelectorAll('[autofocus=autofocus]');
-            $autofocusEls.forEach(el => {
+          modal.addEventListener("shown.bs.modal", () => {
+            const $autofocusEls = modal.querySelectorAll(
+              "[autofocus=autofocus]"
+            );
+            $autofocusEls.forEach((el) => {
               el.focus();
             });
           });
@@ -2889,22 +2931,22 @@
       window.phoenix.utils;
 
     const Selector = {
-      NAVBAR_VERTICAL: '.navbar-vertical',
+      NAVBAR_VERTICAL: ".navbar-vertical",
       NAVBAR_TOP_COMBO: '[data-navbar-top="combo"]',
-      COLLAPSE: '.collapse',
-      DATA_MOVE_CONTAINER: '[data-move-container]',
-      NAVBAR_NAV: '.navbar-nav',
-      NAVBAR_VERTICAL_DIVIDER: '.navbar-vertical-divider'
+      COLLAPSE: ".collapse",
+      DATA_MOVE_CONTAINER: "[data-move-container]",
+      NAVBAR_NAV: ".navbar-nav",
+      NAVBAR_VERTICAL_DIVIDER: ".navbar-vertical-divider",
     };
 
     const ClassName = {
-      FLEX_COLUMN: 'flex-column'
+      FLEX_COLUMN: "flex-column",
     };
 
     const navbarVertical = document.querySelector(Selector.NAVBAR_VERTICAL);
     const navbarTopCombo = document.querySelector(Selector.NAVBAR_TOP_COMBO);
 
-    const moveNavContent = windowWidth => {
+    const moveNavContent = (windowWidth) => {
       const navbarVerticalBreakpoint = getBreakpoint(navbarVertical);
       const navbarTopBreakpoint = getBreakpoint(navbarTopCombo);
 
@@ -2913,12 +2955,12 @@
         const navbarTopContent = navbarCollapse.innerHTML;
 
         if (navbarTopContent) {
-          const targetID = getData(navbarTopCombo, 'move-target');
+          const targetID = getData(navbarTopCombo, "move-target");
           const targetElement = document.querySelector(targetID);
 
-          navbarCollapse.innerHTML = '';
+          navbarCollapse.innerHTML = "";
           targetElement.insertAdjacentHTML(
-            'afterend',
+            "afterend",
             `
             <div data-move-container class='move-container'>
               <div class='navbar-vertical-divider'>
@@ -2941,7 +2983,9 @@
           Selector.DATA_MOVE_CONTAINER
         );
         if (moveableContainer) {
-          const navbarNav = moveableContainer.querySelector(Selector.NAVBAR_NAV);
+          const navbarNav = moveableContainer.querySelector(
+            Selector.NAVBAR_NAV
+          );
           hasClass(navbarNav, ClassName.FLEX_COLUMN) &&
             navbarNav.classList.remove(ClassName.FLEX_COLUMN);
           moveableContainer
@@ -2960,20 +3004,20 @@
   };
 
   const navbarShadowOnScrollInit = () => {
-    const navbar = document.querySelector('[data-navbar-shadow-on-scroll]');
+    const navbar = document.querySelector("[data-navbar-shadow-on-scroll]");
     if (navbar) {
       window.onscroll = () => {
         if (window.scrollY > 300) {
-          navbar.classList.add('navbar-shadow');
+          navbar.classList.add("navbar-shadow");
         } else {
-          navbar.classList.remove('navbar-shadow');
+          navbar.classList.remove("navbar-shadow");
         }
       };
     }
   };
 
   const navbarInit = () => {
-    const navbar = document.querySelector('[data-navbar-soft-on-scroll]');
+    const navbar = document.querySelector("[data-navbar-soft-on-scroll]");
     if (navbar) {
       const windowHeight = window.innerHeight;
       const handleAlpha = () => {
@@ -2983,7 +3027,7 @@
         navbar.style.backgroundColor = `rgba(255, 255, 255, ${alpha})`;
       };
       handleAlpha();
-      document.addEventListener('scroll', () => handleAlpha());
+      document.addEventListener("scroll", () => handleAlpha());
     }
   };
 
@@ -2994,22 +3038,22 @@
   const handleNavbarVerticalCollapsed = () => {
     const { getItemFromStore, setItemToStore, resize } = window.phoenix.utils;
     const Selector = {
-      HTML: 'html',
-      BODY: 'body',
-      NAVBAR_VERTICAL: '.navbar-vertical',
-      NAVBAR_VERTICAL_TOGGLE: '.navbar-vertical-toggle',
-      NAVBAR_VERTICAL_COLLAPSE: '.navbar-vertical .navbar-collapse',
-      ACTIVE_NAV_LINK: '.navbar-vertical .nav-link.active'
+      HTML: "html",
+      BODY: "body",
+      NAVBAR_VERTICAL: ".navbar-vertical",
+      NAVBAR_VERTICAL_TOGGLE: ".navbar-vertical-toggle",
+      NAVBAR_VERTICAL_COLLAPSE: ".navbar-vertical .navbar-collapse",
+      ACTIVE_NAV_LINK: ".navbar-vertical .nav-link.active",
     };
 
     const Events = {
-      CLICK: 'click',
-      MOUSE_OVER: 'mouseover',
-      MOUSE_LEAVE: 'mouseleave',
-      NAVBAR_VERTICAL_TOGGLE: 'navbar.vertical.toggle'
+      CLICK: "click",
+      MOUSE_OVER: "mouseover",
+      MOUSE_LEAVE: "mouseleave",
+      NAVBAR_VERTICAL_TOGGLE: "navbar.vertical.toggle",
     };
     const ClassNames = {
-      NAVBAR_VERTICAL_COLLAPSED: 'navbar-vertical-collapsed'
+      NAVBAR_VERTICAL_COLLAPSED: "navbar-vertical-collapsed",
     };
     const navbarVerticalToggle = document.querySelector(
       Selector.NAVBAR_VERTICAL_TOGGLE
@@ -3020,9 +3064,9 @@
     );
     const activeNavLinkItem = document.querySelector(Selector.ACTIVE_NAV_LINK);
     if (navbarVerticalToggle) {
-      navbarVerticalToggle.addEventListener(Events.CLICK, e => {
+      navbarVerticalToggle.addEventListener(Events.CLICK, (e) => {
         const isNavbarVerticalCollapsed = getItemFromStore(
-          'phoenixIsNavbarVerticalCollapsed',
+          "phoenixIsNavbarVerticalCollapsed",
           false
         );
         navbarVerticalToggle.blur();
@@ -3032,7 +3076,7 @@
 
         // Set collapse state on localStorage
         setItemToStore(
-          'phoenixIsNavbarVerticalCollapsed',
+          "phoenixIsNavbarVerticalCollapsed",
           !isNavbarVerticalCollapsed
         );
 
@@ -3042,11 +3086,11 @@
     }
     if (navbarVerticalCollapse) {
       const isNavbarVerticalCollapsed = getItemFromStore(
-        'phoenixIsNavbarVerticalCollapsed',
+        "phoenixIsNavbarVerticalCollapsed",
         false
       );
       if (activeNavLinkItem && !isNavbarVerticalCollapsed) {
-        activeNavLinkItem.scrollIntoView({ behavior: 'smooth' });
+        activeNavLinkItem.scrollIntoView({ behavior: "smooth" });
       }
     }
     const setDocumentMinHeight = () => {
@@ -3063,7 +3107,7 @@
       ) {
         document.documentElement.style.minHeight = `${navbarVerticalHeight}px`;
       } else {
-        document.documentElement.removeAttribute('style');
+        document.documentElement.removeAttribute("style");
       }
     };
 
@@ -3073,7 +3117,7 @@
       setDocumentMinHeight();
     });
     if (navbarVerticalToggle) {
-      navbarVerticalToggle.addEventListener('navbar.vertical.toggle', () => {
+      navbarVerticalToggle.addEventListener("navbar.vertical.toggle", () => {
         setDocumentMinHeight();
       });
     }
@@ -3090,12 +3134,12 @@
       "[data-phoenix-toggle='offcanvas']"
     );
     const offcanvasBackdrops = document.querySelectorAll(
-      '[data-phoenix-backdrop]'
+      "[data-phoenix-backdrop]"
     );
-    const offcanvasBodyScroll = document.querySelector('[data-phoenix-scroll]');
-    const offcanvases = document.querySelectorAll('.phoenix-offcanvas');
-    const offcanvasFaq = document.querySelector('.faq');
-    const offcanvasFaqShow = document.querySelector('.faq-sidebar');
+    const offcanvasBodyScroll = document.querySelector("[data-phoenix-scroll]");
+    const offcanvases = document.querySelectorAll(".phoenix-offcanvas");
+    const offcanvasFaq = document.querySelector(".faq");
+    const offcanvasFaqShow = document.querySelector(".faq-sidebar");
 
     if (offcanvases) {
       const breakpoints = {
@@ -3103,53 +3147,53 @@
         md: 768,
         lg: 992,
         xl: 1200,
-        xxl: 1540
+        xxl: 1540,
       };
 
-      window.addEventListener('resize', () => {
-        offcanvases.forEach(offcanvas => {
+      window.addEventListener("resize", () => {
+        offcanvases.forEach((offcanvas) => {
           const offcanvasInstance = new window.bootstrap.Offcanvas(offcanvas);
-          const breakpoint = offcanvas.getAttribute('data-breakpoint');
+          const breakpoint = offcanvas.getAttribute("data-breakpoint");
           const breakpointValue = breakpoints[breakpoint];
           if (window.innerWidth >= breakpointValue) {
-            document.body.style.overflow = '';
+            document.body.style.overflow = "";
             offcanvasInstance.hide();
           }
         });
       });
     }
 
-    const showFilterCol = offcanvasEl => {
-      offcanvasEl.classList.add('show');
+    const showFilterCol = (offcanvasEl) => {
+      offcanvasEl.classList.add("show");
       if (!offcanvasBodyScroll) {
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow = "hidden";
       }
     };
-    const hideFilterCol = offcanvasEl => {
-      offcanvasEl.classList.remove('show');
-      document.body.style.removeProperty('overflow');
+    const hideFilterCol = (offcanvasEl) => {
+      offcanvasEl.classList.remove("show");
+      document.body.style.removeProperty("overflow");
     };
 
     if (toggleEls) {
-      toggleEls.forEach(toggleEl => {
-        const offcanvasTarget = getData(toggleEl, 'phoenix-target');
+      toggleEls.forEach((toggleEl) => {
+        const offcanvasTarget = getData(toggleEl, "phoenix-target");
         const offcanvasTargetEl = document.querySelector(offcanvasTarget);
         const closeBtn = offcanvasTargetEl.querySelectorAll(
           "[data-phoenix-dismiss='offcanvas']"
         );
-        toggleEl.addEventListener('click', () => {
+        toggleEl.addEventListener("click", () => {
           showFilterCol(offcanvasTargetEl);
         });
         if (closeBtn) {
-          closeBtn.forEach(el => {
-            el.addEventListener('click', () => {
+          closeBtn.forEach((el) => {
+            el.addEventListener("click", () => {
               hideFilterCol(offcanvasTargetEl);
             });
           });
         }
         if (offcanvasBackdrops) {
-          offcanvasBackdrops.forEach(offcanvasBackdrop => {
-            offcanvasBackdrop.addEventListener('click', () => {
+          offcanvasBackdrops.forEach((offcanvasBackdrop) => {
+            offcanvasBackdrop.addEventListener("click", () => {
               hideFilterCol(offcanvasTargetEl);
             });
           });
@@ -3158,8 +3202,8 @@
     }
 
     if (offcanvasFaq) {
-      if (offcanvasFaqShow.classList.contains('show')) {
-        offcanvasFaq.classList.add = 'newFaq';
+      if (offcanvasFaqShow.classList.contains("show")) {
+        offcanvasFaq.classList.add = "newFaq";
       }
     }
   };
@@ -3171,28 +3215,28 @@
   const picmoInit = () => {
     const { getData } = window.phoenix.utils;
 
-    const picmoBtns = document.querySelectorAll('[data-picmo]');
+    const picmoBtns = document.querySelectorAll("[data-picmo]");
 
     if (picmoBtns) {
-      Array.from(picmoBtns).forEach(btn => {
-        const options = getData(btn, 'picmo');
+      Array.from(picmoBtns).forEach((btn) => {
+        const options = getData(btn, "picmo");
 
         const picker = window.picmoPopup.createPopup(
           {},
           {
             referenceElement: btn,
             triggerElement: btn,
-            position: 'bottom-start',
-            showCloseButton: false
+            position: "bottom-start",
+            showCloseButton: false,
           }
         );
-        btn.addEventListener('click', () => {
+        btn.addEventListener("click", () => {
           picker.toggle();
         });
 
         const input = document.querySelector(options.inputTarget);
 
-        picker.addEventListener('emoji:select', selection => {
+        picker.addEventListener("emoji:select", (selection) => {
           if (input) {
             input.innerHTML += selection.emoji;
           }
@@ -3210,7 +3254,7 @@
       document.querySelectorAll('[data-bs-toggle="popover"]')
     );
 
-    popoverTriggerList.map(popoverTriggerEl => {
+    popoverTriggerList.map((popoverTriggerEl) => {
       return new bootstrap.Popover(popoverTriggerEl);
     });
   };
@@ -3225,41 +3269,39 @@
       window.innerWidth < 768 ||
       (window.innerWidth >= 992 && window.innerWidth < 1200)
     ) {
-      return 'horizontal';
+      return "horizontal";
     }
-    return 'vertical';
+    return "vertical";
   };
 
   const productDetailsInit = () => {
     const { getData, resize } = window.phoenix.utils;
-    const productDetailsEl = document.querySelector('[data-product-details]');
+    const productDetailsEl = document.querySelector("[data-product-details]");
     if (productDetailsEl) {
       const colorVariantEl = productDetailsEl.querySelector(
-        '[data-product-color]'
+        "[data-product-color]"
       );
-      productDetailsEl.querySelector(
-        '[data-product-quantity]'
-      );
+      productDetailsEl.querySelector("[data-product-quantity]");
       const productQuantityInputEl = productDetailsEl.querySelector(
         '[data-quantity] input[type="number"]'
       );
       const productColorVariantConatiner = productDetailsEl.querySelector(
-        '[data-product-color-variants]'
+        "[data-product-color-variants]"
       );
 
-      const swiperInit = productImages => {
+      const swiperInit = (productImages) => {
         const productSwiper = productDetailsEl.querySelector(
-          '[data-products-swiper]'
+          "[data-products-swiper]"
         );
 
-        const options = getData(productSwiper, 'swiper');
+        const options = getData(productSwiper, "swiper");
 
-        const thumbTarget = getData(productSwiper, 'thumb-target');
+        const thumbTarget = getData(productSwiper, "thumb-target");
 
         const thumbEl = document.getElementById(thumbTarget);
 
-        let slides = '';
-        productImages.forEach(img => {
+        let slides = "";
+        productImages.forEach((img) => {
           slides += `
           <div class='swiper-slide '>
             <img class='w-100' src=${img} alt="">
@@ -3268,8 +3310,8 @@
         });
         productSwiper.innerHTML = `<div class='swiper-wrapper'>${slides}</div>`;
 
-        let thumbSlides = '';
-        productImages.forEach(img => {
+        let thumbSlides = "";
+        productImages.forEach((img) => {
           thumbSlides += `
           <div class='swiper-slide '>
             <div class="product-thumb-container p-2 p-sm-3 p-xl-2">
@@ -3286,15 +3328,15 @@
           direction: getThubmnailDirection(),
           breakpoints: {
             768: {
-              spaceBetween: 100
+              spaceBetween: 100,
             },
             992: {
-              spaceBetween: 16
-            }
-          }
+              spaceBetween: 16,
+            },
+          },
         });
 
-        const swiperNav = productSwiper.querySelector('.swiper-nav');
+        const swiperNav = productSwiper.querySelector(".swiper-nav");
 
         resize(() => {
           thumbSwiper.changeDirection(getThubmnailDirection());
@@ -3303,36 +3345,36 @@
         new Swiper(productSwiper, {
           ...options,
           navigation: {
-            nextEl: swiperNav?.querySelector('.swiper-button-next'),
-            prevEl: swiperNav?.querySelector('.swiper-button-prev')
+            nextEl: swiperNav?.querySelector(".swiper-button-next"),
+            prevEl: swiperNav?.querySelector(".swiper-button-prev"),
           },
           thumbs: {
-            swiper: thumbSwiper
-          }
+            swiper: thumbSwiper,
+          },
         });
       };
 
       const colorVariants =
-        productColorVariantConatiner.querySelectorAll('[data-variant]');
+        productColorVariantConatiner.querySelectorAll("[data-variant]");
 
-      colorVariants.forEach(variant => {
-        if (variant.classList.contains('active')) {
-          swiperInit(getData(variant, 'products-images'));
-          colorVariantEl.innerHTML = getData(variant, 'variant');
+      colorVariants.forEach((variant) => {
+        if (variant.classList.contains("active")) {
+          swiperInit(getData(variant, "products-images"));
+          colorVariantEl.innerHTML = getData(variant, "variant");
         }
-        const productImages = getData(variant, 'products-images');
+        const productImages = getData(variant, "products-images");
 
-        variant.addEventListener('click', () => {
+        variant.addEventListener("click", () => {
           swiperInit(productImages);
-          colorVariants.forEach(colorVariant => {
-            colorVariant.classList.remove('active');
+          colorVariants.forEach((colorVariant) => {
+            colorVariant.classList.remove("active");
           });
-          variant.classList.add('active');
-          colorVariantEl.innerHTML = getData(variant, 'variant');
+          variant.classList.add("active");
+          colorVariantEl.innerHTML = getData(variant, "variant");
         });
       });
-      productQuantityInputEl.addEventListener('change', e => {
-        if (e.target.value == '') {
+      productQuantityInputEl.addEventListener("change", (e) => {
+        if (e.target.value == "") {
           e.target.value = 0;
         }
       });
@@ -3345,27 +3387,27 @@
   const quantityInit = () => {
     const { getData } = window.phoenix.utils;
     const Selector = {
-      DATA_QUANTITY_BTN: '[data-quantity] [data-type]',
-      DATA_QUANTITY: '[data-quantity]',
-      DATA_QUANTITY_INPUT: '[data-quantity] input[type="number"]'
+      DATA_QUANTITY_BTN: "[data-quantity] [data-type]",
+      DATA_QUANTITY: "[data-quantity]",
+      DATA_QUANTITY_INPUT: '[data-quantity] input[type="number"]',
     };
 
     const Events = {
-      CLICK: 'click'
+      CLICK: "click",
     };
 
     const Attributes = {
-      MIN: 'min'
+      MIN: "min",
     };
 
     const DataKey = {
-      TYPE: 'type'
+      TYPE: "type",
     };
 
     const quantities = document.querySelectorAll(Selector.DATA_QUANTITY_BTN);
 
-    quantities.forEach(quantity => {
-      quantity.addEventListener(Events.CLICK, e => {
+    quantities.forEach((quantity) => {
+      quantity.addEventListener(Events.CLICK, (e) => {
         const el = e.currentTarget;
         const type = getData(el, DataKey.TYPE);
         const numberInput = el
@@ -3375,7 +3417,7 @@
         const min = numberInput.getAttribute(Attributes.MIN);
         let value = parseInt(numberInput.value, 10);
 
-        if (type === 'plus') {
+        if (type === "plus") {
           value += 1;
         } else {
           value = value > min ? (value -= 1) : value;
@@ -3392,30 +3434,32 @@
   const randomColorInit = () => {
     const { getData } = window.phoenix.utils;
 
-    const randomColorElements = document.querySelectorAll('[data-random-color]');
+    const randomColorElements = document.querySelectorAll(
+      "[data-random-color]"
+    );
     const defaultColors = [
-      '#85A9FF',
-      '#60C6FF',
-      '#90D67F',
-      '#F48270',
-      '#3874FF',
-      '#0097EB',
-      '#25B003',
-      '#EC1F00',
-      '#E5780B',
-      '#004DFF',
-      '#0080C7',
-      '#23890B',
-      '#CC1B00',
-      '#D6700A',
-      '#222834',
-      '#3E465B',
-      '#6E7891',
-      '#9FA6BC'
+      "#85A9FF",
+      "#60C6FF",
+      "#90D67F",
+      "#F48270",
+      "#3874FF",
+      "#0097EB",
+      "#25B003",
+      "#EC1F00",
+      "#E5780B",
+      "#004DFF",
+      "#0080C7",
+      "#23890B",
+      "#CC1B00",
+      "#D6700A",
+      "#222834",
+      "#3E465B",
+      "#6E7891",
+      "#9FA6BC",
     ];
 
-    randomColorElements.forEach(el => {
-      const userColors = getData(el, 'random-color');
+    randomColorElements.forEach((el) => {
+      const userColors = getData(el, "random-color");
       let colors;
       if (Array.isArray(userColors)) {
         colors = [...defaultColors, ...userColors];
@@ -3423,7 +3467,7 @@
         colors = [...defaultColors];
       }
 
-      el.addEventListener('click', e => {
+      el.addEventListener("click", (e) => {
         const randomColor =
           colors[Math.floor(Math.random() * (colors.length - 1))];
         e.target.value = randomColor;
@@ -3442,11 +3486,11 @@
 
   const ratingInit = () => {
     const { getData, getItemFromStore } = window.phoenix.utils;
-    const raters = document.querySelectorAll('[data-rater]');
+    const raters = document.querySelectorAll("[data-rater]");
 
-    raters.forEach(rater => {
+    raters.forEach((rater) => {
       const options = {
-        reverse: getItemFromStore('phoenixIsRTL'),
+        reverse: getItemFromStore("phoenixIsRTL"),
         starSize: 32,
         step: 0.5,
         element: rater,
@@ -3454,7 +3498,7 @@
           this.setRating(rating);
           done();
         },
-        ...getData(rater, 'rater')
+        ...getData(rater, "rater"),
       };
 
       return window.raterJs(options);
@@ -3469,11 +3513,11 @@
   const responsiveNavItemsInit = () => {
     const { resize } = window.phoenix.utils;
     const Selector = {
-      NAV_ITEM: '[data-nav-item]',
-      NAVBAR: '[data-navbar]',
-      DROPDOWN: '[data-more-item]',
-      CATEGORY_LIST: '[data-category-list]',
-      CATEGORY_BUTTON: '[data-category-btn]'
+      NAV_ITEM: "[data-nav-item]",
+      NAVBAR: "[data-navbar]",
+      DROPDOWN: "[data-more-item]",
+      CATEGORY_LIST: "[data-category-list]",
+      CATEGORY_BUTTON: "[data-category-btn]",
     };
 
     const navbarEl = document.querySelector(Selector.NAVBAR);
@@ -3488,9 +3532,9 @@
       const categoryBtnWidth = categoryBtn?.clientWidth;
 
       let totalItemsWidth = 0;
-      dropdown.style.display = 'none';
+      dropdown.style.display = "none";
 
-      elements.forEach(item => {
+      elements.forEach((item) => {
         const itemWidth = item.clientWidth;
 
         totalItemsWidth = totalItemsWidth + itemWidth;
@@ -3498,26 +3542,28 @@
         if (
           totalItemsWidth + (categoryBtnWidth || 0) + dropdownWidth >
             navbarContainerWidth &&
-          !item.classList.contains('dropdown')
+          !item.classList.contains("dropdown")
         ) {
-          dropdown.style.display = 'block';
-          item.style.display = 'none';
+          dropdown.style.display = "block";
+          item.style.display = "none";
           const link = item.firstChild;
           const linkItem = link.cloneNode(true);
 
-          navbarEl.querySelector('.category-list').appendChild(linkItem);
+          navbarEl.querySelector(".category-list").appendChild(linkItem);
         }
       });
-      const dropdownMenu = navbarEl.querySelectorAll('.dropdown-menu .nav-link');
+      const dropdownMenu = navbarEl.querySelectorAll(
+        ".dropdown-menu .nav-link"
+      );
 
-      dropdownMenu.forEach(item => {
-        item.classList.remove('nav-link');
-        item.classList.add('dropdown-item');
+      dropdownMenu.forEach((item) => {
+        item.classList.remove("nav-link");
+        item.classList.add("dropdown-item");
       });
     };
 
     if (navbarEl) {
-      window.addEventListener('load', () => {
+      window.addEventListener("load", () => {
         navbar();
         // hideDropdown();
       });
@@ -3526,20 +3572,20 @@
         const navElements = navbarEl.querySelectorAll(Selector.NAV_ITEM);
         const dropElements = navbarEl.querySelectorAll(Selector.CATEGORY_LIST);
 
-        navElements.forEach(item => item.removeAttribute('style'));
-        dropElements.forEach(item => (item.innerHTML = ''));
+        navElements.forEach((item) => item.removeAttribute("style"));
+        dropElements.forEach((item) => (item.innerHTML = ""));
         navbar();
         // hideDropdown();
       });
 
-      const navbarLinks = navbarEl.querySelectorAll('.nav-link');
+      const navbarLinks = navbarEl.querySelectorAll(".nav-link");
 
-      navbarEl.addEventListener('click', function (e) {
+      navbarEl.addEventListener("click", function (e) {
         for (let x = 0; x < navbarLinks.length; x++) {
-          navbarLinks[x].classList.remove('active');
+          navbarLinks[x].classList.remove("active");
         }
-        if (e.target.closest('li')) {
-          e.target.closest('li').classList.add('active');
+        if (e.target.closest("li")) {
+          e.target.closest("li").classList.add("active");
         }
       });
     }
@@ -3549,33 +3595,33 @@
     const Selectors = {
       SEARCH_DISMISS: '[data-bs-dismiss="search"]',
       DROPDOWN_TOGGLE: '[data-bs-toggle="dropdown"]',
-      DROPDOWN_MENU: '.dropdown-menu',
-      SEARCH_BOX: '.search-box',
-      SEARCH_INPUT: '.search-input',
-      SEARCH_TOGGLE: '[data-bs-toggle="search"]'
+      DROPDOWN_MENU: ".dropdown-menu",
+      SEARCH_BOX: ".search-box",
+      SEARCH_INPUT: ".search-input",
+      SEARCH_TOGGLE: '[data-bs-toggle="search"]',
     };
 
     const ClassName = {
-      SHOW: 'show'
+      SHOW: "show",
     };
 
     const Attribute = {
-      ARIA_EXPANDED: 'aria-expanded'
+      ARIA_EXPANDED: "aria-expanded",
     };
 
     const Events = {
-      CLICK: 'click',
-      FOCUS: 'focus',
-      SHOW_BS_DROPDOWN: 'show.bs.dropdown',
-      SEARCH_CLOSE: 'search.close'
+      CLICK: "click",
+      FOCUS: "focus",
+      SHOW_BS_DROPDOWN: "show.bs.dropdown",
+      SEARCH_CLOSE: "search.close",
     };
 
-    const hideSearchSuggestion = searchArea => {
+    const hideSearchSuggestion = (searchArea) => {
       const el = searchArea.querySelector(Selectors.SEARCH_TOGGLE);
       const dropdownMenu = searchArea.querySelector(Selectors.DROPDOWN_MENU);
       if (!el || !dropdownMenu) return;
 
-      el.setAttribute(Attribute.ARIA_EXPANDED, 'false');
+      el.setAttribute(Attribute.ARIA_EXPANDED, "false");
       el.classList.remove(ClassName.SHOW);
       dropdownMenu.classList.remove(ClassName.SHOW);
     };
@@ -3586,9 +3632,11 @@
       searchAreas.forEach(hideSearchSuggestion);
     };
 
-    searchAreas.forEach(searchArea => {
+    searchAreas.forEach((searchArea) => {
       const input = searchArea.querySelector(Selectors.SEARCH_INPUT);
-      const btnDropdownClose = searchArea.querySelector(Selectors.SEARCH_DISMISS);
+      const btnDropdownClose = searchArea.querySelector(
+        Selectors.SEARCH_DISMISS
+      );
       const dropdownMenu = searchArea.querySelector(Selectors.DROPDOWN_MENU);
 
       if (input) {
@@ -3596,7 +3644,7 @@
           hideAllSearchAreas();
           const el = searchArea.querySelector(Selectors.SEARCH_TOGGLE);
           if (!el || !dropdownMenu) return;
-          el.setAttribute(Attribute.ARIA_EXPANDED, 'true');
+          el.setAttribute(Attribute.ARIA_EXPANDED, "true");
           el.classList.add(ClassName.SHOW);
           dropdownMenu.classList.add(ClassName.SHOW);
         });
@@ -3607,15 +3655,15 @@
       });
 
       btnDropdownClose &&
-        btnDropdownClose.addEventListener(Events.CLICK, e => {
+        btnDropdownClose.addEventListener(Events.CLICK, (e) => {
           hideSearchSuggestion(searchArea);
-          input.value = '';
+          input.value = "";
           const event = new CustomEvent(Events.SEARCH_CLOSE);
           e.currentTarget.dispatchEvent(event);
         });
     });
 
-    document.querySelectorAll(Selectors.DROPDOWN_TOGGLE).forEach(dropdown => {
+    document.querySelectorAll(Selectors.DROPDOWN_TOGGLE).forEach((dropdown) => {
       dropdown.addEventListener(Events.SHOW_BS_DROPDOWN, () => {
         hideAllSearchAreas();
       });
@@ -3627,9 +3675,11 @@
   /* -------------------------------------------------------------------------- */
 
   const simplebarInit = () => {
-    const scrollEl = Array.from(document.querySelectorAll('.scrollbar-overlay'));
+    const scrollEl = Array.from(
+      document.querySelectorAll(".scrollbar-overlay")
+    );
 
-    scrollEl.forEach(el => {
+    scrollEl.forEach((el) => {
       return new window.SimpleBar(el);
     });
   };
@@ -3641,26 +3691,26 @@
   const sortableInit = () => {
     const { getData } = window.phoenix.utils;
 
-    const sortableEl = document.querySelectorAll('[data-sortable]');
+    const sortableEl = document.querySelectorAll("[data-sortable]");
 
     const defaultOptions = {
       animation: 150,
       group: {
-        name: 'shared'
+        name: "shared",
       },
       delay: 100,
       delayOnTouchOnly: true, // useful for mobile touch
       forceFallback: true, // * ignore the HTML5 DnD behaviour
       onStart() {
-        document.body.classList.add('sortable-dragging'); // to add cursor grabbing
+        document.body.classList.add("sortable-dragging"); // to add cursor grabbing
       },
       onEnd() {
-        document.body.classList.remove('sortable-dragging');
-      }
+        document.body.classList.remove("sortable-dragging");
+      },
     };
 
-    sortableEl.forEach(el => {
-      const userOptions = getData(el, 'sortable');
+    sortableEl.forEach((el) => {
+      const userOptions = getData(el, "sortable");
       const options = window._.merge(defaultOptions, userOptions);
 
       return window.Sortable.create(el, options);
@@ -3668,26 +3718,26 @@
   };
 
   const supportChatInit = () => {
-    const supportChat = document.querySelector('.support-chat');
-    const supportChatBtn = document.querySelectorAll('.btn-support-chat');
+    const supportChat = document.querySelector(".support-chat");
+    const supportChatBtn = document.querySelectorAll(".btn-support-chat");
     const supportChatcontainer = document.querySelector(
-      '.support-chat-container'
+      ".support-chat-container"
     );
     const { phoenixSupportChat } = window.config.config;
 
     if (phoenixSupportChat) {
-      supportChatcontainer?.classList.add('show');
+      supportChatcontainer?.classList.add("show");
     }
     if (supportChatBtn) {
-      supportChatBtn.forEach(item => {
-        item.addEventListener('click', () => {
-          supportChat.classList.toggle('show-chat');
+      supportChatBtn.forEach((item) => {
+        item.addEventListener("click", () => {
+          supportChat.classList.toggle("show-chat");
 
           supportChatBtn[supportChatBtn.length - 1].classList.toggle(
-            'btn-chat-close'
+            "btn-chat-close"
           );
 
-          supportChatcontainer.classList.add('show');
+          supportChatcontainer.classList.add("show");
         });
       });
     }
@@ -3700,17 +3750,19 @@
 
   const swiperInit = () => {
     const { getData } = window.phoenix.utils;
-    const swiperContainers = document.querySelectorAll('.swiper-theme-container');
+    const swiperContainers = document.querySelectorAll(
+      ".swiper-theme-container"
+    );
     if (swiperContainers) {
-      swiperContainers.forEach(swiperContainer => {
-        const swiper = swiperContainer.querySelector('[data-swiper]');
-        const options = getData(swiper, 'swiper');
+      swiperContainers.forEach((swiperContainer) => {
+        const swiper = swiperContainer.querySelector("[data-swiper]");
+        const options = getData(swiper, "swiper");
         const thumbsOptions = options.thumb;
         let thumbsInit;
         if (thumbsOptions) {
-          const thumbImages = swiper.querySelectorAll('img');
-          let slides = '';
-          thumbImages.forEach(img => {
+          const thumbImages = swiper.querySelectorAll("img");
+          let slides = "";
+          thumbImages.forEach((img) => {
             slides += `
           <div class='swiper-slide'>
             <img class='img-fluid rounded mt-2' src=${img.src} alt=''/>
@@ -3718,8 +3770,8 @@
         `;
           });
 
-          const thumbs = document.createElement('div');
-          thumbs.setAttribute('class', 'swiper thumb');
+          const thumbs = document.createElement("div");
+          thumbs.setAttribute("class", "swiper thumb");
           thumbs.innerHTML = `<div class='swiper-wrapper'>${slides}</div>`;
 
           if (thumbsOptions.parent) {
@@ -3731,20 +3783,20 @@
 
           thumbsInit = new window.Swiper(thumbs, thumbsOptions);
         }
-        const swiperNav = swiperContainer.querySelector('.swiper-nav');
+        const swiperNav = swiperContainer.querySelector(".swiper-nav");
         new window.Swiper(swiper, {
           ...options,
           navigation: {
-            nextEl: swiperNav?.querySelector('.swiper-button-next'),
-            prevEl: swiperNav?.querySelector('.swiper-button-prev')
+            nextEl: swiperNav?.querySelector(".swiper-button-next"),
+            prevEl: swiperNav?.querySelector(".swiper-button-prev"),
           },
           thumbs: {
-            swiper: thumbsInit
-          }
+            swiper: thumbsInit,
+          },
         });
-        const gallerySlider = document.querySelector('.swiper-slider-gallery');
+        const gallerySlider = document.querySelector(".swiper-slider-gallery");
         if (gallerySlider) {
-          window.addEventListener('resize', () => {
+          window.addEventListener("resize", () => {
             thumbsInit.update();
           });
         }
@@ -3759,137 +3811,139 @@
   /* eslint-disable */
   const { config } = window.config;
 
-  const initialDomSetup = element => {
+  const initialDomSetup = (element) => {
     const { getData, getItemFromStore, getSystemTheme } = window.phoenix.utils;
     if (!element) return;
 
-    element.querySelectorAll('[data-theme-control]').forEach(el => {
-      const inputDataAttributeValue = getData(el, 'theme-control');
+    element.querySelectorAll("[data-theme-control]").forEach((el) => {
+      const inputDataAttributeValue = getData(el, "theme-control");
       const localStorageValue = getItemFromStore(inputDataAttributeValue);
 
       // diable horizontal navbar shape for dual nav
       if (
-        inputDataAttributeValue === 'phoenixNavbarTopShape' &&
-        getItemFromStore('phoenixNavbarPosition') === 'dual-nav'
+        inputDataAttributeValue === "phoenixNavbarTopShape" &&
+        getItemFromStore("phoenixNavbarPosition") === "dual-nav"
       ) {
-        el.setAttribute('disabled', true);
+        el.setAttribute("disabled", true);
       }
 
       // diable navbar vertical style for horizontal & dual navbar
-      const currentNavbarPosition = getItemFromStore('phoenixNavbarPosition');
+      const currentNavbarPosition = getItemFromStore("phoenixNavbarPosition");
       const isHorizontalOrDualNav =
-        currentNavbarPosition === 'horizontal' ||
-        currentNavbarPosition === 'dual-nav';
+        currentNavbarPosition === "horizontal" ||
+        currentNavbarPosition === "dual-nav";
       if (
-        inputDataAttributeValue === 'phoenixNavbarVerticalStyle' &&
+        inputDataAttributeValue === "phoenixNavbarVerticalStyle" &&
         isHorizontalOrDualNav
       ) {
-        el.setAttribute('disabled', true);
+        el.setAttribute("disabled", true);
       }
 
-      if (el.type === 'checkbox') {
-        if (inputDataAttributeValue === 'phoenixTheme') {
+      if (el.type === "checkbox") {
+        if (inputDataAttributeValue === "phoenixTheme") {
           if (
-            localStorageValue === 'auto'
-              ? getSystemTheme() === 'dark'
-              : localStorageValue === 'dark'
+            localStorageValue === "auto"
+              ? getSystemTheme() === "dark"
+              : localStorageValue === "dark"
           ) {
-            el.setAttribute('checked', true);
+            el.setAttribute("checked", true);
           }
         } else {
-          localStorageValue && el.setAttribute('checked', true);
+          localStorageValue && el.setAttribute("checked", true);
         }
       } else if (
-        el.type === 'radio' &&
-        inputDataAttributeValue === 'phoenixNavbarVerticalStyle'
+        el.type === "radio" &&
+        inputDataAttributeValue === "phoenixNavbarVerticalStyle"
       ) {
-        localStorageValue === 'darker' &&
-          el.value === 'darker' &&
-          el.setAttribute('checked', true);
-        localStorageValue === 'default' &&
-          el.value === 'default' &&
-          el.setAttribute('checked', true);
+        localStorageValue === "darker" &&
+          el.value === "darker" &&
+          el.setAttribute("checked", true);
+        localStorageValue === "default" &&
+          el.value === "default" &&
+          el.setAttribute("checked", true);
       } else if (
-        el.type === 'radio' &&
-        inputDataAttributeValue === 'phoenixNavbarTopShape'
+        el.type === "radio" &&
+        inputDataAttributeValue === "phoenixNavbarTopShape"
       ) {
-        localStorageValue === 'slim' &&
-          el.value === 'slim' &&
-          el.setAttribute('checked', true);
-        localStorageValue === 'default' &&
-          el.value === 'default' &&
-          el.setAttribute('checked', true);
+        localStorageValue === "slim" &&
+          el.value === "slim" &&
+          el.setAttribute("checked", true);
+        localStorageValue === "default" &&
+          el.value === "default" &&
+          el.setAttribute("checked", true);
       } else if (
-        el.type === 'radio' &&
-        inputDataAttributeValue === 'phoenixNavbarTopStyle'
+        el.type === "radio" &&
+        inputDataAttributeValue === "phoenixNavbarTopStyle"
       ) {
-        localStorageValue === 'darker' &&
-          el.value === 'darker' &&
-          el.setAttribute('checked', true);
-        localStorageValue === 'default' &&
-          el.value === 'default' &&
-          el.setAttribute('checked', true);
+        localStorageValue === "darker" &&
+          el.value === "darker" &&
+          el.setAttribute("checked", true);
+        localStorageValue === "default" &&
+          el.value === "default" &&
+          el.setAttribute("checked", true);
       } else if (
-        el.type === 'radio' &&
-        inputDataAttributeValue === 'phoenixTheme'
+        el.type === "radio" &&
+        inputDataAttributeValue === "phoenixTheme"
       ) {
         const isChecked = localStorageValue === el.value;
-        isChecked && el.setAttribute('checked', true);
+        isChecked && el.setAttribute("checked", true);
       } else if (
-        el.type === 'radio' &&
-        inputDataAttributeValue === 'phoenixNavbarPosition'
+        el.type === "radio" &&
+        inputDataAttributeValue === "phoenixNavbarPosition"
       ) {
         const isChecked = localStorageValue === el.value;
-        isChecked && el.setAttribute('checked', true);
+        isChecked && el.setAttribute("checked", true);
       } else {
         const isActive = localStorageValue === el.value;
-        isActive && el.classList.add('active');
+        isActive && el.classList.add("active");
       }
     });
   };
 
-  const changeTheme = element => {
+  const changeTheme = (element) => {
     const { getData, getItemFromStore, getSystemTheme } = window.phoenix.utils;
 
     element
       .querySelectorAll('[data-theme-control = "phoenixTheme"]')
-      .forEach(el => {
-        const inputDataAttributeValue = getData(el, 'theme-control');
+      .forEach((el) => {
+        const inputDataAttributeValue = getData(el, "theme-control");
         const localStorageValue = getItemFromStore(inputDataAttributeValue);
 
-        if (el.type === 'checkbox') {
-          if (localStorageValue === 'auto') {
-            getSystemTheme() === 'dark'
+        if (el.type === "checkbox") {
+          if (localStorageValue === "auto") {
+            getSystemTheme() === "dark"
               ? (el.checked = true)
               : (el.checked = false);
           } else {
-            localStorageValue === 'dark'
+            localStorageValue === "dark"
               ? (el.checked = true)
               : (el.checked = false);
           }
-        } else if (el.type === 'radio') {
+        } else if (el.type === "radio") {
           localStorageValue === el.value
             ? (el.checked = true)
             : (el.checked = false);
         } else {
           localStorageValue === el.value
-            ? el.classList.add('active')
-            : el.classList.remove('active');
+            ? el.classList.add("active")
+            : el.classList.remove("active");
         }
       });
   };
 
-  const handleThemeDropdownIcon = value => {
-    document.querySelectorAll('[data-theme-dropdown-toggle-icon]').forEach(el => {
-      el.classList.toggle(
-        'd-none',
-        value !== el.getAttribute('data-theme-dropdown-toggle-icon')
-        // value !== getData(el, 'theme-dropdown-toggle-icon')
-      );
-    });
+  const handleThemeDropdownIcon = (value) => {
+    document
+      .querySelectorAll("[data-theme-dropdown-toggle-icon]")
+      .forEach((el) => {
+        el.classList.toggle(
+          "d-none",
+          value !== el.getAttribute("data-theme-dropdown-toggle-icon")
+          // value !== getData(el, 'theme-dropdown-toggle-icon')
+        );
+      });
   };
 
-  handleThemeDropdownIcon(localStorage.getItem('phoenixTheme'));
+  handleThemeDropdownIcon(localStorage.getItem("phoenixTheme"));
 
   const themeControl = () => {
     const { getData, getItemFromStore, getSystemTheme } = window.phoenix.utils;
@@ -3898,8 +3952,8 @@
     //   getData
     // );
 
-    const handlePageUrl = el => {
-      const pageUrl = getData(el, 'page-url');
+    const handlePageUrl = (el) => {
+      const pageUrl = getData(el, "page-url");
       if (pageUrl) {
         window.location.replace(pageUrl);
       } else {
@@ -3909,92 +3963,93 @@
 
     const themeController = new DomNode(document.body);
 
-    const navbarVertical = document.querySelector('.navbar-vertical');
-    const navbarTop = document.querySelector('.navbar-top');
-    const supportChat = document.querySelector('.support-chat-container');
+    const navbarVertical = document.querySelector(".navbar-vertical");
+    const navbarTop = document.querySelector(".navbar-top");
+    const supportChat = document.querySelector(".support-chat-container");
     initialDomSetup(themeController.node);
 
-    themeController.on('click', e => {
+    themeController.on("click", (e) => {
       const target = new DomNode(e.target);
 
-      if (target.data('theme-control')) {
-        const control = target.data('theme-control');
+      if (target.data("theme-control")) {
+        const control = target.data("theme-control");
 
-        let value = e.target[e.target.type === 'checkbox' ? 'checked' : 'value'];
+        let value =
+          e.target[e.target.type === "checkbox" ? "checked" : "value"];
 
-        if (control === 'phoenixTheme') {
-          typeof value === 'boolean' && (value = value ? 'dark' : 'light');
+        if (control === "phoenixTheme") {
+          typeof value === "boolean" && (value = value ? "dark" : "light");
         }
 
         // config.hasOwnProperty(control) && setItemToStore(control, value);
         config.hasOwnProperty(control) &&
           window.config.set({
-            [control]: value
+            [control]: value,
           });
 
         switch (control) {
-          case 'phoenixTheme': {
+          case "phoenixTheme": {
             document.documentElement.setAttribute(
-              'data-bs-theme',
-              value === 'auto' ? getSystemTheme() : value
+              "data-bs-theme",
+              value === "auto" ? getSystemTheme() : value
             );
             // document.documentElement.classList[
             //   value === 'dark' ? 'add' : 'remove'
             // ]('dark');
-            const clickControl = new CustomEvent('clickControl', {
-              detail: { control, value }
+            const clickControl = new CustomEvent("clickControl", {
+              detail: { control, value },
             });
             e.currentTarget.dispatchEvent(clickControl);
             changeTheme(themeController.node);
             break;
           }
-          case 'phoenixNavbarVerticalStyle': {
-            navbarVertical.setAttribute('data-navbar-appearance', 'default');
-            if (value !== 'default') {
-              navbarVertical.setAttribute('data-navbar-appearance', 'darker');
+          case "phoenixNavbarVerticalStyle": {
+            navbarVertical.setAttribute("data-navbar-appearance", "default");
+            if (value !== "default") {
+              navbarVertical.setAttribute("data-navbar-appearance", "darker");
             }
             break;
           }
-          case 'phoenixNavbarTopStyle': {
-            navbarTop.setAttribute('data-navbar-appearance', 'default');
-            if (value !== 'default') {
-              navbarTop.setAttribute('data-navbar-appearance', 'darker');
+          case "phoenixNavbarTopStyle": {
+            navbarTop.setAttribute("data-navbar-appearance", "default");
+            if (value !== "default") {
+              navbarTop.setAttribute("data-navbar-appearance", "darker");
             }
             break;
           }
-          case 'phoenixNavbarTopShape':
+          case "phoenixNavbarTopShape":
             {
-              if (getItemFromStore('phoenixNavbarPosition') === 'dual-nav') {
-                el.setAttribute('disabled', true);
+              if (getItemFromStore("phoenixNavbarPosition") === "dual-nav") {
+                el.setAttribute("disabled", true);
                 // document.documentElement.setAttribute("data-bs-theme", value);
               } else handlePageUrl(target.node);
             }
             break;
-          case 'phoenixNavbarPosition':
+          case "phoenixNavbarPosition":
             {
               handlePageUrl(target.node);
             }
 
             break;
-          case 'phoenixIsRTL':
+          case "phoenixIsRTL":
             {
               // localStorage.setItem('phoenixIsRTL', target.node.checked);
               window.config.set({
-                phoenixIsRTL: target.node.checked
+                phoenixIsRTL: target.node.checked,
               });
               window.location.reload();
             }
             break;
 
-          case 'phoenixSupportChat': {
-            supportChat?.classList.remove('show');
+          case "phoenixSupportChat": {
+            supportChat?.classList.remove("show");
             if (value) {
-              supportChat?.classList.add('show');
+              supportChat?.classList.add("show");
             }
             break;
           }
 
-          case 'reset': {
+          case "reset": {
             window.config.reset();
             window.location.reload();
             break;
@@ -4007,8 +4062,8 @@
       }
     });
 
-    themeController.on('clickControl', ({ detail: { control, value } }) => {
-      if (control === 'phoenixTheme') {
+    themeController.on("clickControl", ({ detail: { control, value } }) => {
+      if (control === "phoenixTheme") {
         handleThemeDropdownIcon(value);
       }
     });
@@ -4023,25 +4078,25 @@
   const tinymceInit = () => {
     const { getColor, getData, getItemFromStore } = window.phoenix.utils;
 
-    const tinymces = document.querySelectorAll('[data-tinymce]');
+    const tinymces = document.querySelectorAll("[data-tinymce]");
 
     if (window.tinymce) {
       // const wrapper = document.querySelector('.tox-sidebar-wrap');
-      tinymces.forEach(tinymceEl => {
-        const userOptions = getData(tinymceEl, 'tinymce');
+      tinymces.forEach((tinymceEl) => {
+        const userOptions = getData(tinymceEl, "tinymce");
         const options = merge(
           {
-            selector: '.tinymce',
-            height: '50vh',
-            skin: 'oxide',
+            selector: ".tinymce",
+            height: "50vh",
+            skin: "oxide",
             menubar: false,
             content_style: `
         .mce-content-body { 
-          color: ${getColor('emphasis-color')};
-          background-color: ${getColor('tinymce-bg')};
+          color: ${getColor("emphasis-color")};
+          background-color: ${getColor("tinymce-bg")};
         }
         .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
-          color: ${getColor('quaternary-color')};
+          color: ${getColor("quaternary-color")};
           font-weight: 400;
           font-size: 12.8px;
         }
@@ -4051,32 +4106,37 @@
             //   toolbar: ['undo', 'bold']
             // },
             statusbar: false,
-            plugins: 'link,image,lists,table,media',
-            theme_advanced_toolbar_align: 'center',
-            directionality: getItemFromStore('phoenixIsRTL') ? 'rtl' : 'ltr',
+            plugins: "link,image,lists,table,media",
+            theme_advanced_toolbar_align: "center",
+            directionality: getItemFromStore("phoenixIsRTL") ? "rtl" : "ltr",
             toolbar: [
-              { name: 'history', items: ['undo', 'redo'] },
+              { name: "history", items: ["undo", "redo"] },
               {
-                name: 'formatting',
-                items: ['bold', 'italic', 'underline', 'strikethrough']
+                name: "formatting",
+                items: ["bold", "italic", "underline", "strikethrough"],
               },
               {
-                name: 'alignment',
-                items: ['alignleft', 'aligncenter', 'alignright', 'alignjustify']
+                name: "alignment",
+                items: [
+                  "alignleft",
+                  "aligncenter",
+                  "alignright",
+                  "alignjustify",
+                ],
               },
-              { name: 'list', items: ['numlist', 'bullist'] },
-              { name: 'link', items: ['link'] }
+              { name: "list", items: ["numlist", "bullist"] },
+              { name: "link", items: ["link"] },
             ],
-            setup: editor => {
-              editor.on('focus', () => {
-                const wraper = document.querySelector('.tox-sidebar-wrap');
-                wraper.classList.add('editor-focused');
+            setup: (editor) => {
+              editor.on("focus", () => {
+                const wraper = document.querySelector(".tox-sidebar-wrap");
+                wraper.classList.add("editor-focused");
               });
-              editor.on('blur', () => {
-                const wraper = document.querySelector('.tox-sidebar-wrap');
-                wraper.classList.remove('editor-focused');
+              editor.on("blur", () => {
+                const wraper = document.querySelector(".tox-sidebar-wrap");
+                wraper.classList.remove("editor-focused");
               });
-            }
+            },
           },
           userOptions
         );
@@ -4086,15 +4146,15 @@
       const themeController = document.body;
       if (themeController) {
         themeController.addEventListener(
-          'clickControl',
+          "clickControl",
           ({ detail: { control } }) => {
-            if (control === 'phoenixTheme') {
-              tinymces.forEach(tinymceEl => {
+            if (control === "phoenixTheme") {
+              tinymces.forEach((tinymceEl) => {
                 const instance = window.tinymce.get(tinymceEl.id);
                 instance.dom.addStyle(
                   `.mce-content-body{
-                  color: ${getColor('emphasis-color')} !important;
-                  background-color: ${getColor('tinymce-bg')} !important;
+                  color: ${getColor("emphasis-color")} !important;
+                  background-color: ${getColor("tinymce-bg")} !important;
                 }`
                 );
               });
@@ -4110,15 +4170,17 @@
   /* -------------------------------------------------------------------------- */
 
   const toastInit = () => {
-    const toastElList = [].slice.call(document.querySelectorAll('.toast'));
-    toastElList.map(toastEl => new bootstrap.Toast(toastEl));
+    const toastElList = [].slice.call(document.querySelectorAll(".toast"));
+    toastElList.map((toastEl) => new bootstrap.Toast(toastEl));
 
-    const liveToastBtn = document.getElementById('liveToastBtn');
+    const liveToastBtn = document.getElementById("liveToastBtn");
 
     if (liveToastBtn) {
-      const liveToast = new bootstrap.Toast(document.getElementById('liveToast'));
+      const liveToast = new bootstrap.Toast(
+        document.getElementById("liveToast")
+      );
 
-      liveToastBtn.addEventListener('click', () => {
+      liveToastBtn.addEventListener("click", () => {
         liveToast && liveToast.show();
       });
     }
@@ -4132,31 +4194,31 @@
     const { getData } = window.phoenix.utils;
 
     const stopPropagationElements = document.querySelectorAll(
-      '[data-event-propagation-prevent]'
+      "[data-event-propagation-prevent]"
     );
 
     if (stopPropagationElements) {
-      stopPropagationElements.forEach(el => {
-        el.addEventListener('click', e => {
+      stopPropagationElements.forEach((el) => {
+        el.addEventListener("click", (e) => {
           e.stopPropagation();
         });
       });
     }
 
-    const todoList = document.querySelector('.todo-list');
+    const todoList = document.querySelector(".todo-list");
 
     if (todoList) {
       const offcanvasToggles = todoList.querySelectorAll(
-        '[data-todo-offcanvas-toogle]'
+        "[data-todo-offcanvas-toogle]"
       );
 
-      offcanvasToggles.forEach(toggle => {
-        const target = getData(toggle, 'todo-offcanvas-target');
+      offcanvasToggles.forEach((toggle) => {
+        const target = getData(toggle, "todo-offcanvas-target");
         const offcanvasEl = todoList.querySelector(`#${target}`);
         const todoOffcanvas = new window.bootstrap.Offcanvas(offcanvasEl, {
-          backdrop: true
+          backdrop: true,
         });
-        toggle.addEventListener('click', () => {
+        toggle.addEventListener("click", () => {
           todoOffcanvas.show();
         });
       });
@@ -4172,9 +4234,9 @@
     );
 
     tooltipTriggerList.map(
-      tooltipTriggerEl =>
+      (tooltipTriggerEl) =>
         new bootstrap.Tooltip(tooltipTriggerEl, {
-          trigger: 'hover'
+          trigger: "hover",
         })
     );
   };
@@ -4187,26 +4249,26 @@
     const { getData } = window.phoenix.utils;
 
     const selectors = {
-      WIZARDS: '[data-theme-wizard]',
-      TOGGLE_BUTTON_EL: '[data-wizard-step]',
-      FORMS: '[data-wizard-form]',
-      PASSWORD_INPUT: '[data-wizard-password]',
-      CONFIRM_PASSWORD_INPUT: '[data-wizard-confirm-password]',
-      NEXT_BTN: '[data-wizard-next-btn]',
-      PREV_BTN: '[data-wizard-prev-btn]',
-      FOOTER: '[data-wizard-footer]'
+      WIZARDS: "[data-theme-wizard]",
+      TOGGLE_BUTTON_EL: "[data-wizard-step]",
+      FORMS: "[data-wizard-form]",
+      PASSWORD_INPUT: "[data-wizard-password]",
+      CONFIRM_PASSWORD_INPUT: "[data-wizard-confirm-password]",
+      NEXT_BTN: "[data-wizard-next-btn]",
+      PREV_BTN: "[data-wizard-prev-btn]",
+      FOOTER: "[data-wizard-footer]",
     };
 
     const events = {
-      SUBMIT: 'submit',
-      SHOW: 'show.bs.tab',
-      SHOWN: 'shown.bs.tab',
-      CLICK: 'click'
+      SUBMIT: "submit",
+      SHOW: "show.bs.tab",
+      SHOWN: "shown.bs.tab",
+      CLICK: "click",
     };
 
     const wizards = document.querySelectorAll(selectors.WIZARDS);
 
-    wizards.forEach(wizard => {
+    wizards.forEach((wizard) => {
       const tabToggleButtonEl = wizard.querySelectorAll(
         selectors.TOGGLE_BUTTON_EL
       );
@@ -4220,11 +4282,11 @@
       const wizardFooter = wizard.querySelector(selectors.FOOTER);
       const submitEvent = new Event(events.SUBMIT, {
         bubbles: true,
-        cancelable: true
+        cancelable: true,
       });
-      const hasWizardModal = wizard.hasAttribute('data-wizard-modal-disabled');
+      const hasWizardModal = wizard.hasAttribute("data-wizard-modal-disabled");
 
-      const tabs = Array.from(tabToggleButtonEl).map(item => {
+      const tabs = Array.from(tabToggleButtonEl).map((item) => {
         return window.bootstrap.Tab.getOrCreateInstance(item);
       });
       // console.log({ tabs });
@@ -4232,15 +4294,15 @@
       let count = 0;
       let showEvent = null;
 
-      forms.forEach(form => {
-        form.addEventListener(events.SUBMIT, e => {
+      forms.forEach((form) => {
+        form.addEventListener(events.SUBMIT, (e) => {
           e.preventDefault();
-          if (form.classList.contains('needs-validation')) {
+          if (form.classList.contains("needs-validation")) {
             if (passwordInput && confirmPasswordInput) {
               if (passwordInput.value !== confirmPasswordInput.value) {
-                confirmPasswordInput.setCustomValidity('Invalid field.');
+                confirmPasswordInput.setCustomValidity("Invalid field.");
               } else {
-                confirmPasswordInput.setCustomValidity('');
+                confirmPasswordInput.setCustomValidity("");
               }
             }
             if (!form.checkValidity()) {
@@ -4268,8 +4330,8 @@
 
       if (tabToggleButtonEl.length) {
         tabToggleButtonEl.forEach((item, index) => {
-          item.addEventListener(events.SHOW, e => {
-            const step = getData(item, 'wizard-step');
+          item.addEventListener(events.SHOW, (e) => {
+            const step = getData(item, "wizard-step");
             showEvent = e;
             if (step > count) {
               forms[count].dispatchEvent(submitEvent);
@@ -4279,38 +4341,38 @@
             count = index;
             // can't go back tab
             if (count === tabToggleButtonEl.length - 1 && !hasWizardModal) {
-              tabToggleButtonEl.forEach(tab => {
-                tab.setAttribute('data-bs-toggle', 'modal');
-                tab.setAttribute('data-bs-target', '#error-modal');
+              tabToggleButtonEl.forEach((tab) => {
+                tab.setAttribute("data-bs-toggle", "modal");
+                tab.setAttribute("data-bs-target", "#error-modal");
               });
             }
             // add done class
             for (let i = 0; i < count; i += 1) {
-              tabToggleButtonEl[i].classList.add('done');
+              tabToggleButtonEl[i].classList.add("done");
               if (i > 0) {
-                tabToggleButtonEl[i - 1].classList.add('complete');
+                tabToggleButtonEl[i - 1].classList.add("complete");
               }
             }
             // remove done class
             for (let j = count; j < tabToggleButtonEl.length; j += 1) {
-              tabToggleButtonEl[j].classList.remove('done');
+              tabToggleButtonEl[j].classList.remove("done");
               if (j > 0) {
-                tabToggleButtonEl[j - 1].classList.remove('complete');
+                tabToggleButtonEl[j - 1].classList.remove("complete");
               }
             }
 
             // card footer remove at last step
             if (count > tabToggleButtonEl.length - 2) {
-              wizardFooter.classList.add('d-none');
+              wizardFooter.classList.add("d-none");
             } else {
-              wizardFooter.classList.remove('d-none');
+              wizardFooter.classList.remove("d-none");
             }
             // prev-button removing
             if (prevButton) {
               if (count > 0 && count !== tabToggleButtonEl.length - 1) {
-                prevButton.classList.remove('d-none');
+                prevButton.classList.remove("d-none");
               } else {
-                prevButton.classList.add('d-none');
+                prevButton.classList.add("d-none");
               }
             }
           });
@@ -4320,46 +4382,50 @@
   };
 
   const faqTabInit = () => {
-    const triggerEls = document.querySelectorAll('[data-vertical-category-tab]');
-    const offcanvasEle = document.querySelector(
-      '[data-vertical-category-offcanvas]'
+    const triggerEls = document.querySelectorAll(
+      "[data-vertical-category-tab]"
     );
-    const filterEles = document.querySelectorAll('[data-category-filter]');
+    const offcanvasEle = document.querySelector(
+      "[data-vertical-category-offcanvas]"
+    );
+    const filterEles = document.querySelectorAll("[data-category-filter]");
     const faqSubcategoryTabs = document.querySelectorAll(
-      '.faq-subcategory-tab .nav-item'
+      ".faq-subcategory-tab .nav-item"
     );
 
     if (offcanvasEle) {
       const offcanvas =
         window.bootstrap.Offcanvas?.getOrCreateInstance(offcanvasEle);
 
-      triggerEls.forEach(el => {
-        el.addEventListener('click', () => {
+      triggerEls.forEach((el) => {
+        el.addEventListener("click", () => {
           offcanvas.hide();
         });
       });
     }
 
     if (filterEles) {
-      filterEles.forEach(el => {
-        if (el.classList.contains('active')) {
-          faqSubcategoryTabs.forEach(item => {
+      filterEles.forEach((el) => {
+        if (el.classList.contains("active")) {
+          faqSubcategoryTabs.forEach((item) => {
             if (
-              !item.classList.contains(el.getAttribute('data-category-filter')) &&
-              el.getAttribute('data-category-filter') !== 'all'
+              !item.classList.contains(
+                el.getAttribute("data-category-filter")
+              ) &&
+              el.getAttribute("data-category-filter") !== "all"
             ) {
-              item.classList.add('d-none');
+              item.classList.add("d-none");
             }
           });
         }
-        el.addEventListener('click', () => {
-          faqSubcategoryTabs.forEach(item => {
-            if (el.getAttribute('data-category-filter') === 'all') {
-              item.classList.remove('d-none');
+        el.addEventListener("click", () => {
+          faqSubcategoryTabs.forEach((item) => {
+            if (el.getAttribute("data-category-filter") === "all") {
+              item.classList.remove("d-none");
             } else if (
-              !item.classList.contains(el.getAttribute('data-category-filter'))
+              !item.classList.contains(el.getAttribute("data-category-filter"))
             ) {
-              item.classList.add('d-none');
+              item.classList.add("d-none");
             }
           });
         });
@@ -4373,22 +4439,22 @@
 
   const kanbanInit = () => {
     // kanbanContainer to controll collapse behavior in kanban board
-    const kanbanContainer = document.querySelector('[data-kanban-container]');
+    const kanbanContainer = document.querySelector("[data-kanban-container]");
     if (kanbanContainer) {
-      kanbanContainer.addEventListener('click', e => {
-        if (e.target.hasAttribute('data-kanban-collapse')) {
-          e.target.closest('.kanban-column').classList.toggle('collapsed');
+      kanbanContainer.addEventListener("click", (e) => {
+        if (e.target.hasAttribute("data-kanban-collapse")) {
+          e.target.closest(".kanban-column").classList.toggle("collapsed");
         }
       });
 
-      const kanbanGroups = kanbanContainer.querySelectorAll('[data-sortable]');
-      kanbanGroups.forEach(item => {
+      const kanbanGroups = kanbanContainer.querySelectorAll("[data-sortable]");
+      kanbanGroups.forEach((item) => {
         const itemInstance = window.Sortable.get(item);
-        itemInstance.option('onStart', e => {
-          document.body.classList.add('sortable-dragging');
+        itemInstance.option("onStart", (e) => {
+          document.body.classList.add("sortable-dragging");
           window.Sortable.ghost
-            .querySelector('.dropdown-menu')
-            ?.classList.remove('show');
+            .querySelector(".dropdown-menu")
+            ?.classList.remove("show");
           const dropdownElement = e.item.querySelector(
             `[data-bs-toggle='dropdown']`
           );
@@ -4401,17 +4467,18 @@
   };
 
   const towFAVerificarionInit = () => {
-    const verificationForm = document.querySelector('[data-2fa-form]');
-    const inputFields = verificationForm?.querySelectorAll('input[type=number]');
+    const verificationForm = document.querySelector("[data-2fa-form]");
+    const inputFields =
+      verificationForm?.querySelectorAll("input[type=number]");
     const varificationBtn = verificationForm?.querySelector(
-      'button[type=submit]'
+      "button[type=submit]"
     );
 
     if (verificationForm) {
-      window.addEventListener('load', () => inputFields[0].focus());
+      window.addEventListener("load", () => inputFields[0].focus());
       const totalInputLength = 6;
       inputFields.forEach((input, index) => {
-        input.addEventListener('keyup', e => {
+        input.addEventListener("keyup", (e) => {
           const { value } = e.target;
           if (value) {
             [...value].slice(0, totalInputLength).forEach((char, charIndex) => {
@@ -4421,18 +4488,18 @@
               }
             });
           } else {
-            inputFields[index].value = '';
+            inputFields[index].value = "";
             inputFields[index - 1]?.focus();
           }
           const inputs = [...inputFields];
           const updatedOtp = inputs.reduce(
-            (acc, inputData) => acc + (inputData?.value || ''),
-            ''
+            (acc, inputData) => acc + (inputData?.value || ""),
+            ""
           );
           if (totalInputLength === updatedOtp.length) {
-            varificationBtn.removeAttribute('disabled');
+            varificationBtn.removeAttribute("disabled");
           } else {
-            varificationBtn.setAttribute('disabled', true);
+            varificationBtn.setAttribute("disabled", true);
           }
         });
       });
@@ -4445,53 +4512,55 @@
 
   const mapboxInit = () => {
     const { getData } = window.phoenix.utils;
-    const mapboxContainers = document.querySelectorAll('.mapbox-container');
-    const mapContainerTab = document.querySelectorAll('[data-tab-map-container]');
+    const mapboxContainers = document.querySelectorAll(".mapbox-container");
+    const mapContainerTab = document.querySelectorAll(
+      "[data-tab-map-container]"
+    );
     if (mapboxContainers) {
-      mapboxContainers.forEach(mapboxContainer => {
+      mapboxContainers.forEach((mapboxContainer) => {
         window.mapboxgl.accessToken =
-          'pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ';
+          "pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ";
 
-        const mapbox = mapboxContainer.querySelector('[data-mapbox]');
+        const mapbox = mapboxContainer.querySelector("[data-mapbox]");
         if (mapbox) {
-          const options = getData(mapbox, 'mapbox');
+          const options = getData(mapbox, "mapbox");
 
-          const zoomIn = document.querySelector('.zoomIn');
-          const zoomOut = document.querySelector('.zoomOut');
-          const fullScreen = document.querySelector('.fullScreen');
+          const zoomIn = document.querySelector(".zoomIn");
+          const zoomOut = document.querySelector(".zoomOut");
+          const fullScreen = document.querySelector(".fullScreen");
 
           const styles = {
-            default: 'mapbox://styles/mapbox/light-v11',
-            light: 'mapbox://styles/themewagon/clj57pads001701qo25756jtw',
-            dark: 'mapbox://styles/themewagon/cljzg9juf007x01pk1bepfgew'
+            default: "mapbox://styles/mapbox/light-v11",
+            light: "mapbox://styles/themewagon/clj57pads001701qo25756jtw",
+            dark: "mapbox://styles/themewagon/cljzg9juf007x01pk1bepfgew",
           };
 
           const map = new window.mapboxgl.Map({
             ...options,
-            container: 'mapbox',
-            style: styles[window.config.config.phoenixTheme]
+            container: "mapbox",
+            style: styles[window.config.config.phoenixTheme],
           });
 
           if (options.center) {
             new window.mapboxgl.Marker({
-              color: getColor('danger')
+              color: getColor("danger"),
             })
               .setLngLat(options.center)
               .addTo(map);
           }
 
           if (zoomIn && zoomOut) {
-            zoomIn.addEventListener('click', () => map.zoomIn());
-            zoomOut.addEventListener('click', () => map.zoomOut());
+            zoomIn.addEventListener("click", () => map.zoomIn());
+            zoomOut.addEventListener("click", () => map.zoomOut());
           }
           if (fullScreen) {
-            fullScreen.addEventListener('click', () =>
+            fullScreen.addEventListener("click", () =>
               map.getContainer().requestFullscreen()
             );
           }
 
-          mapContainerTab.forEach(ele => {
-            ele.addEventListener('shown.bs.tab', () => {
+          mapContainerTab.forEach((ele) => {
+            ele.addEventListener("shown.bs.tab", () => {
               map.resize();
             });
           });
@@ -4502,39 +4571,39 @@
 
   const themeController$2 = document.body;
   if (themeController$2) {
-    themeController$2.addEventListener('clickControl', () => {
+    themeController$2.addEventListener("clickControl", () => {
       mapboxInit();
     });
   }
 
   const flightMapInit = () => {
-    const flightMap = document.querySelector('#flightMap');
+    const flightMap = document.querySelector("#flightMap");
     if (flightMap) {
       window.mapboxgl.accessToken =
-        'pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ';
+        "pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ";
 
-      const zoomIn = document.querySelector('.zoomIn');
-      const zoomOut = document.querySelector('.zoomOut');
-      const fullScreen = document.querySelector('.fullScreen');
+      const zoomIn = document.querySelector(".zoomIn");
+      const zoomOut = document.querySelector(".zoomOut");
+      const fullScreen = document.querySelector(".fullScreen");
 
       const styles = {
-        default: 'mapbox://styles/mapbox/light-v11',
-        light: 'mapbox://styles/themewagon/clj57pads001701qo25756jtw',
-        dark: 'mapbox://styles/themewagon/cljzg9juf007x01pk1bepfgew'
+        default: "mapbox://styles/mapbox/light-v11",
+        light: "mapbox://styles/themewagon/clj57pads001701qo25756jtw",
+        dark: "mapbox://styles/themewagon/cljzg9juf007x01pk1bepfgew",
       };
 
       const map = new window.mapboxgl.Map({
-        container: 'flightMap',
+        container: "flightMap",
         style: styles[window.config.config.phoenixTheme],
         center: [-73.102712, 7.102257],
         zoom: 5,
         pitch: 40,
-        attributionControl: false
+        attributionControl: false,
       });
 
-      zoomIn.addEventListener('click', () => map.zoomIn());
-      zoomOut.addEventListener('click', () => map.zoomOut());
-      fullScreen.addEventListener('click', () =>
+      zoomIn.addEventListener("click", () => map.zoomIn());
+      zoomOut.addEventListener("click", () => map.zoomOut());
+      fullScreen.addEventListener("click", () =>
         map.getContainer().requestFullscreen()
       );
 
@@ -4543,63 +4612,63 @@
       const destination = [-84.913785, 10.325774];
 
       const originToCurrentRoute = {
-        type: 'FeatureCollection',
+        type: "FeatureCollection",
         features: [
           {
-            type: 'Feature',
+            type: "Feature",
             geometry: {
-              type: 'LineString',
-              coordinates: [origin, currentPosition]
-            }
-          }
-        ]
+              type: "LineString",
+              coordinates: [origin, currentPosition],
+            },
+          },
+        ],
       };
       const currentToDestinationRoute = {
-        type: 'FeatureCollection',
+        type: "FeatureCollection",
         features: [
           {
-            type: 'Feature',
+            type: "Feature",
             geometry: {
-              type: 'LineString',
-              coordinates: [currentPosition, destination]
-            }
-          }
-        ]
+              type: "LineString",
+              coordinates: [currentPosition, destination],
+            },
+          },
+        ],
       };
 
       const points = {
-        type: 'FeatureCollection',
+        type: "FeatureCollection",
         features: [
           {
-            type: 'Feature',
+            type: "Feature",
             properties: {},
             geometry: {
-              type: 'Point',
-              coordinates: origin
-            }
+              type: "Point",
+              coordinates: origin,
+            },
           },
           {
-            type: 'Feature',
+            type: "Feature",
             properties: {},
             geometry: {
-              type: 'Point',
-              coordinates: currentPosition
-            }
+              type: "Point",
+              coordinates: currentPosition,
+            },
           },
           {
-            type: 'Feature',
+            type: "Feature",
             properties: {},
             geometry: {
-              type: 'Point',
-              coordinates: destination
-            }
-          }
-        ]
+              type: "Point",
+              coordinates: destination,
+            },
+          },
+        ],
       };
 
       let count = 1;
-      points.features.forEach(feature => {
-        const el = document.createElement('div');
+      points.features.forEach((feature) => {
+        const el = document.createElement("div");
         el.className = `marker-${count}`;
         new window.mapboxgl.Marker(el)
           .setLngLat(feature.geometry.coordinates)
@@ -4608,7 +4677,9 @@
       });
 
       const lineDistance = window.turf.length(originToCurrentRoute.features[0]);
-      const lineDistance2 = window.turf.length(originToCurrentRoute.features[0]);
+      const lineDistance2 = window.turf.length(
+        originToCurrentRoute.features[0]
+      );
 
       const arc = [];
       const arc2 = [];
@@ -4630,36 +4701,36 @@
       originToCurrentRoute.features[0].geometry.coordinates = arc;
       currentToDestinationRoute.features[0].geometry.coordinates = arc2;
 
-      map.on('load', () => {
-        map.addSource('route', {
-          type: 'geojson',
-          data: originToCurrentRoute.features[0]
+      map.on("load", () => {
+        map.addSource("route", {
+          type: "geojson",
+          data: originToCurrentRoute.features[0],
         });
-        map.addSource('route2', {
-          type: 'geojson',
-          data: currentToDestinationRoute.features[0]
+        map.addSource("route2", {
+          type: "geojson",
+          data: currentToDestinationRoute.features[0],
         });
 
         map.addLayer({
-          id: 'route',
-          source: 'route',
-          type: 'line',
+          id: "route",
+          source: "route",
+          type: "line",
           paint: {
-            'line-width': 2,
-            'line-color':
-              getItemFromStore('phoenixTheme') === 'dark'
-                ? getColor('primary')
-                : getColor('primary-light')
-          }
+            "line-width": 2,
+            "line-color":
+              getItemFromStore("phoenixTheme") === "dark"
+                ? getColor("primary")
+                : getColor("primary-light"),
+          },
         });
         map.addLayer({
-          id: 'route2',
-          source: 'route2',
-          type: 'line',
+          id: "route2",
+          source: "route2",
+          type: "line",
           paint: {
-            'line-width': 1,
-            'line-color': getColor('warning')
-          }
+            "line-width": 1,
+            "line-color": getColor("warning"),
+          },
         });
       });
     }
@@ -4667,7 +4738,7 @@
 
   const themeController$1 = document.body;
   if (themeController$1) {
-    themeController$1.addEventListener('clickControl', () => {
+    themeController$1.addEventListener("clickControl", () => {
       flightMapInit();
     });
   }
@@ -4677,15 +4748,15 @@
   /* -------------------------------------------------------------------------- */
 
   const typedTextInit = () => {
-    const typedTexts = document.querySelectorAll('.typed-text');
+    const typedTexts = document.querySelectorAll(".typed-text");
     if (typedTexts.length && window.Typed) {
-      typedTexts.forEach(typedText => {
+      typedTexts.forEach((typedText) => {
         return new window.Typed(typedText, {
-          strings: getData(typedText, 'typedText'),
+          strings: getData(typedText, "typedText"),
           typeSpeed: 70,
           backSpeed: 70,
           loop: true,
-          backDelay: 1000
+          backDelay: 1000,
         });
       });
     }
@@ -4696,31 +4767,31 @@
   /* -------------------------------------------------------------------------- */
 
   const priceTierFormInit = () => {
-    const priceTierForms = document.querySelectorAll('[data-form-price-tier]');
+    const priceTierForms = document.querySelectorAll("[data-form-price-tier]");
     if (priceTierForms) {
-      priceTierForms.forEach(priceTierForm => {
-        const priceToggler = priceTierForm.querySelector('[data-price-toggle]');
-        const pricings = priceTierForm.querySelectorAll('[data-pricing]');
+      priceTierForms.forEach((priceTierForm) => {
+        const priceToggler = priceTierForm.querySelector("[data-price-toggle]");
+        const pricings = priceTierForm.querySelectorAll("[data-pricing]");
         const bottomOption = priceTierForm.querySelector(
-          '[data-pricing-collapse]'
+          "[data-pricing-collapse]"
         );
 
         const pricingCollapse = new window.bootstrap.Collapse(bottomOption, {
-          toggle: false
+          toggle: false,
         });
 
-        priceToggler.addEventListener('change', e => {
+        priceToggler.addEventListener("change", (e) => {
           pricings[0].checked = true;
           if (e.target.checked) {
-            priceTierForm.classList.add('active');
+            priceTierForm.classList.add("active");
           } else {
-            priceTierForm.classList.remove('active');
+            priceTierForm.classList.remove("active");
             pricingCollapse.hide();
           }
         });
-        pricings.forEach(pricing => {
-          pricing.addEventListener('change', e => {
-            if (e.target.value === 'paid') {
+        pricings.forEach((pricing) => {
+          pricing.addEventListener("change", (e) => {
+            if (e.target.value === "paid") {
               pricingCollapse.show();
             } else {
               pricingCollapse.hide();
@@ -4737,10 +4808,10 @@
   const nouisliderInit = () => {
     const { getData } = window.phoenix.utils;
     if (window.noUiSlider) {
-      const elements = document.querySelectorAll('[data-nouislider]');
-      elements.forEach(item => {
-        const userOptions = getData(item, 'nouislider');
-        const sliderValues = getData(item, 'nouislider-values');
+      const elements = document.querySelectorAll("[data-nouislider]");
+      elements.forEach((item) => {
+        const userOptions = getData(item, "nouislider");
+        const sliderValues = getData(item, "nouislider-values");
         let defaultOptions;
         if (sliderValues && sliderValues.length) {
           defaultOptions = {
@@ -4754,8 +4825,8 @@
               },
               from(value) {
                 return sliderValues.indexOf(value);
-              }
-            }
+              },
+            },
           };
         } else {
           defaultOptions = {
@@ -4763,7 +4834,7 @@
             connect: [true, false],
             step: 1,
             range: { min: [0], max: [100] },
-            tooltips: true
+            tooltips: true,
           };
         }
         const options = window._.merge(defaultOptions, userOptions);
@@ -4773,15 +4844,15 @@
   };
 
   const collapseAllInit = () => {
-    const collapseParent = document.querySelector('[data-collapse-all]');
-    const collapseBtn = document.querySelector('[data-btn-collapse-all]');
+    const collapseParent = document.querySelector("[data-collapse-all]");
+    const collapseBtn = document.querySelector("[data-btn-collapse-all]");
     if (collapseParent) {
-      const collapseElements = collapseParent.querySelectorAll('.collapse');
-      collapseElements.forEach(ele => {
+      const collapseElements = collapseParent.querySelectorAll(".collapse");
+      collapseElements.forEach((ele) => {
         const collapse = window.bootstrap.Collapse.getOrCreateInstance(ele, {
-          toggle: false
+          toggle: false,
         });
-        collapseBtn.addEventListener('click', () => {
+        collapseBtn.addEventListener("click", () => {
           collapse.hide();
         });
       });
@@ -4792,1139 +4863,1139 @@
     {
       lat: 53.958332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 52.958332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 51.958332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 53.958332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 54.958332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 55.958332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 53.908332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 53.008332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 53.158332,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 53.000032,
       long: -1.080278,
-      name: 'Diana Meyer',
-      street: 'Slude Strand 27',
-      location: '1130 Kobenhavn'
+      name: "Diana Meyer",
+      street: "Slude Strand 27",
+      location: "1130 Kobenhavn",
     },
     {
       lat: 52.292001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 52.392001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 51.492001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 51.192001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 52.292001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 54.392001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 51.292001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 52.102001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 52.202001,
       long: -2.22,
-      name: 'Anke Schroder',
-      street: 'Industrivej 54',
-      location: '4140 Borup'
+      name: "Anke Schroder",
+      street: "Industrivej 54",
+      location: "4140 Borup",
     },
     {
       lat: 51.063202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.363202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.463202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.563202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.763202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.863202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.963202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.000202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.000202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.163202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 52.263202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 53.463202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 55.163202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 56.263202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 56.463202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 56.563202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 56.663202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 56.763202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 56.863202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 56.963202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 57.973202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 57.163202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.163202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.263202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.363202,
       long: -1.308,
-      name: 'Tobias Vogel',
-      street: 'Mollebakken 33',
-      location: '3650 Olstykke'
+      name: "Tobias Vogel",
+      street: "Mollebakken 33",
+      location: "3650 Olstykke",
     },
     {
       lat: 51.409,
       long: -2.647,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.68,
       long: -1.49,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 50.259998,
       long: -5.051,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 54.906101,
       long: -1.38113,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.383331,
       long: -1.466667,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.483002,
       long: -2.2931,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.509865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.109865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.209865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.309865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.409865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.609865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.709865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.809865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 51.909865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.109865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.209865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.309865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.409865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.509865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.609865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.709865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.809865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.909865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.519865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.529865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.539865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.549865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 52.549865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.109865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.209865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.319865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.329865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.409865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.559865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.619865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.629865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.639865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.649865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.669865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.669865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.719865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.739865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.749865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.759865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.769865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.769865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.819865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.829865,
       long: -0.118092,
-      name: 'Richard Hendricks',
-      street: '37 Seafield Place',
-      location: 'London'
+      name: "Richard Hendricks",
+      street: "37 Seafield Place",
+      location: "London",
     },
     {
       lat: 53.483959,
       long: -2.244644,
-      name: 'Ethel B. Brooks',
-      street: '2576 Sun Valley Road'
+      name: "Ethel B. Brooks",
+      street: "2576 Sun Valley Road",
     },
     {
       lat: 40.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 39.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 38.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 37.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 40.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 41.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 42.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 43.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 44.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 45.737,
       long: -73.923,
-      name: 'Marshall D. Lewis',
-      street: '1489 Michigan Avenue',
-      location: 'Michigan'
+      name: "Marshall D. Lewis",
+      street: "1489 Michigan Avenue",
+      location: "Michigan",
     },
     {
       lat: 46.7128,
       long: 74.006,
-      name: 'Elizabeth C. Lyons',
-      street: '4553 Kenwood Place',
-      location: 'Fort Lauderdale'
+      name: "Elizabeth C. Lyons",
+      street: "4553 Kenwood Place",
+      location: "Fort Lauderdale",
     },
     {
       lat: 40.7128,
       long: 74.1181,
-      name: 'Elizabeth C. Lyons',
-      street: '4553 Kenwood Place',
-      location: 'Fort Lauderdale'
+      name: "Elizabeth C. Lyons",
+      street: "4553 Kenwood Place",
+      location: "Fort Lauderdale",
     },
     {
       lat: 14.235,
       long: 51.9253,
-      name: 'Ralph D. Wylie',
-      street: '3186 Levy Court',
-      location: 'North Reading'
+      name: "Ralph D. Wylie",
+      street: "3186 Levy Court",
+      location: "North Reading",
     },
     {
       lat: 15.235,
       long: 51.9253,
-      name: 'Ralph D. Wylie',
-      street: '3186 Levy Court',
-      location: 'North Reading'
+      name: "Ralph D. Wylie",
+      street: "3186 Levy Court",
+      location: "North Reading",
     },
     {
       lat: 16.235,
       long: 51.9253,
-      name: 'Ralph D. Wylie',
-      street: '3186 Levy Court',
-      location: 'North Reading'
+      name: "Ralph D. Wylie",
+      street: "3186 Levy Court",
+      location: "North Reading",
     },
     {
       lat: 14.235,
       long: 51.9253,
-      name: 'Ralph D. Wylie',
-      street: '3186 Levy Court',
-      location: 'North Reading'
+      name: "Ralph D. Wylie",
+      street: "3186 Levy Court",
+      location: "North Reading",
     },
     {
       lat: 15.8267,
       long: 47.9218,
-      name: 'Hope A. Atkins',
-      street: '3715 Hillcrest Drive',
-      location: 'Seattle'
+      name: "Hope A. Atkins",
+      street: "3715 Hillcrest Drive",
+      location: "Seattle",
     },
     {
       lat: 15.9267,
       long: 47.9218,
-      name: 'Hope A. Atkins',
-      street: '3715 Hillcrest Drive',
-      location: 'Seattle'
+      name: "Hope A. Atkins",
+      street: "3715 Hillcrest Drive",
+      location: "Seattle",
     },
     {
       lat: 23.4425,
       long: 58.4438,
-      name: 'Samuel R. Bailey',
-      street: '2883 Raoul Wallenberg Place',
-      location: 'Cheshire'
+      name: "Samuel R. Bailey",
+      street: "2883 Raoul Wallenberg Place",
+      location: "Cheshire",
     },
     {
       lat: 23.5425,
       long: 58.3438,
-      name: 'Samuel R. Bailey',
-      street: '2883 Raoul Wallenberg Place',
-      location: 'Cheshire'
+      name: "Samuel R. Bailey",
+      street: "2883 Raoul Wallenberg Place",
+      location: "Cheshire",
     },
     {
       lat: -37.8927369333,
       long: 175.4087452333,
-      name: 'Samuel R. Bailey',
-      street: '3228 Glory Road',
-      location: 'Nashville'
+      name: "Samuel R. Bailey",
+      street: "3228 Glory Road",
+      location: "Nashville",
     },
     {
       lat: -38.9064188833,
       long: 175.4441556833,
-      name: 'Samuel R. Bailey',
-      street: '3228 Glory Road',
-      location: 'Nashville'
+      name: "Samuel R. Bailey",
+      street: "3228 Glory Road",
+      location: "Nashville",
     },
     {
       lat: -12.409874,
       long: -65.596832,
-      name: 'Ann J. Perdue',
-      street: '921 Ella Street',
-      location: 'Dublin'
+      name: "Ann J. Perdue",
+      street: "921 Ella Street",
+      location: "Dublin",
     },
     {
       lat: -22.090887,
       long: -57.411827,
-      name: 'Jorge C. Woods',
-      street: '4800 North Bend River Road',
-      location: 'Allen'
+      name: "Jorge C. Woods",
+      street: "4800 North Bend River Road",
+      location: "Allen",
     },
     {
       lat: -19.019585,
       long: -65.261963,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: -16.500093,
       long: -68.214684,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: -17.413977,
       long: -66.165321,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: -16.489689,
       long: -68.119293,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: 54.766323,
       long: 3.08603729,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: 54.866323,
       long: 3.08603729,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: 49.537685,
       long: 3.08603729,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: 54.715424,
       long: 0.509207,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: 44.891666,
       long: 10.136665,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: 48.078335,
       long: 14.535004,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: -26.358055,
       long: 27.398056,
-      name: 'Russ E. Panek',
-      street: '4068 Hartland Avenue',
-      location: 'Appleton'
+      name: "Russ E. Panek",
+      street: "4068 Hartland Avenue",
+      location: "Appleton",
     },
     {
       lat: -29.1,
       long: 26.2167,
-      name: 'Wilbur J. Dry',
-      street: '2043 Jadewood Drive',
-      location: 'Northbrook'
+      name: "Wilbur J. Dry",
+      street: "2043 Jadewood Drive",
+      location: "Northbrook",
     },
     {
       lat: -29.883333,
       long: 31.049999,
-      name: 'Wilbur J. Dry',
-      street: '2043 Jadewood Drive',
-      location: 'Northbrook'
+      name: "Wilbur J. Dry",
+      street: "2043 Jadewood Drive",
+      location: "Northbrook",
     },
     {
       lat: -26.266111,
       long: 27.865833,
-      name: 'Wilbur J. Dry',
-      street: '2043 Jadewood Drive',
-      location: 'Northbrook'
+      name: "Wilbur J. Dry",
+      street: "2043 Jadewood Drive",
+      location: "Northbrook",
     },
     {
       lat: -29.087217,
       long: 26.154898,
-      name: 'Wilbur J. Dry',
-      street: '2043 Jadewood Drive',
-      location: 'Northbrook'
+      name: "Wilbur J. Dry",
+      street: "2043 Jadewood Drive",
+      location: "Northbrook",
     },
     {
       lat: -33.958252,
       long: 25.619022,
-      name: 'Wilbur J. Dry',
-      street: '2043 Jadewood Drive',
-      location: 'Northbrook'
+      name: "Wilbur J. Dry",
+      street: "2043 Jadewood Drive",
+      location: "Northbrook",
     },
     {
       lat: -33.977074,
       long: 22.457581,
-      name: 'Wilbur J. Dry',
-      street: '2043 Jadewood Drive',
-      location: 'Northbrook'
+      name: "Wilbur J. Dry",
+      street: "2043 Jadewood Drive",
+      location: "Northbrook",
     },
     {
       lat: -26.563404,
       long: 27.844164,
-      name: 'Wilbur J. Dry',
-      street: '2043 Jadewood Drive',
-      location: 'Northbrook'
+      name: "Wilbur J. Dry",
+      street: "2043 Jadewood Drive",
+      location: "Northbrook",
     },
     {
       lat: 51.21389,
       long: -102.462776,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 52.321945,
       long: -106.584167,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 50.288055,
       long: -107.793892,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 52.7575,
       long: -108.28611,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 50.393333,
       long: -105.551941,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 50.930557,
       long: -102.807777,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 52.856388,
       long: -104.610001,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 52.289722,
       long: -106.666664,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 52.201942,
       long: -105.123055,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 53.278046,
       long: -110.00547,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 49.13673,
       long: -102.990959,
-      name: 'Joseph B. Poole',
-      street: '3364 Lunetta Street',
-      location: 'Wichita Falls'
+      name: "Joseph B. Poole",
+      street: "3364 Lunetta Street",
+      location: "Wichita Falls",
     },
     {
       lat: 45.484531,
       long: -73.597023,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 45.266666,
       long: -71.900002,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 45.349998,
       long: -72.51667,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 47.333332,
       long: -79.433334,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 45.400002,
       long: -74.033333,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 45.683334,
       long: -73.433334,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 48.099998,
       long: -77.783333,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 45.5,
       long: -72.316666,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 46.349998,
       long: -72.550003,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 48.119999,
       long: -69.18,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 45.599998,
       long: -75.25,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 46.099998,
       long: -71.300003,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 45.700001,
       long: -73.633331,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 47.68,
       long: -68.879997,
-      name: 'Claudette D. Nowakowski',
-      street: '3742 Farland Avenue',
-      location: 'San Antonio'
+      name: "Claudette D. Nowakowski",
+      street: "3742 Farland Avenue",
+      location: "San Antonio",
     },
     {
       lat: 46.716667,
       long: -79.099998,
-      name: '299'
+      name: "299",
     },
     {
       lat: 45.016666,
       long: -72.099998,
-      name: '299'
-    }
+      name: "299",
+    },
   ];
 
   const { L } = window;
@@ -5934,48 +6005,48 @@
   /* -------------------------------------------------------------------------- */
 
   const leafletInit = () => {
-    const mapContainer = document.getElementById('map');
+    const mapContainer = document.getElementById("map");
     if (L && mapContainer) {
       const getFilterColor = () => {
-        return window.config.config.phoenixTheme === 'dark'
+        return window.config.config.phoenixTheme === "dark"
           ? [
-              'invert:98%',
-              'grayscale:69%',
-              'bright:89%',
-              'contrast:111%',
-              'hue:205deg',
-              'saturate:1000%'
+              "invert:98%",
+              "grayscale:69%",
+              "bright:89%",
+              "contrast:111%",
+              "hue:205deg",
+              "saturate:1000%",
             ]
-          : ['bright:101%', 'contrast:101%', 'hue:23deg', 'saturate:225%'];
+          : ["bright:101%", "contrast:101%", "hue:23deg", "saturate:225%"];
       };
       const tileLayerTheme =
-        'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
 
       const tiles = L.tileLayer.colorFilter(tileLayerTheme, {
         attribution: null,
         transparent: true,
-        filter: getFilterColor()
+        filter: getFilterColor(),
       });
 
-      const map = L.map('map', {
+      const map = L.map("map", {
         center: L.latLng(25.659195, 30.182691),
         zoom: 0.6,
         layers: [tiles],
-        minZoom: 1.4
+        minZoom: 1.4,
       });
 
       const mcg = L.markerClusterGroup({
         chunkedLoading: false,
-        spiderfyOnMaxZoom: false
+        spiderfyOnMaxZoom: false,
       });
 
-      leaftletPoints.map(point => {
+      leaftletPoints.map((point) => {
         const { name, location, street } = point;
         const icon = L.icon({
-          iconUrl: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAApCAYAAADAk4LOAAAACXBIWXMAAAFgAAABYAEg2RPaAAADpElEQVRYCZ1XS1LbQBBtybIdiMEJKSpUqihgEW/xDdARyAnirOIl3MBH8NK7mBvkBpFv4Gy9IRSpFIQiRPyNfqkeZkY9HwmFt7Lm06+7p/vN2MmyDIrQ6QebALAHAD4AbFuWfQeAAACGs5H/w5jlsJJw4wMA+GhMFuMA99jIDJJOP+ihZwDQFmNuowWO1wS3viDXpdEdZPEc0odruj0EgN5s5H8tJOEEX8R3rbkMtcU34NTqhe5nSQTJ7Tkk80s6/Gk28scGiULguFBffgdufdEwWoQ0uoXo8hdAlooVH0REjISfwZSlyHGh0V5n6aHAtKTxXI5g6nQnMH0P4bEgwtR18Yw8Pj8QZ4ARUAI0Hl+fQZZGisGEBVwHr7XKzox57DXZ/ij8Cdwe2u057z9/wygOxRl4S2vSUHx1oucaMQGAHTrgtdag9mK5aN+Wx/uAAQ9Zenp/SRce4TpaNbQK4+sTcGqeTB/aIXv3XN5oj2VKqii++U0JunpZ8urxee4hvjqVc2hHpBDXuKKT9XMgVYJ1/1fPGSeaikzgmWWkMIi9bVf8UhotXxzORn5gWFchI8QyttlzjS0qpsaIGY2MMsujV/AUSdcY0dDpB6/EiOPYzclR1CI5mOez3ekHvrFLxa7cR5pTscfrXjk0Vhm5V2PqLUWnH3R5GbPGpMVD7E1ckXesKBQ7AS/vmQ1c0+kHuxpBj98lTCm8pbc5QRJRdZ6qHb/wGryXq3Lxszv+5gySuwvxueXySwYvHEjuQ9ofTGKYlrmK1EsCHMd5SoD7mZ1HHFCBHLNbMEshvrugqWLn01hpVVJhFgVGkDvK7hR6n2B+d9C7xsqWsbkqHv4cCsWezEb+o2SR+SFweUBxfA5wH7kShjKt2vWL57Px3GhIFEezkb8pxvUWHYhotAfCk2AtkEcxoOttrxUWDR5svb1emSQKj0WXK1HYIgFREbiBqmoZcB2RkbE+byMZiosorVgAZF1ID7yQhEs38wa7nUqNDezdlavC2HbBGSQkGgZ8uJVBmzeiKCRRpEa9ilWghORVeGB7BxeSKF5xqbFBkxBrFKUk/JHA7ppENQaCnCjthK+3opCEYyANztXmZN858cDYWSUSHk3A311GAZDvo6deNKUk1EsqnJoQlkYBNlmxQZeaMgmxoUokICoHDce351RCCiuKoirJWEgNOYvQplM2VCLhUqF7jf94rW9kHVUjQeheV4riv0i4ZOzzz/2y/+0KAOAfr4EE4HpCFhwAAAAASUVORK5CYII=`
+          iconUrl: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAApCAYAAADAk4LOAAAACXBIWXMAAAFgAAABYAEg2RPaAAADpElEQVRYCZ1XS1LbQBBtybIdiMEJKSpUqihgEW/xDdARyAnirOIl3MBH8NK7mBvkBpFv4Gy9IRSpFIQiRPyNfqkeZkY9HwmFt7Lm06+7p/vN2MmyDIrQ6QebALAHAD4AbFuWfQeAAACGs5H/w5jlsJJw4wMA+GhMFuMA99jIDJJOP+ihZwDQFmNuowWO1wS3viDXpdEdZPEc0odruj0EgN5s5H8tJOEEX8R3rbkMtcU34NTqhe5nSQTJ7Tkk80s6/Gk28scGiULguFBffgdufdEwWoQ0uoXo8hdAlooVH0REjISfwZSlyHGh0V5n6aHAtKTxXI5g6nQnMH0P4bEgwtR18Yw8Pj8QZ4ARUAI0Hl+fQZZGisGEBVwHr7XKzox57DXZ/ij8Cdwe2u057z9/wygOxRl4S2vSUHx1oucaMQGAHTrgtdag9mK5aN+Wx/uAAQ9Zenp/SRce4TpaNbQK4+sTcGqeTB/aIXv3XN5oj2VKqii++U0JunpZ8urxee4hvjqVc2hHpBDXuKKT9XMgVYJ1/1fPGSeaikzgmWWkMIi9bVf8UhotXxzORn5gWFchI8QyttlzjS0qpsaIGY2MMsujV/AUSdcY0dDpB6/EiOPYzclR1CI5mOez3ekHvrFLxa7cR5pTscfrXjk0Vhm5V2PqLUWnH3R5GbPGpMVD7E1ckXesKBQ7AS/vmQ1c0+kHuxpBj98lTCm8pbc5QRJRdZ6qHb/wGryXq3Lxszv+5gySuwvxueXySwYvHEjuQ9ofTGKYlrmK1EsCHMd5SoD7mZ1HHFCBHLNbMEshvrugqWLn01hpVVJhFgVGkDvK7hR6n2B+d9C7xsqWsbkqHv4cCsWezEb+o2SR+SFweUBxfA5wH7kShjKt2vWL57Px3GhIFEezkb8pxvUWHYhotAfCk2AtkEcxoOttrxUWDR5svb1emSQKj0WXK1HYIgFREbiBqmoZcB2RkbE+byMZiosorVgAZF1ID7yQhEs38wa7nUqNDezdlavC2HbBGSQkGgZ8uJVBmzeiKCRRpEa9ilWghORVeGB7BxeSKF5xqbFBkxBrFKUk/JHA7ppENQaCnCjthK+3opCEYyANztXmZN858cDYWSUSHk3A311GAZDvo6deNKUk1EsqnJoQlkYBNlmxQZeaMgmxoUokICoHDce351RCCiuKoirJWEgNOYvQplM2VCLhUqF7jf94rW9kHVUjQeheV4riv0i4ZOzzz/2y/+0KAOAfr4EE4HpCFhwAAAAASUVORK5CYII=`,
         });
         const marker = L.marker([point.lat, point.long], {
-          icon
+          icon,
         });
         const popupContent = `
         <h6 class="mb-1">${name}</h6>
@@ -5990,20 +6061,20 @@
 
       const themeController = document.body;
       themeController.addEventListener(
-        'clickControl',
+        "clickControl",
         ({ detail: { control, value } }) => {
-          if (control === 'phoenixTheme') {
+          if (control === "phoenixTheme") {
             tiles.updateFilter(
-              value === 'dark'
+              value === "dark"
                 ? [
-                    'invert:98%',
-                    'grayscale:69%',
-                    'bright:89%',
-                    'contrast:111%',
-                    'hue:205deg',
-                    'saturate:1000%'
+                    "invert:98%",
+                    "grayscale:69%",
+                    "bright:89%",
+                    "contrast:111%",
+                    "hue:205deg",
+                    "saturate:1000%",
                   ]
-                : ['bright:101%', 'contrast:101%', 'hue:23deg', 'saturate:225%']
+                : ["bright:101%", "contrast:101%", "hue:23deg", "saturate:225%"]
             );
           }
         }
@@ -6016,112 +6087,113 @@
   /* -------------------------------------------------------------------------- */
 
   const mapboxClusterInit = () => {
-    const mapboxCluster = document.querySelectorAll('#mapbox-cluster');
+    const mapboxCluster = document.querySelectorAll("#mapbox-cluster");
     if (mapboxCluster) {
       mapboxCluster.forEach(() => {
         window.mapboxgl.accessToken =
-          'pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ';
+          "pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ";
 
         const styles = {
-          default: 'mapbox://styles/mapbox/light-v11',
-          light: 'mapbox://styles/themewagon/clj57pads001701qo25756jtw',
-          dark: 'mapbox://styles/themewagon/cljzg9juf007x01pk1bepfgew'
+          default: "mapbox://styles/mapbox/light-v11",
+          light: "mapbox://styles/themewagon/clj57pads001701qo25756jtw",
+          dark: "mapbox://styles/themewagon/cljzg9juf007x01pk1bepfgew",
         };
 
         const map = new window.mapboxgl.Map({
-          container: 'mapbox-cluster',
+          container: "mapbox-cluster",
           style: styles[window.config.config.phoenixTheme],
           center: [-73.102712, 7.102257],
           zoom: 3.5,
           pitch: 40,
-          attributionControl: false
+          attributionControl: false,
         });
 
-        map.on('load', () => {
-          map.addSource('earthquakes', {
-            type: 'geojson',
-            data: 'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson',
+        map.on("load", () => {
+          map.addSource("earthquakes", {
+            type: "geojson",
+            data: "https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
             cluster: true,
             clusterMaxZoom: 14,
-            clusterRadius: 50
+            clusterRadius: 50,
           });
 
           map.addLayer({
-            id: 'clusters',
-            type: 'circle',
-            source: 'earthquakes',
-            filter: ['has', 'point_count'],
+            id: "clusters",
+            type: "circle",
+            source: "earthquakes",
+            filter: ["has", "point_count"],
             paint: {
-              'circle-color': [
-                'step',
-                ['get', 'point_count'],
-                getColor('secondary'),
+              "circle-color": [
+                "step",
+                ["get", "point_count"],
+                getColor("secondary"),
                 100,
-                getColor('info'),
+                getColor("info"),
                 750,
-                getColor('warning')
+                getColor("warning"),
               ],
-              'circle-radius': [
-                'step',
-                ['get', 'point_count'],
+              "circle-radius": [
+                "step",
+                ["get", "point_count"],
                 20,
                 100,
                 30,
                 750,
-                40
-              ]
-            }
+                40,
+              ],
+            },
           });
 
           map.addLayer({
-            id: 'cluster-count',
-            type: 'symbol',
-            source: 'earthquakes',
-            filter: ['has', 'point_count'],
+            id: "cluster-count",
+            type: "symbol",
+            source: "earthquakes",
+            filter: ["has", "point_count"],
             layout: {
-              'text-field': ['get', 'point_count_abbreviated'],
-              'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-              'text-size': 12
+              "text-field": ["get", "point_count_abbreviated"],
+              "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+              "text-size": 12,
             },
             paint: {
-              'text-color': getColor('white')
-            }
+              "text-color": getColor("white"),
+            },
           });
 
           map.addLayer({
-            id: 'unclustered-point',
-            type: 'circle',
-            source: 'earthquakes',
-            filter: ['!', ['has', 'point_count']],
+            id: "unclustered-point",
+            type: "circle",
+            source: "earthquakes",
+            filter: ["!", ["has", "point_count"]],
             paint: {
-              'circle-color': getColor('primary-light'),
-              'circle-radius': 4,
-              'circle-stroke-width': 1,
-              'circle-stroke-color': getColor('emphasis-bg')
-            }
+              "circle-color": getColor("primary-light"),
+              "circle-radius": 4,
+              "circle-stroke-width": 1,
+              "circle-stroke-color": getColor("emphasis-bg"),
+            },
           });
 
-          map.on('click', 'clusters', e => {
+          map.on("click", "clusters", (e) => {
             const features = map.queryRenderedFeatures(e.point, {
-              layers: ['clusters']
+              layers: ["clusters"],
             });
             const clusterId = features[0].properties.cluster_id;
             map
-              .getSource('earthquakes')
+              .getSource("earthquakes")
               .getClusterExpansionZoom(clusterId, (err, zoom) => {
                 if (err) return;
 
                 map.easeTo({
                   center: features[0].geometry.coordinates,
-                  zoom
+                  zoom,
                 });
               });
           });
 
-          map.on('click', 'unclustered-point', e => {
+          map.on("click", "unclustered-point", (e) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const { mag } = e.features[0].properties;
-            const tsunami = e.features[0].properties.tsunami === 1 ? 'yes' : 'no';
+            const tsunami =
+              e.features[0].properties.tsunami === 1 ? "yes" : "no";
 
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
               coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -6133,11 +6205,11 @@
               .addTo(map);
           });
 
-          map.on('mouseenter', 'clusters', () => {
-            map.getCanvas().style.cursor = 'pointer';
+          map.on("mouseenter", "clusters", () => {
+            map.getCanvas().style.cursor = "pointer";
           });
-          map.on('mouseleave', 'clusters', () => {
-            map.getCanvas().style.cursor = '';
+          map.on("mouseleave", "clusters", () => {
+            map.getCanvas().style.cursor = "";
           });
         });
       });
@@ -6146,7 +6218,7 @@
 
   const themeController = document.body;
   if (themeController) {
-    themeController.addEventListener('clickControl', () => {
+    themeController.addEventListener("clickControl", () => {
       mapboxClusterInit();
     });
   }
@@ -6159,37 +6231,37 @@
 
   const tripReviewChartInit = () => {
     const { getData, getColor } = window.phoenix.utils;
-    const $echartTripReviews = document.querySelectorAll('.echart-trip-review');
+    const $echartTripReviews = document.querySelectorAll(".echart-trip-review");
 
     if ($echartTripReviews) {
-      $echartTripReviews.forEach($echartTripReview => {
-        const userOptions = getData($echartTripReview, 'options');
+      $echartTripReviews.forEach(($echartTripReview) => {
+        const userOptions = getData($echartTripReview, "options");
         const chart = echarts.init($echartTripReview);
 
         const getDefaultOptions = () => ({
           tooltip: {
-            trigger: 'item',
+            trigger: "item",
             padding: [7, 10],
-            backgroundColor: getColor('body-highlight-bg'),
-            borderColor: getColor('border-color'),
-            textStyle: { color: getColor('light-text-emphasis') },
+            backgroundColor: getColor("body-highlight-bg"),
+            borderColor: getColor("border-color"),
+            textStyle: { color: getColor("light-text-emphasis") },
             borderWidth: 1,
             position: (...params) => handleTooltipPosition(params),
             transitionDuration: 0,
-            formatter: params => {
+            formatter: (params) => {
               return `<strong>${params.seriesName}:</strong> ${params.value}%`;
             },
-            extraCssText: 'z-index: 1000'
+            extraCssText: "z-index: 1000",
           },
           series: [
             {
-              type: 'gauge',
-              name: 'Commission',
+              type: "gauge",
+              name: "Commission",
               startAngle: 90,
               endAngle: -270,
-              radius: '90%',
+              radius: "90%",
               pointer: {
-                show: false
+                show: false,
               },
               progress: {
                 show: true,
@@ -6197,31 +6269,31 @@
                 // roundCap: true,
                 clip: false,
                 itemStyle: {
-                  color: getColor('primary')
-                }
+                  color: getColor("primary"),
+                },
               },
               axisLine: {
                 lineStyle: {
                   width: 4,
-                  color: [[1, getColor('secondary-bg')]]
-                }
+                  color: [[1, getColor("secondary-bg")]],
+                },
               },
               splitLine: {
-                show: false
+                show: false,
               },
               axisTick: {
-                show: false
+                show: false,
               },
               axisLabel: {
-                show: false
+                show: false,
               },
               detail: {
-                fontSize: '20px',
-                color: getColor('body-color'),
-                offsetCenter: [0, '10%']
-              }
-            }
-          ]
+                fontSize: "20px",
+                color: getColor("body-color"),
+                offsetCenter: [0, "10%"],
+              },
+            },
+          ],
         });
 
         echartSetOption(chart, userOptions, getDefaultOptions);
@@ -6231,17 +6303,17 @@
 
   const playOnHoverInit = () => {
     const isPause = (playIcon, pauseIcon) => {
-      playIcon.classList.add('d-block');
-      pauseIcon.classList.add('d-none');
-      playIcon.classList.remove('d-none');
-      pauseIcon.classList.remove('d-block');
+      playIcon.classList.add("d-block");
+      pauseIcon.classList.add("d-none");
+      playIcon.classList.remove("d-none");
+      pauseIcon.classList.remove("d-block");
     };
 
     const isPlay = (playIcon, pauseIcon) => {
-      playIcon.classList.add('d-none');
-      pauseIcon.classList.add('d-block');
-      playIcon.classList.remove('d-block');
-      pauseIcon.classList.remove('d-none');
+      playIcon.classList.add("d-none");
+      pauseIcon.classList.add("d-block");
+      playIcon.classList.remove("d-block");
+      pauseIcon.classList.remove("d-none");
     };
 
     const playVideo = (video, playIcon, pauseIcon) => {
@@ -6255,12 +6327,12 @@
     };
 
     const controlIsContainer = (container, state) => {
-      const video = container.querySelector('[data-play-on-hover]');
-      const controller = container.querySelector('[data-video-controller]');
+      const video = container.querySelector("[data-play-on-hover]");
+      const controller = container.querySelector("[data-video-controller]");
       if (controller) {
-        const playIcon = controller.querySelector('.play-icon');
-        const pauseIcon = controller.querySelector('.pause-icon');
-        if (state === 'play') {
+        const playIcon = controller.querySelector(".play-icon");
+        const pauseIcon = controller.querySelector(".pause-icon");
+        if (state === "play") {
           playVideo(video, playIcon, pauseIcon);
         } else {
           pauseVideo(video, playIcon, pauseIcon);
@@ -6268,53 +6340,53 @@
       }
     };
 
-    document.addEventListener('mouseover', e => {
-      if (e.target.closest('[data-play-on-hover]')) {
-        const video = e.target.closest('[data-play-on-hover]');
+    document.addEventListener("mouseover", (e) => {
+      if (e.target.closest("[data-play-on-hover]")) {
+        const video = e.target.closest("[data-play-on-hover]");
         playVideo(video, null, null);
-      } else if (e.target.closest('[data-play-on-container-hover]')) {
-        const container = e.target.closest('[data-play-on-container-hover]');
-        controlIsContainer(container, 'play');
+      } else if (e.target.closest("[data-play-on-container-hover]")) {
+        const container = e.target.closest("[data-play-on-container-hover]");
+        controlIsContainer(container, "play");
       }
     });
 
-    document.addEventListener('mouseout', e => {
-      if (e.target.closest('[data-play-on-hover]')) {
-        const video = e.target.closest('[data-play-on-hover]');
+    document.addEventListener("mouseout", (e) => {
+      if (e.target.closest("[data-play-on-hover]")) {
+        const video = e.target.closest("[data-play-on-hover]");
         pauseVideo(video, null, null);
-      } else if (e.target.closest('[data-play-on-container-hover]')) {
-        const container = e.target.closest('[data-play-on-container-hover]');
-        controlIsContainer(container, 'pause');
+      } else if (e.target.closest("[data-play-on-container-hover]")) {
+        const container = e.target.closest("[data-play-on-container-hover]");
+        controlIsContainer(container, "pause");
       }
     });
 
-    document.addEventListener('touchstart', e => {
-      if (e.target.closest('[data-play-on-hover]')) {
-        const video = e.target.closest('[data-play-on-hover]');
+    document.addEventListener("touchstart", (e) => {
+      if (e.target.closest("[data-play-on-hover]")) {
+        const video = e.target.closest("[data-play-on-hover]");
         playVideo(video, null, null);
-      } else if (e.target.closest('[data-play-on-container-hover]')) {
-        const container = e.target.closest('[data-play-on-container-hover]');
-        controlIsContainer(container, 'play');
+      } else if (e.target.closest("[data-play-on-container-hover]")) {
+        const container = e.target.closest("[data-play-on-container-hover]");
+        controlIsContainer(container, "play");
       }
     });
 
-    document.addEventListener('touchend', e => {
-      if (e.target.closest('[data-play-on-hover]')) {
-        const video = e.target.closest('[data-play-on-hover]');
+    document.addEventListener("touchend", (e) => {
+      if (e.target.closest("[data-play-on-hover]")) {
+        const video = e.target.closest("[data-play-on-hover]");
         pauseVideo(video, null, null);
-      } else if (e.target.closest('[data-play-on-container-hover]')) {
-        const container = e.target.closest('[data-play-on-container-hover]');
-        controlIsContainer(container, 'pause');
+      } else if (e.target.closest("[data-play-on-container-hover]")) {
+        const container = e.target.closest("[data-play-on-container-hover]");
+        controlIsContainer(container, "pause");
       }
     });
 
-    document.addEventListener('click', e => {
-      if (e.target.closest('[data-video-controller]')) {
-        const controller = e.target.closest('[data-video-controller]');
-        const container = controller.closest('[data-play-on-container-hover]');
-        const video = container.querySelector('[data-play-on-hover]');
-        const playIcon = controller.querySelector('.play-icon');
-        const pauseIcon = controller.querySelector('.pause-icon');
+    document.addEventListener("click", (e) => {
+      if (e.target.closest("[data-video-controller]")) {
+        const controller = e.target.closest("[data-video-controller]");
+        const container = controller.closest("[data-play-on-container-hover]");
+        const video = container.querySelector("[data-play-on-hover]");
+        const playIcon = controller.querySelector(".play-icon");
+        const pauseIcon = controller.querySelector(".pause-icon");
 
         if (video.paused) {
           playVideo(video, playIcon, pauseIcon);
@@ -6325,14 +6397,14 @@
     });
 
     const videoContainers = document.querySelectorAll(
-      '[data-play-on-container-hover]'
+      "[data-play-on-container-hover]"
     );
-    videoContainers.forEach(container => {
-      const video = container.querySelector('[data-play-on-hover]');
-      const controller = container.querySelector('[data-video-controller]');
+    videoContainers.forEach((container) => {
+      const video = container.querySelector("[data-play-on-hover]");
+      const controller = container.querySelector("[data-video-controller]");
       if (controller) {
-        const playIcon = controller.querySelector('.play-icon');
-        const pauseIcon = controller.querySelector('.pause-icon');
+        const playIcon = controller.querySelector(".play-icon");
+        const pauseIcon = controller.querySelector(".pause-icon");
 
         if (video.paused) {
           isPause(playIcon, pauseIcon);
@@ -6342,18 +6414,20 @@
   };
 
   const passwordToggleInit = () => {
-    const passwords = document.querySelectorAll('[data-password]');
+    const passwords = document.querySelectorAll("[data-password]");
     if (passwords) {
-      passwords.forEach(password => {
-        const passwordInput = password.querySelector('[data-password-input]');
-        const passwordToggler = password.querySelector('[data-password-toggle]');
-        passwordToggler.addEventListener('click', () => {
-          if (passwordInput.type === 'password') {
-            passwordInput.setAttribute('type', 'text');
-            passwordToggler.classList.add('show-password');
+      passwords.forEach((password) => {
+        const passwordInput = password.querySelector("[data-password-input]");
+        const passwordToggler = password.querySelector(
+          "[data-password-toggle]"
+        );
+        passwordToggler.addEventListener("click", () => {
+          if (passwordInput.type === "password") {
+            passwordInput.setAttribute("type", "text");
+            passwordToggler.classList.add("show-password");
           } else {
-            passwordInput.setAttribute('type', 'password');
-            passwordToggler.classList.remove('show-password');
+            passwordInput.setAttribute("type", "password");
+            passwordToggler.classList.remove("show-password");
           }
         });
       });
@@ -6365,40 +6439,40 @@
   /* -------------------------------------------------------------------------- */
   const treeviewInit = () => {
     const Events = {
-      CHANGE: 'change',
-      SHOW_BS_COLLAPSE: 'show.bs.collapse',
-      HIDE_BS_COLLAPSE: 'hide.bs.collapse'
+      CHANGE: "change",
+      SHOW_BS_COLLAPSE: "show.bs.collapse",
+      HIDE_BS_COLLAPSE: "hide.bs.collapse",
     };
 
     const Selector = {
       TREEVIEW_ROW:
-        '.treeview > li > .treeview-row,.treeview-list.collapse-show > li > .treeview-row',
-      TREEVIEW: '.treeview',
-      TREEVIEW_LIST: '.treeview-list',
+        ".treeview > li > .treeview-row,.treeview-list.collapse-show > li > .treeview-row",
+      TREEVIEW: ".treeview",
+      TREEVIEW_LIST: ".treeview-list",
       TOGGLE_ELEMENT: "[data-bs-toggle='collapse']",
-      INPUT: 'input',
-      TREEVIEW_LIST_ITEM: '.treeview-list-item',
-      CHILD_SELECTOR: ':scope > li > .collapse.collapse-show'
+      INPUT: "input",
+      TREEVIEW_LIST_ITEM: ".treeview-list-item",
+      CHILD_SELECTOR: ":scope > li > .collapse.collapse-show",
     };
 
     const ClassName = {
-      TREEVIEW: 'treeview',
-      TREEVIEW_LIST: 'treeview-list',
-      TREEVIEW_BORDER: 'treeview-border',
-      TREEVIEW_BORDER_TRANSPARENT: 'treeview-border-transparent',
-      COLLAPSE_SHOW: 'collapse-show',
-      COLLAPSE_HIDDEN: 'collapse-hidden',
-      TREEVIEW_ROW: 'treeview-row',
-      TREEVIEW_ROW_ODD: 'treeview-row-odd',
-      TREEVIEW_ROW_EVEN: 'treeview-row-even'
+      TREEVIEW: "treeview",
+      TREEVIEW_LIST: "treeview-list",
+      TREEVIEW_BORDER: "treeview-border",
+      TREEVIEW_BORDER_TRANSPARENT: "treeview-border-transparent",
+      COLLAPSE_SHOW: "collapse-show",
+      COLLAPSE_HIDDEN: "collapse-hidden",
+      TREEVIEW_ROW: "treeview-row",
+      TREEVIEW_ROW_ODD: "treeview-row-odd",
+      TREEVIEW_ROW_EVEN: "treeview-row-even",
     };
 
     const treeviews = document.querySelectorAll(Selector.TREEVIEW);
 
-    const makeStriped = treeview => {
+    const makeStriped = (treeview) => {
       const tags = Array.from(treeview.querySelectorAll(Selector.TREEVIEW_ROW));
 
-      const uTags = tags.filter(tag => {
+      const uTags = tags.filter((tag) => {
         let result = true;
         while (tag.parentElement) {
           if (tag.parentElement.classList.contains(ClassName.COLLAPSE_HIDDEN)) {
@@ -6421,8 +6495,8 @@
     };
 
     if (treeviews.length) {
-      treeviews.forEach(treeview => {
-        const options = getData(treeview, 'options');
+      treeviews.forEach((treeview) => {
+        const options = getData(treeview, "options");
         const striped = options?.striped;
         const select = options?.select;
 
@@ -6437,17 +6511,17 @@
           treeview.querySelectorAll(Selector.TREEVIEW_LIST_ITEM)
         );
 
-        collapseListItem.forEach(item => {
-          const wholeRow = document.createElement('div');
-          wholeRow.setAttribute('class', ClassName.TREEVIEW_ROW);
+        collapseListItem.forEach((item) => {
+          const wholeRow = document.createElement("div");
+          wholeRow.setAttribute("class", ClassName.TREEVIEW_ROW);
           item.prepend(wholeRow);
         });
-        collapseElementList.forEach(collapse => {
+        collapseElementList.forEach((collapse) => {
           const collapseId = collapse.id;
           if (!striped) {
             collapse.classList.add(ClassName.TREEVIEW_BORDER);
           }
-          collapse.addEventListener(Events.SHOW_BS_COLLAPSE, e => {
+          collapse.addEventListener(Events.SHOW_BS_COLLAPSE, (e) => {
             e.target.classList.remove(ClassName.COLLAPSE_HIDDEN);
             e.target.classList.add(ClassName.COLLAPSE_SHOW);
             if (striped) {
@@ -6455,7 +6529,7 @@
             }
           });
 
-          collapse.addEventListener(Events.HIDE_BS_COLLAPSE, e => {
+          collapse.addEventListener(Events.HIDE_BS_COLLAPSE, (e) => {
             e.target.classList.add(ClassName.COLLAPSE_HIDDEN);
             e.target.classList.remove(ClassName.COLLAPSE_SHOW);
 
@@ -6476,20 +6550,22 @@
             }
           });
 
-          if (collapse.dataset.show === 'true') {
+          if (collapse.dataset.show === "true") {
             const parents = [collapse];
             while (collapse.parentElement) {
               if (
-                collapse.parentElement.classList.contains(ClassName.TREEVIEW_LIST)
+                collapse.parentElement.classList.contains(
+                  ClassName.TREEVIEW_LIST
+                )
               ) {
                 parents.unshift(collapse.parentElement);
               }
               collapse = collapse.parentElement;
             }
-            parents.forEach(collapseEl => {
+            parents.forEach((collapseEl) => {
               // eslint-disable-next-line no-new
               new window.bootstrap.Collapse(collapseEl, {
-                show: true
+                show: true,
               });
             });
           }
@@ -6498,13 +6574,13 @@
             const inputElement = treeview.querySelector(
               `input[data-target='#${collapseId}']`
             );
-            inputElement.addEventListener(Events.CHANGE, e => {
+            inputElement.addEventListener(Events.CHANGE, (e) => {
               const childInputElements = Array.from(
                 treeview
                   .querySelector(`#${collapseId}`)
                   .querySelectorAll(Selector.INPUT)
               );
-              childInputElements.forEach(input => {
+              childInputElements.forEach((input) => {
                 input.checked = e.target.checked;
               });
             });
@@ -6516,130 +6592,127 @@
 
   // sweet alert
 
-const miSweetAlert = () => { 
+  const miSweetAlert = () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const sweetAlertParams = document.getElementById('sweetalert-params');
-  
-    if (sweetAlertParams && urlParams.get('confirmado') === 'true') {
-      const title = sweetAlertParams.getAttribute('data-title') || 'Éxito';
-      const text = sweetAlertParams.getAttribute('data-text') || 'Operación realizada correctamente';
-  
+    const sweetAlertParams = document.getElementById("sweetalert-params");
+
+    if (sweetAlertParams && urlParams.get("confirmado") === "true") {
+      const title = sweetAlertParams.getAttribute("data-title") || "Éxito";
+      const text =
+        sweetAlertParams.getAttribute("data-text") ||
+        "Operación realizada correctamente";
+
       Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: title,
-      showConfirmButton: false,
-      timer: 1500
+        position: "top-end",
+        icon: "success",
+        title: title,
+        showConfirmButton: false,
+        timer: 1500,
       }).then(() => {
         // Eliminar el parámetro 'confirmado' de la URL
-        urlParams.delete('confirmado');
+        urlParams.delete("confirmado");
         let newUrl = window.location.pathname;
         const remainingParams = urlParams.toString();
         if (remainingParams) {
-          newUrl += '?' + remainingParams;
+          newUrl += "?" + remainingParams;
         }
-        window.history.replaceState({}, '', newUrl);
+        window.history.replaceState({}, "", newUrl);
       });
     }
-}
+  };
 
-
-
-$(document).ready(function() {
-  var table = $('#productos').DataTable({
-    lengthPages: [5,10,15],
-    searching: true,
-    paging: true,
-    ordering: true,
-    processing: true,
-    serverSide: true,
-    ajax: {
-      url: "http://localhost:3001/stock/api/productos",
-      type: 'GET',
-    },
-
-    columns: [
-      { data: 'img' },
-      { data: 'sku', },
-      { data: 'nombre' },
-      { data: 'marca' },
-      { data: 'categoria' },
-      { data: 'capacidad' },
-      { data: 'unidad' },
-      { data: 'precio' },
-      { data: 'stock' },
-      { data: 'proveedor' },
-      { data: 'fecha' }
-    ],
-    columnDefs: [
-      { className: "text-center", targets: "_all" },
-      {className:"align-middle", targets: "_all"},
-      {
-        targets: 0, // Imagen
-        render: function(data) {
-            return `<a href="../../../apps/e-commerce/landing/product-details.html" class="d-block border border-translucent rounded-2">
-                        <img src="${data}" alt="" width="53">
+  $(document).ready(function () {
+    var tablaProductos = $("#productos").DataTable({
+      lengthMenu: [5, 10, 25, 50, 75, 100],
+      stateSave: true,
+      searching: true,
+      paging: true,
+      processing: true,
+      serverSide: true,
+      ajax: {
+        url: "http://localhost:3000/stock/api/productos",
+        type: "GET",
+      },
+      columns: [
+        {
+          data: "img",
+          render: function (data) {
+            return `<a href="../../../apps/e-commerce/landing/product-details.html" class="">
+                      <img src="${data}" alt="" width="60" height="50" style="object-fit: cover;" class="rounded-2">
                     </a>`;
+          },
         },
-
-    },
-    {
-        targets: 1, // SKU
-        className: "sku align-middle white-space-nowrap fs-9 ps-4 fw-bold",
-    },
-    {
-        targets: 2, // Nombre con link
-        render: function(data) {
-            return `<a href="../../../apps/e-commerce/landing/product-details.html" class="fw-semibold line-clamp-3 mb-0">${data}</a>`;
+        {
+           data: "sku",
+           render: function (data) {
+            return `<span class="">${data}</span>`;
+           },
+           width: "10%"
+        },
+        { 
+          data: "nombre",
+          render: function (data) {
+            return `<a href="../../../apps/e-commerce/landing/product-details.html" class="line-clamp-3">${data}</a>`;
+          },
+          width: "10%"
+        },
+        { 
+          data: "marca",
+          render: function (data) {
+            return `<span class="">${data}</span>`;
+          } 
+        },
+        { 
+          data: "categoria",
+          render: function (data) {
+            return `<span class="badge badge-tag fs-8">${data}</span>`;
+          }
+         },
+        { 
+          data: "capacidad",
+          render: function (data) {
+            return `<span class="">${data}</span>`;
+          }
+        },
+        { 
+          data: "unidad",
+          render: function (data) {
+            return `<span class="">${data}</span>`;
+          }
+         },
+        { 
+          data: "precio",
+          render: function (data) {
+            return `<span class="badge badge-tag text-dark bg-primary fs-8">${data}</span>`;
+          }
+        },
+        { 
+          data: "stock",
+          render: function (data) {
+            let colorClass = data <= 10 ? "bg-danger" : "bg-success";
+            return `<span class="badge badge-tag text-dark ${colorClass} fs-8 px-5">${data}</span>`;
+          }
+         },
+        { 
+          data: "proveedor"
+        },
+        { 
+          data: "fecha"
+        },
+        {
+          data:"sku",
+          render: function (data) {
+            const SERVER_URL = `${window.location.origin}/stock/formularioProducto/${data}`;
+            return `<a href="${SERVER_URL}"><button class="btn btn-sm btn-warning fs-10 mx-1 far fa-edit"></button></a><button class="btn btn-sm btn-danger fs-10 far fa-trash-alt">Eliminar</button>`
+          },
+          title:'ACCIONES'
         }
-    },
-    {
-        targets: 3, // Marca
-        className: "marca align-middle white-space-nowrap fs-8 ps-4 fw-bold",
-    },
-    {
-        targets: 4, // Categoría con badge
-        className: "categoria pb-2 ps-3 fw-bold",
-    },
-    {
-        targets: 5, // Capacidad + Unidad
-        render: function(data, type, row) {
-            return `${row.capacidad}`;
-        },
-        className: "medida align-middle white-space-nowrap text-center fw-bold ps-4 fs-8"
-    },
-    {
-        targets: 6, //Unidad
-        className: "precio align-middle white-space-nowrap text-center fw-bold ps-4 fs-10",
-        width:"500px"
-    },
-    {
-      targets: 7, // Precio con badge dinámico
-      render: function(data) {
-          return `<span class="badge badge-tag mb-2 fs-8 px-2 text-dark bg-primary d-flex align-items-center justify-content-center">${data}</span>`;
-      },
-      className: "stock align-middle  text-center",
-  },
-  
-    {
-      targets: 8, // Precio con badge dinámico
-      render: function(data) {
-          let colorClass = data <= 10 ? 'bg-danger' : 'bg-success';
-          return `<span class="badge badge-tag mb-2 fs-8 px-5 text-dark ${colorClass}">${data}</span>`;
-      },
-      className: "stock align-middle pb-2 ps-3 text-center",
-    },
-
-  ],
-    order: [[1, 'asc']], // Orden inicial por nombre (columna 1, ascendente)
-    
-
+      ],
+      columnDefs: [
+        { className: "text-center align-middle fs-8 fw-bold", targets: "_all" },
+      ],
+    });
   });
-
-  // Aplica estilos personalizados al selector "entries per page"
-  $('#productos_length select').addClass('form-select form-select-sm').css('width', 'auto');
-});
-
 
   /* eslint-disable no-new */
 
@@ -6706,15 +6779,14 @@ $(document).ready(function() {
   docReady(treeviewInit);
   docReady(miSweetAlert);
 
-
   docReady(() => {
-    const selectedRowsBtn = document.querySelector('[data-selected-rows]');
-    const selectedRows = document.getElementById('selectedRows');
+    const selectedRowsBtn = document.querySelector("[data-selected-rows]");
+    const selectedRows = document.getElementById("selectedRows");
     if (selectedRowsBtn) {
-      const bulkSelectEl = document.getElementById('bulk-select-example');
+      const bulkSelectEl = document.getElementById("bulk-select-example");
       const bulkSelectInstance =
         window.phoenix.BulkSelect.getInstance(bulkSelectEl);
-      selectedRowsBtn.addEventListener('click', () => {
+      selectedRowsBtn.addEventListener("click", () => {
         selectedRows.innerHTML = JSON.stringify(
           bulkSelectInstance.getSelectedRows(),
           undefined,
@@ -6726,10 +6798,9 @@ $(document).ready(function() {
 
   var phoenix = {
     utils,
-    BulkSelect
+    BulkSelect,
   };
 
   return phoenix;
-
-}));
+});
 //# sourceMappingURL=phoenix.js.map

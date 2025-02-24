@@ -10,7 +10,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 
 // App
 const app = express();
-const PORT = 3001;
+const PORT = 3000;
 
 //Database
 try {
