@@ -1,5 +1,7 @@
-const endpoints = {
+//SERVER
+const server = 'http://localhost:3000';
 
+const endpoints = {
     //get
     listarProductos: '/stock',
     formularioProducto: '/stock/formularioProducto',
@@ -11,9 +13,8 @@ const endpoints = {
     vistaFormulario: 'stock/formulario_producto',
     vistaListado: 'stock/listar_productos',
 
-
-    //SERVER
-    server:'http://localhost:3000'
+    //API
+    productosApi: '/stock/api/productos',
 };
 
 export default endpoints;

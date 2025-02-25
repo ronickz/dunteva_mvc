@@ -4,27 +4,18 @@ block contenido
 
     .content
       nav
-      .mb-9
-        .row.d-flex.justify-content-between.mb-4
-          .col-auto
             h2 Productos
-          .col-auto
-            a.text-white(href=`${endpoints.formularioProducto}`)
-              button#addBtn.btn.btn-primary
-                span.fas.fa-plus.me-2
-                | Añadir Producto
-        table#productos(class="table table-hover table-sm")
-           thead
-             tr
-               th IMAGEN
-               th SKU  
-               th NOMBRE
-               th MARCA
-               th CATEGORIA
-               th CAPACIDAD
-               th UNIDAD
-               th PRECIO
-               th STOCK
-               th PROVEEDOR
-               th FECHA
-           tbody
+      table#productos(class="table table-hover table-sm table-bordered w-100")
+         thead
+           tr(class="thead-dark")
+             th IMAGEN
+             th SKU  
+             th NOMBRE
+             th MARCA
+             th CATEGORIA
+             th CAPACIDAD
+             th PRECIO
+             th STOCK
+             th PROVEEDOR
+             th FECHA
+         tbody

@@ -33,8 +33,17 @@ head
   link#style-default(href='/assets/css/theme.min.css' type='text/css' rel='stylesheet')
   link#user-style-rtl(href='/assets/css/user-rtl.min.css' type='text/css' rel='stylesheet')
   link#user-style-default(href='/assets/css/user.min.css' type='text/css' rel='stylesheet')
+
+
+
+  // ===============================================
+  //              DATA TABLES ESTILOS
+  // ===============================================
+
   link(href='https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css' type='text/css' rel='stylesheet')
+  
   script.
+    var endpoints = !{endpoints ? JSON.stringify(endpoints) : 'null'};
     var phoenixIsRTL = window.config.config.phoenixIsRTL;
     if (phoenixIsRTL) {
     var linkDefault = document.getElementById('style-default');
@@ -48,6 +57,7 @@ head
     linkRTL.setAttribute('disabled', true);
     userLinkRTL.setAttribute('disabled', true);
     }
+    
 
    
 body

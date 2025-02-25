@@ -255,7 +255,7 @@ const listar_productos = async (req, res) => {
       include: modelos,
       order: listaRelaciones,
       offset: parseInt(start),
-      limit: parseInt(length),
+      limit: length==='-1'?null:parseInt(length),
     });
 
     const productosTransformados = productos.map((producto) => {
