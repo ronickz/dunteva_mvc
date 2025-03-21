@@ -1,0 +1,5 @@
+mixin card(col,background,title,text)
+    div(class=`card ${col} ${background} p-0`)
+      div(class="card-body")
+        h5(class="card-title fw-bold")= title
+        p(class="card-text fw-bold fs-2")= text

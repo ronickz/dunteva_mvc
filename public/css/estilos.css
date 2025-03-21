@@ -1,0 +1,123 @@
+:root {
+    --violetaOscuro: #13103a;
+    --violetaClaro: #6C00FF;
+    --azul:#3C79F5;
+    --celeste:#11cadf;
+    --verde:#22eb97;
+    --rojo: #ff3c3c; /* Nuevo color */
+
+    --white: #FFFFFF;
+    --light-gray: #F5F5F5;
+    --gray:#2e2e2e;
+}
+
+/* FONDOS */
+
+
+.bg-custom-violetaOscuro{
+    background-color: var(--violetaOscuro);
+    color:white
+}
+
+.bg-custom-violetaOscuro:hover{
+    background-color: #0d0a2b;
+}
+
+.bg-custom-primary{
+    background-color: var(--celeste);
+    color:black;
+}
+
+.bg-custom-primary:hover{
+    background-color: #117985;
+    color:white;
+}
+
+.bg-custom-green{
+    background-color: var(--verde);
+    color:black;
+}
+
+.bg-custom-green:hover{
+    background-color: #21a170;
+    color:var(--white);
+}
+
+.bg-custom-gray{
+    background-color: var(--gray);
+}
+
+/* FIN */
+
+.btn-danger, .bg-danger{
+    background-color: var(--rojo)!important;
+}
+
+.btn-danger:hover, .bg-danger:hover{
+    background-color: #9c2525!important;
+    color:var(--white);
+}
+
+
+a{
+    text-decoration: none;
+    color:black;
+}
+
+body{
+    font-family: 'Inter', sans-serif!important;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    box-shadow: 0px 8px 35px rgba(0, 0, 0, 0.2);
+    background-color: var(--violetaOscuro);
+    min-height: 100vh;
+}
+
+.sidebar-logo{
+    background-color: var(--white);
+}
+
+nav svg {
+    margin:0px 10px 0 10px;
+    width: 20px; /* Cambia el ancho del SVG */
+    height: 20px; /* Cambia la altura del SVG */
+}
+
+.nav_item{
+    color: var(--white);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.4);
+    padding: 20px 0;
+    text-align: start;
+    display: block;
+    font-weight: 900;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.5s ease;
+}
+
+.nav_item:hover{
+    background-color: var(--celeste);
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto; /* Altura automática en pantallas menores a 768px */
+    }
+}
+
+/* Datatable */
+
+#productos_wrapper{
+    font-size: 12px;
+}
+
+.active:active{
+    background-color: var(--violetaOscuro);
+}
+
+
+

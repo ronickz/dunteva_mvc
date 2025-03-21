@@ -1,6 +1,3 @@
-//SERVER
-const server = 'http://localhost:3000';
-
 const endpoints = {
     //get
     listarProductos: '/stock',

@@ -23,5 +23,10 @@
     "pug": "^3.0.3",
     "sequelize": "^6.37.5",
     "sequelize-datatables": "^1.2.1"
+  },
+  "devDependencies": {
+    "gulp": "^5.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2"
   }
 }

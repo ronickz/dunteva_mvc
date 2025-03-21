@@ -17,7 +17,7 @@ block contenido
               button(id="addBtn" class=("btn btn-danger mx-2") type='button')
                 span.me-2
                   | Descartar
-            button.btn.btn-primary.mb-2.mb-sm-0(type='submit') Publicar Producto
+            button.btn.btn-info.mb-2.mb-sm-0(type='submit') Publicar Producto
         .row.g-5
           if(errores)
             .alert.alert-outline-danger.d-flex.align-items-center(role='alert')
@@ -90,10 +90,9 @@ block contenido
                               +combo_add("Unidad medida","No existe? Crea una nueva medida",data.unidades,"unidad_medida",producto.unidadId)
 
             h4.mt-3.mb-5 Añadir Imagen
-            label.form-label Upload Image
-            input.form-control(type="file", name="imagen" accept="image/*")
 
-
+              
+              
           .col-12.col-xl-4
             .row.g-2
               .col-12.col-xl-12
@@ -110,6 +109,7 @@ block contenido
                       .col-12.col-sm-6.col-xl-12
                         .mb-4
                           +combo_add("Proveedor","No existe? Crea un nuevo proveedor", data.proveedores,"proveedor",producto.proveedorId)
+
     script.
       document.addEventListener('DOMContentLoaded', function () {
         const btnConfirmarSku = document.getElementById('confirmarSkuBtn');
@@ -129,4 +129,7 @@ block contenido
           const attributesTab = new bootstrap.Tab(document.getElementById('attributesTab'));
           attributesTab.show();
         });
+  
      });
+
+

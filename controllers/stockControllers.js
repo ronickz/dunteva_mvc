@@ -10,7 +10,6 @@ import { Op } from "sequelize";
 
 // Helpers
 import {
-  obtenerTodosProductos,
   obtenerCombosBox,
 } from "../helpers/stockHelpers.js";
 
@@ -24,7 +23,7 @@ import fs from "fs";
 //Obtengo todos los productos y renderizo la vista
 const listarProductos = async (req, res) => {
   try {
-    res.status(200).render(`${endpoints.vistaListado}`, {
+    res.status(200).render(`stock/productos`, {
       endpoints,
     });
   } catch (error) {
@@ -37,8 +36,7 @@ const listarProductos = async (req, res) => {
 const formularioProducto = async (req, res) => {
   try {
     //Obtengo las categorias, marcas, proveedores y unidades de medida
-    const { categorias, marcas, proveedores, unidades } =
-      await obtenerCombosBox();
+    const { categorias, marcas, proveedores, unidades } = await obtenerCombosBox();
 
     res.render(`${endpoints.vistaFormulario}`, {
       accion: endpoints.insertarProducto,
@@ -165,9 +163,9 @@ const insertarProducto = async (req, res) => {
 const actualizarProducto = async (req, res) => { };
 
 
-
-
 //API
+
+// Productos
 
 const listar_productos = async (req, res) => {
   try {
@@ -290,6 +288,71 @@ const listar_productos = async (req, res) => {
   }
 };
 
+
+const obtener_producto = async (req, res) => {
+  try {
+    const { sku } = req.params;
+    const producto = await Producto.findOne({
+      where: {
+        sku,
+      },
+    });
+
+    if (!producto) {
+      res.status(404).send("Producto no encontrado");
+      return;
+    }
+
+    res.json(producto);
+  } catch (error) {
+    console.error("Error al obtener producto:", error);
+    res.status(500).send("Error al obtener producto");
+  }
+}
+
+// Marcas
+
+const listar_marcas = async (req, res) => {
+  try {
+    const marcas = await Marca.findAll();
+    res.json(marcas);
+  } catch (error) {
+    console.error("Error al listar marcas:", error);
+}}
+
+// Categorias
+
+const listar_categorias = async (req, res) => {
+  try {
+    const categorias = await Categoria.findAll();
+    res.json(categorias);
+  } catch (error) {
+    console.error("Error al listar categorias:", error);
+  }
+}
+
+// Proveedores
+
+const listar_proveedores = async (req, res) => {
+  try {
+    const proveedores = await Proveedor.findAll();
+    res.json(proveedores);
+  } catch (error) {
+    console.error("Error al listar proveedores:", error);
+  }
+}
+
+// Unidades de medida
+
+const listar_unidades = async (req, res) => {
+  try {
+    const unidades = await UnidadMedida.findAll();
+    res.json(unidades);
+  } catch (error) {
+    console.error("Error al listar unidades de medida:", error);
+  }
+}
+
 export {
   listarProductos,
   formularioProducto,
@@ -297,4 +360,10 @@ export {
   edicionformularioProducto,
   actualizarProducto,
   listar_productos,
-};
+  obtener_producto,
+
+  listar_marcas,
+  listar_categorias,
+  listar_proveedores,
+  listar_unidades,
+}

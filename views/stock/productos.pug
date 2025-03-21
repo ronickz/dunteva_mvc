@@ -1,0 +1,76 @@
+extends ../layout/index
+
+include ../mixins/cards/card
+
+block contenido
+
+    #staticBackdrop.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+      .modal-dialog.modal-dialog-scrollable
+        .modal-content
+          .modal-header
+            h1#staticBackdropLabel.modal-title.fs-5 Edicion
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          .modal-body
+            form
+              .row
+                .col-8
+                  .row
+                    div(class="col-12 mb-3")
+                      label(for="sku" class="form-label") SKU
+                      input#sku.form-control(type="text" placeholder="SKU")
+                    div(class="col mb-3")
+                      label(for="nombre" class="form-label") Nombre
+                      input#nombre.form-control(type="text" placeholder="Nombre")
+                  .row
+                    div(class="col mb-3")
+                      label.form-label(for='marca') Marca
+                      select#marca.form-control.form-select
+                        option(value='') Seleccionar Marca
+                    div(class="col mb-3")
+                      label.form-label(for='categoria') Categoria
+                      select#categoria.form-control.form-select
+                        option(value='') Seleccionar Categoria
+                    div(class="col-12 mb-3")
+                      label(for="stock" class="form-label") Stock
+                      input#stock.form-control(type="text" placeholder="Stock")
+                  .row
+                    div(class="col mb-3")
+                      label(for="capacidad" class="form-label") Capacidad
+                      input#capacidad.form-control(type="number" placeholder="Capacidad")
+                    div(class="col mb-3")
+                      label.form-label(for='unidadMedida') Unidad Medida
+                      select#unidadMedida.form-control.form-select
+                        option(value='') Seleccionar Unidad medida
+                    div(class="col-12 mb-3")
+                      label(for="precio" class="form-label") Precio
+                      input#precio.form-control(type="number" placeholder="Precio")
+                  div(class="mb-3")
+                    label.form-label(for='proveedor') Proveedor
+                    select#proveedor.form-control.form-select
+                      option(value='') Seleccionar Proveedor
+                .col-1
+          .modal-footer
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cerrar
+            button.btn.bg-custom-violetaOscuro(type='button') Guardar
+
+    div(class="row mt-3 justify-content-around gap-3")
+        +card("col-sm-12 col-md-3","bg-custom-primary","Productos activos","155")
+        +card("col-sm-12 col-md-3","bg-danger","Productos sin stock","155")
+        +card("col-sm-12 col-md-3","bg-custom-green","Productos vendidos","155")
+    hr
+    div(class="row mt-3")
+      .table-responsive.rounded.py-4.rounded-2
+        table#productos(class="col table table-striped table-hover table-sm")
+                 thead
+                   tr(class="")
+                     th Imagen
+                     th SKU  
+                     th Nombre
+                     th Marca
+                     th Categoria
+                     th Capacidad
+                     th Precio
+                     th Stock
+                     th Proveedor
+                     th Fecha
+                 tbody
