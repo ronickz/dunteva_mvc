@@ -21,6 +21,8 @@ try {
   console.error("Unable to connect to the database:", error);
 }
 
+// JSON
+app.use(express.json());
 app.use(cors())
 // Pug
 app.set("view engine", "pug");

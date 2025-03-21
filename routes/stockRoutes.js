@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { 
     listarProductos, 
-    formularioProducto, 
-    edicionformularioProducto,
-    insertarProducto,
-    actualizarProducto,
+
     listar_productos,
     obtener_producto,
+
+    insertar_producto,
+    actualizar_producto,
+
     listar_marcas,
     listar_categorias,
     listar_proveedores,
@@ -16,15 +17,13 @@ import {
 const router = Router();
 
 router.get("/", listarProductos );
-router.get("/formularioProducto/", formularioProducto);
-router.get("/formularioProducto/:sku", edicionformularioProducto);
 
-
-router.post("/nuevo", insertarProducto);
-router.post("/editar/:id", actualizarProducto);
 
 router.get("/api/productos",listar_productos)
 router.get("/api/productos/:sku",obtener_producto);
+
+router.post("/api/nuevo", insertar_producto);
+router.post("/api/editar/:id", actualizar_producto);
 
 router.get("/api/marcas", listar_marcas);
 router.get("/api/categorias", listar_categorias);

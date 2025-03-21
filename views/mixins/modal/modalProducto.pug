@@ -1,0 +1,55 @@
+mixin modalProducto()
+  #modalProducto.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='modalProductoLabel' aria-hidden='true')
+    .modal-dialog.modal-xl.modal-dialog-scrollable
+      .modal-content
+        .modal-header
+          h1#modalProductoLabel.modal-title.fs-5 Edicion
+          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+        .modal-body
+          form#formModalId.px-5(method='POST' action='/asd')
+            .row
+              .col-sm-12.col-md-7
+                .row
+                  div(class="col-12 mb-3")
+                    label(for="sku" class="form-label") SKU
+                    input#sku.form-control(type="text" placeholder="SKU" required)
+                  div(class="col mb-3")
+                    label(for="nombre" class="form-label") Nombre
+                    input#nombre.form-control(type="text" placeholder="Nombre" required)
+                .row
+                  div(class="col mb-3")
+                    label.form-label(for='marca') Marca
+                    select#marca.form-control.form-select(required)
+                      option(value='') Seleccionar Marca
+                  div(class="col mb-3")
+                    label.form-label(for='categoria') Categoria
+                    select#categoria.form-control.form-select(required)
+                      option(value='') Seleccionar Categoria
+                  div(class="col-12 mb-3")
+                    label(for="stock" class="form-label") Stock
+                    input#stock.form-control(type="text" placeholder="Stock" required)
+                .row
+                  div(class="col mb-3")
+                    label(for="capacidad" class="form-label") Capacidad
+                    input#capacidad.form-control(type="number" placeholder="Capacidad" required)
+                  div(class="col mb-3")
+                    label.form-label(for='unidadMedida') Unidad Medida
+                    select#unidadMedida.form-control.form-select(required)
+                      option(value='') Seleccionar Unidad medida
+                  div(class="col-12 mb-3")
+                    label(for="precio" class="form-label") Precio
+                    input#precio.form-control(type="number" placeholder="Precio" required)
+                .row
+                  div(class="col-12 mb-3")
+                    label.form-label(for='proveedor') Proveedor
+                    select#proveedor.form-control.form-select(required)
+                      option(value='') Seleccionar Proveedor
+                  div(class="col-12 mb-3")
+                    label(for="formFile" class="form-label") Seleccione su imagen
+                    input(class="form-control" type="file" accept="image/*" id="formFile")
+              .col-sm-12.col-md-5.d-flex.justify-content-center.align-items-center.border.rounded
+                div
+                  img(id="previewImage" class="img-fluid" src="https://res.cloudinary.com/dtxc85yhv/image/upload/v1740168506/productos/ts0vbu9uyagzunrveh1u.webp", alt="")
+              .modal-footer
+                button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cerrar
+                button.btn.bg-custom-violetaOscuro(type='submit') Guardar

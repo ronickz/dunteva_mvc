@@ -32,135 +32,7 @@ const listarProductos = async (req, res) => {
   }
 };
 
-//Obtengo las categorias, marcas, proveedores y unidades de medida y renderizo la vista
-const formularioProducto = async (req, res) => {
-  try {
-    //Obtengo las categorias, marcas, proveedores y unidades de medida
-    const { categorias, marcas, proveedores, unidades } = await obtenerCombosBox();
 
-    res.render(`${endpoints.vistaFormulario}`, {
-      accion: endpoints.insertarProducto,
-      endpoints,
-      titulo: "Añadir",
-      producto: {},
-      descripcion: "Añade un producto a tu tienda",
-      data: {
-        categorias,
-        marcas,
-        proveedores,
-        unidades,
-      },
-    });
-  } catch (error) {
-    console.error("Error al listar productos:", error);
-    res.status(500).send("Error al listar productos");
-  }
-};
-
-const edicionformularioProducto = async (req, res) => {
-  try {
-    const { sku } = req.params;
-
-    const producto = await Producto.findOne({
-      where: {
-        sku,
-      },
-    });
-
-    if (!producto) {
-      res.status(404).send("Producto no encontrado");
-      return;
-    }
-
-    const { categorias, marcas, proveedores, unidades } =
-      await obtenerCombosBox();
-
-    res.render(`${endpoints.vistaFormulario}`, {
-      accion: endpoints.editarProducto,
-      endpoints,
-      titulo: "Editar",
-      descripcion: "Edita el producto seleccionado",
-      producto,
-      data: {
-        action: `${endpoints.editarProducto}/${sku}`,
-        categorias,
-        marcas,
-        proveedores,
-        unidades,
-      },
-    });
-  } catch (error) {
-    console.error("Error al listar productos:", error);
-    res.status(500).send("Error al listar productos");
-  }
-};
-
-const insertarProducto = async (req, res) => {
-  try {
-    const { nombre, sku, precio, stock, capacidad, unidad_medida, marca, categoria, proveedor} = req.body;
-    let errores = [];
-
-    if(Producto.findOne({where: {sku}})){
-      errores.push("El SKU ya existe");
-      res.render(`${endpoints.vistaFormulario}`, {
-        accion: endpoints.insertarProducto,
-        endpoints,
-        titulo: "Añadir",
-        producto: {},
-        errores,
-        descripcion: "Añade un producto a tu tienda",
-        data: {
-          categorias,
-          marcas,
-          proveedores,
-          unidades,
-          errores
-        },
-      })
-    }
-    let imagenUrl = "";
-    if (req.files && req.files.imagen) {
-      const imagen = req.files.imagen;
-      const uploadPath = imagen.tempFilePath;
-
-      // Subir imagen a Cloudinary
-      const result = await cloudinary.uploader.upload(uploadPath, {
-        folder: "productos",
-        transformation: [{ quality: "auto", fetch_format: "webp" }],
-      });
-      // Obtener la URL de la imagen subida
-      imagenUrl = result.secure_url;
-
-      // Eliminar el archivo temporal
-      fs.unlink(uploadPath, (err) => {
-        if (err) {
-          console.error("Error al eliminar el archivo temporal:", err);
-        } else {
-          console.log("Archivo temporal eliminado");
-        }
-      });
-    }
-
-    await Producto.create({
-      nombre,
-      sku,
-      precio,
-      stock,
-      capacidad,
-      categoriaId: categoria, // Cambiado a categoriaId
-      marcaId: marca, // Cambiado a marcaId
-      proveedorId: proveedor, // Cambiado a proveedorId
-      unidadId: unidad_medida, // Cambiado a unidadId
-      img: imagenUrl,
-    });
-    res.status(200).redirect(`${endpoints.listarProductos}?confirmado=true`);
-  } catch (error) {
-    console.error("Error al insertar producto:", error);
-    res.status(500).send("Error al insertar producto");
-  }
-};
-
-const actualizarProducto = async (req, res) => { };
 
 
 //API
@@ -289,6 +161,103 @@ const listar_productos = async (req, res) => {
 };
 
 
+const insertar_producto = async (req, res) => {
+  /*  
+  try {
+    const { nombre, sku, precio, stock, capacidad, unidad_medida, marca, categoria, proveedor} = req.body;
+    let errores = [];
+
+    if(Producto.findOne({where: {sku}})){
+      errores.push("El SKU ya existe");
+      res.render(`${endpoints.vistaFormulario}`, {
+        accion: endpoints.insertarProducto,
+        endpoints,
+        titulo: "Añadir",
+        producto: {},
+        errores,
+        descripcion: "Añade un producto a tu tienda",
+        data: {
+          categorias,
+          marcas,
+          proveedores,
+          unidades,
+          errores
+        },
+      })
+    }
+    let imagenUrl = "";
+    if (req.files && req.files.imagen) {
+      const imagen = req.files.imagen;
+      const uploadPath = imagen.tempFilePath;
+
+      // Subir imagen a Cloudinary
+      const result = await cloudinary.uploader.upload(uploadPath, {
+        folder: "productos",
+        transformation: [{ quality: "auto", fetch_format: "webp" }],
+      });
+      // Obtener la URL de la imagen subida
+      imagenUrl = result.secure_url;
+
+      // Eliminar el archivo temporal
+      fs.unlink(uploadPath, (err) => {
+        if (err) {
+          console.error("Error al eliminar el archivo temporal:", err);
+        } else {
+          console.log("Archivo temporal eliminado");
+        }
+      });
+    }
+
+    await Producto.create({
+      nombre,
+      sku,
+      precio,
+      stock,
+      capacidad,
+      categoriaId: categoria, // Cambiado a categoriaId
+      marcaId: marca, // Cambiado a marcaId
+      proveedorId: proveedor, // Cambiado a proveedorId
+      unidadId: unidad_medida, // Cambiado a unidadId
+      img: imagenUrl,
+    });
+    res.status(200).redirect(`${endpoints.listarProductos}?confirmado=true`);
+  } catch (error) {
+    console.error("Error al insertar producto:", error);
+    res.status(500).send("Error al insertar producto");
+  }
+    */
+
+  console.log('hola entre');
+  console.log(req.body);
+  return res.status(200).json({
+    success: true,
+    message: "Producto guardado correctamente",
+  });
+};
+
+const actualizar_producto = async (req, res) => {
+  const { sku, nombre, precio } = req.body;  // Asegúrate de obtener los datos del formulario
+  
+  // Verificar si el producto ya existe
+  const productoExistente = await Producto.findOne({ where: { sku: sku } });
+
+  if (productoExistente) {
+    // Si el producto ya existe, devolver un mensaje de error
+    return res.json({
+      success: false,
+      message: 'Este SKU ya está registrado. No se puede agregar el producto.'
+    });
+  }
+  
+  // Si el producto no existe, proceder con la creación
+  const nuevoProducto = await Producto.create({ sku, nombre, precio });
+  
+  return res.json({
+    success: true,
+    message: 'Producto creado exitosamente.'
+  });
+ };
+
 const obtener_producto = async (req, res) => {
   try {
     const { sku } = req.params;
@@ -355,13 +324,12 @@ const listar_unidades = async (req, res) => {
 
 export {
   listarProductos,
-  formularioProducto,
-  insertarProducto,
-  edicionformularioProducto,
-  actualizarProducto,
+
   listar_productos,
   obtener_producto,
-
+  insertar_producto,
+  actualizar_producto,
+  
   listar_marcas,
   listar_categorias,
   listar_proveedores,

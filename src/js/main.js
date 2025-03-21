@@ -73,7 +73,7 @@ const tablaProductos = () =>  {
           data:"sku",
           render: function (data) {
             const SERVER_URL = `${window.location.origin}${endpoints.formularioProducto}/${data}`;
-            return `<button id="editar" class="btn btn-warning text-white p-2 rounded" data-id=${data} data-bs-toggle="modal" data-bs-target="#staticBackdrop"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+            return `<button id="editar" class="btn btn-warning text-white p-2 rounded" data-id=${data} data-bs-toggle="modal" data-bs-target="#modalProducto"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
   <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
 </svg></button><button class="btn btn-danger text-white p-2 rounded mx-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
   <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
@@ -103,10 +103,11 @@ const tablaProductos = () =>  {
           buttons:[
             {
               text:'Nuevo Producto',
-              className: 'btn btn-sm bg-custom-green px-3',
-              action: function(){
-                window.location.href = '/stock/formularioProducto';
-             },
+              className: 'btn nuevo btn-sm bg-custom-green px-3',
+              attr:{
+                'data-bs-toggle':"modal",
+                'data-bs-target':'#modalProducto'
+              }
             },
             {
               extend: 'copy',
@@ -371,68 +372,166 @@ const tablaProductos = () =>  {
       }
     });
 };
+// Completa los dropdowns del modal
+const cargarDropDowns = () => {
+  return Promise.all([
+    $.ajax({ url: 'api/marcas', method: 'GET' }),
+    $.ajax({ url: 'api/categorias', method: 'GET' }),
+    $.ajax({ url: 'api/unidades', method: 'GET' }),
+    $.ajax({ url: 'api/proveedores', method: 'GET' }),
+  ])
+  .then(([marcasData, categoriasData, unidadesData, proveedoresData]) => {
+    let marcasOptions = '<option value="">Seleccionar Marca</option>';
+    marcasData.forEach(marca => {
+      marcasOptions += `<option value="${marca.id}">${marca.nombre}</option>`;
+    });
+    $('#marca').html(marcasOptions); // Llenar el select de marcas
 
+    // Categorías
+    let categoriasOptions = '<option value="">Seleccionar Categoria</option>';
+    categoriasData.forEach(categoria => {
+      categoriasOptions += `<option value="${categoria.id}">${categoria.nombre}</option>`;
+    });
+    $('#categoria').html(categoriasOptions); // Llenar el select de categorías
 
-$(document).ready(function() {
-  tablaProductos();
+    // Unidades
+    let unidadesOptions = '<option value="">Seleccionar Unidad</option>';
+    unidadesData.forEach(unidad => {
+      unidadesOptions += `<option value="${unidad.id}">${unidad.nombre}</option>`;
+    });
+    $('#unidadMedida').html(unidadesOptions); // Llenar el select de unidades
 
-  $('#productos').on('click', '#editar', function() {
-    const sku = $(this).data('id');
-    
-    // Cargar las opciones de marcas, categorías y capacidades (en paralelo usando Promise.all)
-    Promise.all([
-      $.ajax({ url: 'api/marcas', method: 'GET' }),
-      $.ajax({ url: 'api/categorias', method: 'GET' }),
-      $.ajax({ url: 'api/unidades', method: 'GET' }),
-      $.ajax({ url: 'api/proveedores', method: 'GET' }),
-      $.ajax({ url: `api/productos/${sku}`, method: 'GET' })
-    ])
-    .then(([marcasData, categoriasData, unidadesData, proveedoresData, productoData]) => {
-      // Marcas
-      let marcasOptions = '<option value="">Seleccionar Marca</option>';
-      marcasData.forEach(marca => {
-        marcasOptions += `<option value="${marca.id}">${marca.nombre}</option>`;
-      });
-      $('#marca').html(marcasOptions); // Llenar el select de marcas
-
-      // Categorías
-      let categoriasOptions = '<option value="">Seleccionar Categoria</option>';
-      categoriasData.forEach(categoria => {
-        categoriasOptions += `<option value="${categoria.id}">${categoria.nombre}</option>`;
-      });
-      $('#categoria').html(categoriasOptions); // Llenar el select de categorías
-
-      // Unidades
-      let unidadesOptions = '<option value="">Seleccionar Unidad</option>';
-      unidadesData.forEach(unidad => {
-        unidadesOptions += `<option value="${unidad.id}">${unidad.nombre}</option>`;
-      });
-      $('#unidadMedida').html(unidadesOptions); // Llenar el select de unidades
-
-      // Proveedores
-      let proveedoresOptions = '<option value="">Seleccionar Proveedor</option>';
-      proveedoresData.forEach(proveedor => {
-        proveedoresOptions += `<option value="${proveedor.id}">${proveedor.nombre}</option>`;
-      });
-      $('#proveedor').html(proveedoresOptions); // Llenar el select de proveedores
-
-      // Rellenar el formulario con los datos del producto
+    // Proveedores
+    let proveedoresOptions = '<option value="">Seleccionar Proveedor</option>';
+    proveedoresData.forEach(proveedor => {
+      proveedoresOptions += `<option value="${proveedor.id}">${proveedor.nombre}</option>`;
+    });
+    $('#proveedor').html(proveedoresOptions); // Llenar el select de proveedores
+  })
+  .catch(err => {
+    console.error('Error al cargar los dropdowns', err);
+  });
+}
+// Completa los campos del producto en el modal
+const cargarProducto = (sku) => {
+  $.ajax({
+    url: `${window.location.origin}${endpoints.productosApi}/${sku}`, // Asumiendo que tienes un endpoint para obtener un producto por SKU
+    method: 'GET',
+    success: (productoData) => {
+      console.log(productoData)
+      // Llenar los campos del producto
       $('#sku').val(productoData.sku);
       $('#nombre').val(productoData.nombre);
-      $('#precio').val(productoData.precio);
       $('#stock').val(productoData.stock);
-      $('#fecha').val(productoData.fecha);
+      $('#precio').val(productoData.precio);
       
-      // Seleccionar las opciones correspondientes basadas en los IDs devueltos
-      $('#unidadMedida').val(productoData.unidadId); // Asigna la unidad
-      $('#marca').val(productoData.marcaId); // Asigna la marca
-      $('#categoria').val(productoData.categoriaId); // Asigna la categoría
-      $('#proveedor').val(productoData.proveedorId); // Asigna el proveedor
-    })
-    .catch(err => {
-      console.error('Error al cargar los datos', err);
-    });
+      // Seleccionar la marca, categoría, unidad y proveedor basados en el producto
+      $('#marca').val(productoData.marcaId);
+      $('#categoria').val(productoData.categoriaId);
+      $('#unidadMedida').val(productoData.unidadId);
+      $('#proveedor').val(productoData.proveedorId);
+    },
+    error: (err) => {
+      console.error('Error al cargar el producto', err);
+    }
+  });
+}
+// Reestablece la preview imagen del modal
+const reestablecerImagen = () => {
+  $('#formFile').val('');
+  const previewImage = $('#previewImage');
+  previewImage.attr('src', "https://res.cloudinary.com/dtxc85yhv/image/upload/v1740168506/productos/ts0vbu9uyagzunrveh1u.webp");
+}
+// Setea la nueva preview imagen
+const previewImagen = () =>{ 
+  $('#formFile').on('change', function(event) {
+    var file = event.target.files[0]; // Obtener el archivo seleccionado
+
+    if (file) {
+      var reader = new FileReader(); // Crear un FileReader
+
+      reader.onload = function(e) {
+        // Actualizar la imagen de previsualización
+        var previewImage = $('#previewImage'); // Seleccionar la imagen
+        previewImage.attr('src', e.target.result); // Establecer la nueva fuente de la imagen
+      };
+
+      // Leer el archivo como una URL de datos (Data URL)
+      reader.readAsDataURL(file);
+    }
+  });
+}
+
+// MODAL INSERTAR
+const modalInsertar = () => {
+  $('#productos_wrapper').on('click', '.nuevo', function() {
+    reestablecerImagen();
+    cargarDropDowns();
+    previewImagen();
+  })
+  // Aseguramos que el botón Guardar esté correctamente enlazado
+  $('#formModalId').on('submit', function(e) {
+    e.preventDefault();
+   // Crear un objeto con los datos del formulario
+   let formData = {
+    sku: $('#sku').val(),
+    nombre: $('#nombre').val(),
+    marca: $('#marca').val(),
+    categoria: $('#categoria').val(),
+    stock: $('#stock').val(),
+    capacidad: $('#capacidad').val(),
+    unidadMedida: $('#unidadMedida').val(),
+    precio: $('#precio').val(),
+    proveedor: $('#proveedor').val(),
+};
+
+    // Verificar si hay imagen, y agregarla al objeto si existe
+    let imagen = $('#formFile')[0].files[0];
+    if (imagen) {
+        formData.imagen = imagen;
+    }
+
+// Mostrar el objeto JSON en la consola para ver cómo está quedando
+console.log(JSON.stringify(formData));
+    $.ajax({
+      url: `${window.location.origin}${endpoints.insertarProducto}`,
+      type: 'POST',
+      data: JSON.stringify(formData),
+      contentType: 'application/json',
+      success: function(response) {
+          // Aquí puedes manejar la respuesta de la API, por ejemplo, mostrar un mensaje de éxito
+          alert('Producto guardado correctamente');
+          $('#modalProducto').modal('hide'); // Cerrar el modal
+      },
+      error: function(xhr, status, error) {
+          // Manejar errores si la solicitud falla
+          alert('Hubo un error al guardar el producto');
+      }
+  });
+  });
+}
+// MODAL EDITAR
+const modalEditar = () => {
+  $('#productos').on('click', '#editar', function() {
+    const sku = $(this).data('id');
+    $('#formModalId').attr('action', '/productos/editar');
+    cargarDropDowns()
+      .then(() => {
+        cargarProducto(sku);  // Llama a cargarProducto después de cargar los dropdowns
+        previewImagen();
+      })
+      .catch(err => {
+        console.error('Error al cargar los datos', err);  // Maneja cualquier error aquí
+      });
 });
+}
 
 
+// Inicializo las funciones creadas
+$(document).ready(function() {
+  tablaProductos();
+  modalEditar();
+  modalInsertar();
+
 });
+
