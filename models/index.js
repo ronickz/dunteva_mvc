@@ -4,6 +4,9 @@ import UnidadMedida from "./UnidadMedida.js";
 import Proveedor from "./Proveedor.js";
 import Producto from "./Producto.js";
 
+import Venta from "./Venta.js";
+import DetalleVenta from "./DetalleVenta.js";
+
 // Definir relaciones
 Producto.belongsTo(Categoria, {
   foreignKey: {
@@ -37,5 +40,21 @@ Producto.belongsTo(Proveedor, {
   as: 'proveedor'
 });
 
+DetalleVenta.belongsTo(Producto, {
+  foreignKey: {
+    name: 'productoId',
+    allowNull: false
+  },
+  as: 'producto'
+});
+
+DetalleVenta.belongsTo(Venta, {
+  foreignKey: {
+    name: 'ventaId',
+    allowNull: false
+  },
+  as: 'venta'
+});
+
 // Exportar modelos
-export { Marca, Categoria, UnidadMedida, Proveedor, Producto };
+export { Marca, Categoria, UnidadMedida, Proveedor, Producto, Venta, DetalleVenta };

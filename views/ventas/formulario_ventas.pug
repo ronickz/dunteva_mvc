@@ -1,0 +1,35 @@
+extends ../layout/index
+
+
+block contenido
+    .row(class="border rounded-3 mt-3")
+        .col-12
+            div(class="row mt-3 gap-3")
+                .col-12  
+                    .input-group.mb-3
+                      input.form-control(type='text' placeholder='Buscar productos por nombre o SKU...')
+                      button.btn.btn-outline-secondary(type='button')
+                        svg.bi.bi-search(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewbox='0 0 16 16')
+                          path(d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.85-3.85a1.007 1.007 0 0 0-.115-.098zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z')
+            div(class="row")
+                .col-12
+                    .card.mb-3()
+                      .row.g-0
+                        .col-md-2.d-flex.justify-content-center.align-items-center
+                          img.img-fluid.rounded-start(width='80px' height='80px' src=`https://res.cloudinary.com/dtxc85yhv/image/upload/v1740168506/productos/ts0vbu9uyagzunrveh1u.webp` alt='...')
+                        .col-md-8
+                          .card-body
+                            .row.justify-content-between
+                                h5.card-title Desengrasante
+                                button.btn-close.me-3(type='button' aria-label='Close')
+                            p.card-text
+                              | Dunteva
+                            p.card-text
+                              small.text-body-secondary SKU: 123456345
+                        .col-md-2.d-flex.justify-content-center.align-items-center.gap-3
+                            svg.bi.bi-dash-circle-fill(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewbox='0 0 16 16')
+                              path(d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1z')
+
+                            h5 1
+                            svg.bi.bi-plus-circle-fill(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewbox='0 0 16 16')
+                              path(d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z')

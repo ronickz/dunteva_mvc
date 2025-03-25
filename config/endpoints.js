@@ -1,7 +1,7 @@
 const endpoints = {
     //get
-    vistaProductos: '/stock',
-    vistaVentas: '/ventas',
+    vistaProductos: '/stock/',
+    vistaVentas: '/ventas/',
     vistaInicio: '/',
 
     //API

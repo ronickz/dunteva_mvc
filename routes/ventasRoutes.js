@@ -1,8 +1,8 @@
 import { Router } from "express";
-import {listar_ventas} from "../controllers/ventasControllers.js";
+import {formularioVenta} from "../controllers/ventasControllers.js";
 
 const router = Router();
 
-router.get("/", listar_ventas);
+router.get("/", formularioVenta);
 
 export default router;
