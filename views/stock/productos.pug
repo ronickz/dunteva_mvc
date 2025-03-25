@@ -8,9 +8,9 @@ block contenido
     +modalProducto()
 
     div(class="row mt-3 justify-content-around gap-3")
-        +card("col-sm-12 col-md-3","bg-custom-primary","Productos activos","155")
-        +card("col-sm-12 col-md-3","bg-danger","Productos sin stock","155")
-        +card("col-sm-12 col-md-3","bg-custom-green","Productos vendidos","155")
+        +card("col-sm-12 col-md-3","bg-custom-primary","Productos activos",productosAltoStock)
+        +card("col-sm-12 col-md-3","bg-danger","Productos sin stock",productosBajoStock)
+        +card("col-sm-12 col-md-3","bg-custom-green","Productos vendidos",0)
     hr
     div(class="row mt-3")
       .table-responsive.rounded.py-4.rounded-2

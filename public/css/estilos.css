@@ -1,9 +1,9 @@
 :root {
-    --violetaOscuro: #13103a;
+    --violetaOscuro: #0d0b24;
     --violetaClaro: #6C00FF;
     --azul:#3C79F5;
     --celeste:#11cadf;
-    --verde:#22eb97;
+    --verde:#22eb25;
     --rojo: #ff3c3c; /* Nuevo color */
 
     --white: #FFFFFF;
@@ -48,15 +48,6 @@
 }
 
 /* FIN */
-
-.btn-danger, .bg-danger{
-    background-color: var(--rojo)!important;
-}
-
-.btn-danger:hover, .bg-danger:hover{
-    background-color: #9c2525!important;
-    color:var(--white);
-}
 
 
 a{

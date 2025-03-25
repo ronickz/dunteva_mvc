@@ -12,6 +12,7 @@ import {
     listar_categorias,
     listar_proveedores,
     listar_unidades,
+    eliminar_producto,
 } from "../controllers/stockControllers.js";
 
 const router = Router();
@@ -23,7 +24,8 @@ router.get("/api/productos",listar_productos)
 router.get("/api/productos/:sku",obtener_producto);
 
 router.post("/api/nuevo", insertar_producto);
-router.post("/api/editar/:id", actualizar_producto);
+router.put("/api/editar/:sku", actualizar_producto);
+router.delete("/api/eliminar/:sku", eliminar_producto);
 
 router.get("/api/marcas", listar_marcas);
 router.get("/api/categorias", listar_categorias);

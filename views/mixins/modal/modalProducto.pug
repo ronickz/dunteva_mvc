@@ -6,50 +6,60 @@ mixin modalProducto()
           h1#modalProductoLabel.modal-title.fs-5 Edicion
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
         .modal-body
-          form#formModalId.px-5(method='POST' action='/asd')
+          form#formModalId.px-5(method='POST' enctype='multipart/form-data')
             .row
               .col-sm-12.col-md-7
                 .row
                   div(class="col-12 mb-3")
                     label(for="sku" class="form-label") SKU
-                    input#sku.form-control(type="text" placeholder="SKU" required)
+                    input#sku.form-control(type="text" placeholder="SKU" name="sku" required)
                   div(class="col mb-3")
                     label(for="nombre" class="form-label") Nombre
-                    input#nombre.form-control(type="text" placeholder="Nombre" required)
+                    input#nombre.form-control(type="text" placeholder="Nombre" name="nombre" required)
                 .row
                   div(class="col mb-3")
                     label.form-label(for='marca') Marca
-                    select#marca.form-control.form-select(required)
+                    select#marca.form-control.form-select(name="marca" required)
                       option(value='') Seleccionar Marca
                   div(class="col mb-3")
                     label.form-label(for='categoria') Categoria
-                    select#categoria.form-control.form-select(required)
+                    select#categoria.form-control.form-select(name="categoria" required)
                       option(value='') Seleccionar Categoria
                   div(class="col-12 mb-3")
                     label(for="stock" class="form-label") Stock
-                    input#stock.form-control(type="text" placeholder="Stock" required)
+                    input#stock.form-control(
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="Ingrese la nueva cantidad" 
+                      name="stock"
+                      required
+                      )
+                    div(id="stockInfoActual" class="d-none form-text bg-info text-dark p-2 rounded mt-2 fw-bold") El valor GUARDADO es: 
+                      span(id="stockActual" class="d-none fw-bold")
+                    div(id="stockInfoPosterior" class="d-none form-text")
                 .row
                   div(class="col mb-3")
                     label(for="capacidad" class="form-label") Capacidad
-                    input#capacidad.form-control(type="number" placeholder="Capacidad" required)
+                    input#capacidad.form-control(type="number" min=0 placeholder="Capacidad" name="capacidad" required)
                   div(class="col mb-3")
                     label.form-label(for='unidadMedida') Unidad Medida
-                    select#unidadMedida.form-control.form-select(required)
+                    select#unidadMedida.form-control.form-select(required name="unidadMedida")
                       option(value='') Seleccionar Unidad medida
                   div(class="col-12 mb-3")
                     label(for="precio" class="form-label") Precio
-                    input#precio.form-control(type="number" placeholder="Precio" required)
+                    input#precio.form-control(type="number" min=1 placeholder="Precio" name="precio" required)
                 .row
                   div(class="col-12 mb-3")
                     label.form-label(for='proveedor') Proveedor
-                    select#proveedor.form-control.form-select(required)
+                    select#proveedor.form-control.form-select(required name="proveedor")
                       option(value='') Seleccionar Proveedor
                   div(class="col-12 mb-3")
                     label(for="formFile" class="form-label") Seleccione su imagen
-                    input(class="form-control" type="file" accept="image/*" id="formFile")
+                    input(class="form-control" type="file" accept="image/*" id="formFile" name="imagen")
               .col-sm-12.col-md-5.d-flex.justify-content-center.align-items-center.border.rounded
                 div
-                  img(id="previewImage" class="img-fluid" src="https://res.cloudinary.com/dtxc85yhv/image/upload/v1740168506/productos/ts0vbu9uyagzunrveh1u.webp", alt="")
+                  img(id="previewImage" class="img-fluid" src=`${imagenURL}`, alt="")
               .modal-footer
                 button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cerrar
                 button.btn.bg-custom-violetaOscuro(type='submit') Guardar
