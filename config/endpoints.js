@@ -9,6 +9,9 @@ const endpoints = {
     insertarProducto: '/stock/api/nuevo',
     editarProducto: '/stock/api/editar',
     eliminarProducto: '/stock/api/eliminar',
+
+    ventasApi: '/ventas/api/ventas',
+    insertarVenta: '/ventas/api/nuevo',
 };
 
 export default endpoints;

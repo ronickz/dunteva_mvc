@@ -3,6 +3,7 @@
     --violetaClaro: #6C00FF;
     --azul:#3C79F5;
     --celeste:#11cadf;
+    --celesteOscuro: #11abbc;
     --verde:#22eb25;
     --rojo: #ff3c3c; /* Nuevo color */
 
@@ -29,7 +30,26 @@
 }
 
 .bg-custom-primary:hover{
-    background-color: #117985;
+    background-color:  var(--celesteOscuro);
+    color:white;
+}
+
+.btn-custom-primary {
+    background-color: var(--celeste);
+    color:white;
+}
+
+.btn-custom-primary:hover{
+    background-color:  var(--celesteOscuro);
+    color:black;
+}
+
+.btn-custom-outline-primary{
+    border: 1px solid var(--celeste);
+}
+
+.btn-custom-outline-primary:hover{
+    background-color: var(--celeste);
     color:white;
 }
 

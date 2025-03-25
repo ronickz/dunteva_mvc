@@ -42,10 +42,11 @@ Producto.belongsTo(Proveedor, {
 
 DetalleVenta.belongsTo(Producto, {
   foreignKey: {
-    name: 'productoId',
-    allowNull: false
+    name: 'productoSku', // Nombre de la clave foránea en `detalle_ventas`
+    allowNull: false,
   },
-  as: 'producto'
+  targetKey: 'sku', // Campo en `productos` al que se relaciona
+  as: 'producto',
 });
 
 DetalleVenta.belongsTo(Venta, {
