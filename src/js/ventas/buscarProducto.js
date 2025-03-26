@@ -31,13 +31,13 @@ const crearElementoProducto = (producto) => {
                     </div>
                 </div>
                 <div class="col-md-2 d-flex justify-content-center align-items-center gap-3">
-                    <button class="btn btn-custom-outline-primary p-2 d-flex justify-content-center align-items-center btn-decrementar">
+                    <button class="btn btn-custom-primary p-2 d-flex justify-content-center align-items-center btn-decrementar">
                         <svg class="bi bi-dash" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
                         </svg>
                     </button>
                     <h5 class="cantidad">1</h5>
-                    <button class="btn btn-custom-outline-primary p-2 d-flex justify-content-center align-items-center btn-incrementar">
+                    <button class="btn btn-custom-primary p-2 d-flex justify-content-center align-items-center btn-incrementar">
                         <svg class="bi bi-plus" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                         </svg>
@@ -92,32 +92,54 @@ const crearElementoProducto = (producto) => {
     });
 };
 
+const mostrarToast = (tipo,mensaje) =>{
+
+    switch(tipo)
+    {
+        case 'error':
+            toastr.error(mensaje);
+            break;
+        case 'success':
+            toastr.success(mensaje);
+            break;
+        case 'info':
+            toastr.info(mensaje);
+            break;
+    }
+}
 
 export default () => {
 
     $('#inputBuscarProducto').on('input', function() {
-        let palabra = $(this).val();
-
+        let palabra = $(this).val().trim();
         // Si la palabra tiene mas de 6 caracteres y no esta en el array de busquedas
-        if (palabra.length > 6 && !busquedas.includes(palabra)) {
-            $.ajax({
-                url: `${window.location.origin}${endpoints.productosApi}/${palabra}`, // Asumiendo que tienes un endpoint para obtener un producto por SKU
-                method: "GET",
-                success: function(respuesta) {
-                    const productoPrecio = parseFloat(respuesta.precio);
-                    crearElementoProducto(respuesta);
-                    actualizarPrecioTotal(obtenerPrecioTotal()+productoPrecio);
-                    limpiarInput();
-
-                    // Push para que no ingrse la misma busqueda
-                    busquedas.push(palabra);
-                },
-                error: function(error) {
-                    console.log('Producto no encontrado')
-                }
-                
-            })
+        if (palabra.length > 6) {
+            if (!busquedas.includes(palabra)) {
+                $.ajax({
+                    url: `${window.location.origin}${endpoints.productosApi}/${palabra}`, // Asumiendo que tienes un endpoint para obtener un producto por SKU
+                    method: "GET",
+                    success: function(respuesta) {
+                        const productoPrecio = parseFloat(respuesta.precio);
+                        crearElementoProducto(respuesta);
+                        actualizarPrecioTotal(obtenerPrecioTotal()+productoPrecio);
+                        limpiarInput();
+    
+                        // Push para que no ingrse la misma busqueda
+                        busquedas.push(palabra);
+                        mostrarToast('success','Producto agregado al carrito');
+                    },
+                    error: function(error) {
+                        mostrarToast('error','Producto no encontrado');
+                    }
+                    
+                })
+            }
+            else{
+                mostrarToast('info','El Producto ya esta en la lista');
+            }
     }})
+
+
     $('.btnCompletarCompra').on('click', function() {
         if(obtenerPrecioTotal()>0){
             let respuesta = {

@@ -1,3 +1,5 @@
+include ../spinner/spinner
+
 mixin modalProducto()
   #modalProducto.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='modalProductoLabel' aria-hidden='true')
     .modal-dialog.modal-xl.modal-dialog-scrollable
@@ -5,6 +7,9 @@ mixin modalProducto()
         .modal-header
           h1#modalProductoLabel.modal-title.fs-5 Edicion
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          div#spinnerContainer.d-none.position-absolute.top-50.start-50.translate-middle
+            +spinner() 
+            h3 Cargando...
         .modal-body
           form#formModalId.px-5(method='POST' enctype='multipart/form-data')
             .row
@@ -62,4 +67,4 @@ mixin modalProducto()
                   img(id="previewImage" class="img-fluid" src=`${imagenURL}`, alt="")
               .modal-footer
                 button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cerrar
-                button.btn.bg-custom-violetaOscuro(type='submit') Guardar
+                button.btn.btn-custom-primary(type='submit') Guardar

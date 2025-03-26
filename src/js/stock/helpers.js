@@ -27,8 +27,7 @@ const cargarDropDowns = () => {
     $.ajax({ url: "api/categorias", method: "GET" }),
     $.ajax({ url: "api/unidades", method: "GET" }),
     $.ajax({ url: "api/proveedores", method: "GET" }),
-  ])
-    .then(([marcasData, categoriasData, unidadesData, proveedoresData]) => {
+  ]).then(([marcasData, categoriasData, unidadesData, proveedoresData]) => {
       let marcasOptions = '<option value="">Seleccionar Marca</option>';
       marcasData.forEach((marca) => {
         marcasOptions += `<option value="${marca.id}">${marca.nombre}</option>`;
@@ -92,5 +91,22 @@ const recargarTabla = (tablaInstancia) => {
     tablaInstancia.ajax.reload(null, false); // `false` mantiene la página actual
 };
 
+const mostrarSpinner = (mostrar) => {
+  if(mostrar) {
+    $("#spinnerContainer").removeClass("d-none");
+  }
+  else {
+    $("#spinnerContainer").addClass("d-none");
+  }
+}
 
-export { limpiarFormulario, cargarDropDowns, reestablecerImagen, previewImagen, recargarTabla };
+
+
+export { 
+  limpiarFormulario,
+  cargarDropDowns,
+  reestablecerImagen,
+  previewImagen,
+  recargarTabla,
+  mostrarSpinner 
+};

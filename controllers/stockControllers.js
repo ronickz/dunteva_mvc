@@ -269,20 +269,27 @@ const actualizar_producto = async (req, res) => {
   try {
     // Verificar si el producto ya existe
     const productoExistente = await Producto.findOne({ where: { sku: sku } });
-    let imagenUrl = productoExistente.img;
 
     if (productoExistente) {
 
-      //Si el usuario cargo una imagen, borrar la que ya tiene y subir la nueva
+      let imagenDeProducto = productoExistente.img ? productoExistente.img : "";
+      const imagenNueva = req.files && req.files.imagen ? req.files.imagen : "";
+      
 
-      if (req.files && req.files.imagen) {
+      // Valido que haya ingresado una imagen
+      // Valido que sea diferente a mi imagen por defecto
+      // Valido que sea diferente a la imagen que ya tengo
+      if (imagenNueva != "" && imagenNueva !== process.env.IMG_URL && imagenNueva !== imagenDeProducto) {
+
         const imagen = req.files.imagen;
         const uploadPath = imagen.tempFilePath;
-      
-        //Eliminar imagen cloudinary
 
-        const public_id = productoExistente.sku;
-        await cloudinary.uploader.destroy(public_id);
+        console.log('\x1b[32m%s\x1b[0m', '******Hay foto nueva******');
+        
+        //Eliminar imagen cloudinary
+        
+        await cloudinary.uploader.destroy(imagenDeProducto);
+        
 
         // Subir imagen a Cloudinary
 
@@ -294,7 +301,7 @@ const actualizar_producto = async (req, res) => {
 
         // Obtener la URL de la imagen subida
 
-        imagenUrl = result.secure_url;
+        imagenDeProducto = result.secure_url;
 
         // Eliminar el archivo temporal
 
@@ -305,6 +312,9 @@ const actualizar_producto = async (req, res) => {
             console.log("Archivo temporal eliminado");
           }
         });
+      }
+      else{
+        console.log('\x1b[31m%s\x1b[0m', '******NO HAY FOTO NUEVA******');
       }
 
       await Producto.update(
@@ -317,7 +327,7 @@ const actualizar_producto = async (req, res) => {
           marcaId: marca, // Cambiado a marcaId
           proveedorId: proveedor, // Cambiado a proveedorId
           unidadId: unidadMedida, // Cambiado a unidadId
-          img: imagenUrl
+          img: imagenDeProducto
         },
         {
           where: {

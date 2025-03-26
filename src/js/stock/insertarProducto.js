@@ -1,4 +1,4 @@
-import { cargarDropDowns, limpiarFormulario, reestablecerImagen, previewImagen, recargarTabla } from "./helpers.js";
+import { cargarDropDowns, limpiarFormulario, reestablecerImagen, previewImagen, recargarTabla, mostrarSpinner } from "./helpers.js";
 
 
 export default (tablaInstancia) => {
@@ -16,6 +16,7 @@ export default (tablaInstancia) => {
       previewImagen();
       $("#formModalId").off("submit").on("submit", function (e) {
         e.preventDefault();
+        mostrarSpinner(true);
     
         let formData = new FormData(this);
     
@@ -29,10 +30,13 @@ export default (tablaInstancia) => {
             // Aquí puedes manejar la respuesta de la API, por ejemplo, mostrar un mensaje de éxito
             swal(response.message, "Alta", "success");
             recargarTabla(tablaInstancia);
+            mostrarSpinner(false);
             $("#modalProducto").modal("hide"); // Cerrar el modal
+
           },
-          error: function (xhr, status, error) {
+          error: function (xhr) {
             const mensaje = JSON.parse(xhr.responseText).message;
+            mostrarSpinner(false);
             swal(mensaje, "Error al insertar", "error");
           },
         });

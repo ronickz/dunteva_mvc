@@ -3,6 +3,7 @@ import {
   recargarTabla,
   previewImagen,
   limpiarFormulario,
+  mostrarSpinner,
 } from "./helpers.js";
 
 // Completa los campos del producto en el modal
@@ -57,6 +58,7 @@ const actualizarStock = () => {
   $("#stockInfoPosterior").removeClass("d-none");
 };
 
+
 // MODAL EDITAR
 export default (tablaInstancia) => {
   $("#productos").on("click", "#editar", function () {
@@ -78,6 +80,7 @@ export default (tablaInstancia) => {
         .off("submit")
         .on("submit", function (e) {
           e.preventDefault();
+          mostrarSpinner(true);
           let formData = new FormData(this);
 
 
@@ -111,10 +114,12 @@ export default (tablaInstancia) => {
             success: function (response) {
               swal(response.message, "Editado", "success");
               recargarTabla(tablaInstancia);
+              mostrarSpinner(false);
               $("#modalProducto").modal("hide"); // Cerrar el modal
             },
             error: function (xhr, status, error) {
               const mensaje = JSON.parse(xhr.responseText).message;
+              mostrarSpinner(false);
               swal(mensaje, "Error al editar", "error");
             },
           });
