@@ -19,6 +19,8 @@ export default (tablaInstancia) => {
         mostrarSpinner(true);
     
         let formData = new FormData(this);
+        const sku = formData.get("sku").trim().replace(/\s+/g, "");
+        formData.set("sku", sku); 
     
         $.ajax({
           url: `${window.location.origin}${endpoints.insertarProducto}`,

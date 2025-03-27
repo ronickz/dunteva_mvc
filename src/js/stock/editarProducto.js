@@ -12,7 +12,6 @@ const llenarCampos = (sku) => {
     url: `${window.location.origin}${endpoints.productosApi}/${sku}`, // Asumiendo que tienes un endpoint para obtener un producto por SKU
     method: "GET",
     success: (productoData) => {
-      console.log(productoData);
       // Llenar los campos del producto
       $("#sku").val(productoData.sku);
       $("#nombre").val(productoData.nombre);
@@ -58,72 +57,62 @@ const actualizarStock = () => {
   $("#stockInfoPosterior").removeClass("d-none");
 };
 
-
 // MODAL EDITAR
 export default (tablaInstancia) => {
-  $("#productos").on("click", "#editar", function () {
-    $("#stock")
-      .off("change")
-      .on("change", function () {
-        actualizarStock(); // Llama a la función actualizarStock cuando cambie el valor
+  $("#productos").on("click", ".editar", async function () {
+    $("#stock").on("change", function () {
+        actualizarStock();
       });
     limpiarFormulario();
     const sku = $(this).data("id");
     $("#sku").prop("disabled", true);
     $("#stock").prop("required", false);
 
-    cargarDropDowns().then(() => {
-      llenarCampos(sku); // Llama a llenarCampos después de cargar los dropdowns
-      previewImagen();
+    await cargarDropDowns();
+    llenarCampos(sku); //Carga lo dropdowns
+    previewImagen();
 
-      $("#formModalId")
-        .off("submit")
-        .on("submit", function (e) {
-          e.preventDefault();
-          mostrarSpinner(true);
-          let formData = new FormData(this);
+    $("#formModalId")
+      .off("submit")
+      .on("submit", function (e) {
+        e.preventDefault();
+        mostrarSpinner(true);
+        let formData = new FormData(this);
 
+        // Verifico si el campo "stock" tiene un valor
+        if (!$("#stock").val()) {
+          formData.set("stock", parseInt($("#stockActual").text()));
+        } else {
+          let stock =
+            parseInt($("#stock").val()) + parseInt($("#stockActual").text());
+          formData.set("stock", stock);
+        }
 
-          // Verifico si el campo "stock" tiene un valor
-          if (!$("#stock").val()) {
-            formData.set("stock", parseInt($("#stockActual").text()));
-          }
-          else{
-            let stock= parseInt($("#stock").val()) + parseInt($("#stockActual").text())
-            formData.set("stock", stock);
-          }
+        // Comprobar si se ha seleccionado una nueva imagen
 
-          // Comprobar si se ha seleccionado una nueva imagen
+        if ($("#formFile").val() === "") {
+          // Si no se ha seleccionado una nueva imagen, elimino el campo
+          formData.delete("imagen");
+        }
 
-          if ($("#formFile").val() === "") {
-            // Si no se ha seleccionado una nueva imagen, elimino el campo
-            formData.delete("imagen");
-          }
-
-          // Recorrer formdata
-          for (var pair of formData.entries()) {
-            console.log(pair[0] + ", " + pair[1]);
-          }
-
-          $.ajax({
-            url: `${window.location.origin}${endpoints.editarProducto}/${sku}`,
-            type: "PUT",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-              swal(response.message, "Editado", "success");
-              recargarTabla(tablaInstancia);
-              mostrarSpinner(false);
-              $("#modalProducto").modal("hide"); // Cerrar el modal
-            },
-            error: function (xhr, status, error) {
-              const mensaje = JSON.parse(xhr.responseText).message;
-              mostrarSpinner(false);
-              swal(mensaje, "Error al editar", "error");
-            },
-          });
+        $.ajax({
+          url: `${window.location.origin}${endpoints.editarProducto}/${sku}`,
+          type: "PUT",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            swal(response.message, "Editado", "success");
+            recargarTabla(tablaInstancia);
+            mostrarSpinner(false);
+            $("#modalProducto").modal("hide"); // Cerrar el modal
+          },
+          error: function (xhr, status, error) {
+            const mensaje = JSON.parse(xhr.responseText).message;
+            mostrarSpinner(false);
+            swal(mensaje, "Error al editar", "error");
+          },
         });
-    });
+      });
   });
 };

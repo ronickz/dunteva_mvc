@@ -1,7 +1,7 @@
 import { recargarTabla } from "./helpers.js";
 
 export default (tablaInstancia) => {
-  $(document).on("click", "#eliminar", function () {
+  $("#productos").on("click", ".eliminar", function () {
     const sku = $(this).data("id");
     swal({
       title: "Estas seguro de eliminar este producto?",

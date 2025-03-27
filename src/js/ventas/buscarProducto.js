@@ -54,7 +54,6 @@ const crearElementoProducto = (producto) => {
 
     // Agregar la card al contenedor deseado
     $('#contenedorProductos').append(card);
-
     // Funcionalidad de los botones
     card.find('.btn-incrementar').on('click', function () {
         const cantidadElement = card.find('.cantidad');
@@ -111,22 +110,26 @@ const mostrarToast = (tipo,mensaje) =>{
 export default () => {
 
     $('#inputBuscarProducto').on('input', function() {
-        let palabra = $(this).val().trim();
+        let palabra = $(this).val().trim().replace(/\s+/g, "");;
+
         // Si la palabra tiene mas de 6 caracteres y no esta en el array de busquedas
         if (palabra.length > 6) {
             if (!busquedas.includes(palabra)) {
                 $.ajax({
                     url: `${window.location.origin}${endpoints.productosApi}/${palabra}`, // Asumiendo que tienes un endpoint para obtener un producto por SKU
                     method: "GET",
-                    success: function(respuesta) {
-                        const productoPrecio = parseFloat(respuesta.precio);
-                        crearElementoProducto(respuesta);
-                        actualizarPrecioTotal(obtenerPrecioTotal()+productoPrecio);
-                        limpiarInput();
-    
-                        // Push para que no ingrse la misma busqueda
-                        busquedas.push(palabra);
-                        mostrarToast('success','Producto agregado al carrito');
+                    success: function(respuesta) {    
+                        
+                        if(respuesta.stock<=0){
+                            mostrarToast('error','No hay stock disponible');
+                        }else{
+                            const productoPrecio = parseFloat(respuesta.precio);
+                            crearElementoProducto(respuesta);
+                            actualizarPrecioTotal(obtenerPrecioTotal()+productoPrecio);
+                            mostrarToast('success','Producto agregado al carrito');
+                            busquedas.push(palabra);
+                            limpiarInput();
+                        }
                     },
                     error: function(error) {
                         mostrarToast('error','Producto no encontrado');

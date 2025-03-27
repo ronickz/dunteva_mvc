@@ -9,10 +9,10 @@ import {
 import { Op } from "sequelize";
 
 // Mis rutas
-
 import endpoints from "../config/endpoints.js";
-import cloudinary from "../config/cloudinary.js";
-import fs from "fs";
+
+// Helpers
+import { hayImagenNueva, guardarImagen, eliminarImagen } from "../helpers/imagenHelper.js";
 
 //Obtengo todos los productos y renderizo la vista
 const listarProductos = async (req, res) => {
@@ -185,12 +185,11 @@ const insertar_producto = async (req, res) => {
       proveedor,
     } = req.body;
 
-    // Primero valido si el producto ya existe
-
+    let imagenGuardar = process.env.IMG_URL;
+    const imagenNueva = req.files && req.files.imagen ? req.files.imagen : "";
     const productoExistente = await Producto.findOne({ where: { sku: sku } });
 
     if (productoExistente) {
-      // Si el producto ya existe, devolver un mensaje de error
       return res.status(400).json({
         success: false,
         message:
@@ -198,34 +197,10 @@ const insertar_producto = async (req, res) => {
       });
     }
 
-    //Validacion de imagenes
-    let imagenUrl = process.env.IMG_URL;
-    if (req.files && req.files.imagen) {
-      const imagen = req.files.imagen;
-      const uploadPath = imagen.tempFilePath;
-
-      // Subir imagen a Cloudinary
-      const result = await cloudinary.uploader.upload(uploadPath, {
-        folder: "productos",
-        public_id: sku,
-        transformation: [{ quality: "auto", fetch_format: "webp" }],
-      });
-      // Obtener la URL de la imagen subida
-      imagenUrl = result.secure_url;
-
-      // Eliminar el archivo temporal
-      fs.unlink(uploadPath, (err) => {
-        if (err) {
-          console.error("Error al eliminar el archivo temporal:", err);
-        } else {
-          console.log("Archivo temporal eliminado");
-        }
-      });
+    if(hayImagenNueva(imagenNueva)){
+      imagenGuardar = await guardarImagen(sku, imagenNueva.tempFilePath);
     }
 
-    console.log("Imagen subida");
-
-    // Insertar el producto en la base de datos
     await Producto.create({
       nombre,
       sku,
@@ -236,10 +211,9 @@ const insertar_producto = async (req, res) => {
       marcaId: marca, // Cambiado a marcaId
       proveedorId: proveedor, // Cambiado a proveedorId
       unidadId: unidadMedida, // Cambiado a unidadId
-      img: imagenUrl,
+      img: imagenGuardar,
     });
 
-    //console.log('Producto a insertar: ', req.body);
     return res.status(200).json({
       success: true,
       message: "Producto guardado correctamente",
@@ -264,57 +238,21 @@ const actualizar_producto = async (req, res) => {
     precio,
     stock,
     proveedor,
-  } = req.body; // Asegúrate de obtener los datos del formulario
+  } = req.body;
 
   try {
-    // Verificar si el producto ya existe
     const productoExistente = await Producto.findOne({ where: { sku: sku } });
 
-    if (productoExistente) {
-
-      let imagenDeProducto = productoExistente.img ? productoExistente.img : "";
+    if (productoExistente ) {
+      let imagenGuardar = process.env.IMG_URL;
       const imagenNueva = req.files && req.files.imagen ? req.files.imagen : "";
       
-
-      // Valido que haya ingresado una imagen
-      // Valido que sea diferente a mi imagen por defecto
-      // Valido que sea diferente a la imagen que ya tengo
-      if (imagenNueva != "" && imagenNueva !== process.env.IMG_URL && imagenNueva !== imagenDeProducto) {
-
-        const imagen = req.files.imagen;
-        const uploadPath = imagen.tempFilePath;
-
-        console.log('\x1b[32m%s\x1b[0m', '******Hay foto nueva******');
-        
-        //Eliminar imagen cloudinary
-        
-        await cloudinary.uploader.destroy(imagenDeProducto);
-        
-
-        // Subir imagen a Cloudinary
-
-        const result = await cloudinary.uploader.upload(uploadPath, {
-          folder: "productos",
-          public_id: sku,
-          transformation: [{ quality: "auto", fetch_format: "webp" }],
-        });
-
-        // Obtener la URL de la imagen subida
-
-        imagenDeProducto = result.secure_url;
-
-        // Eliminar el archivo temporal
-
-        fs.unlink(uploadPath, (err) => {
-          if (err) {
-            console.error("Error al eliminar el archivo temporal:", err);
-          } else {
-            console.log("Archivo temporal eliminado");
-          }
-        });
-      }
-      else{
-        console.log('\x1b[31m%s\x1b[0m', '******NO HAY FOTO NUEVA******');
+      if(hayImagenNueva(imagenNueva)){
+        imagenGuardar = await guardarImagen(sku, imagenNueva.tempFilePath);
+        if(productoExistente.img != process.env.IMG_URL){
+          console.log('El producto NO INCLUIA la imagen por defecto');
+          eliminarImagen(sku);
+        }
       }
 
       await Producto.update(
@@ -327,7 +265,7 @@ const actualizar_producto = async (req, res) => {
           marcaId: marca, // Cambiado a marcaId
           proveedorId: proveedor, // Cambiado a proveedorId
           unidadId: unidadMedida, // Cambiado a unidadId
-          img: imagenDeProducto
+          img: imagenGuardar
         },
         {
           where: {
@@ -357,14 +295,14 @@ const obtener_producto = async (req, res) => {
     });
 
     if (!producto) {
-      res.status(404).send("Producto no encontrado");
+      res.status(404).json("Producto no encontrado");
       return;
     }
 
     res.json(producto);
   } catch (error) {
     console.error("Error al obtener producto:", error);
-    res.status(500).send("Error al obtener producto");
+    res.status(500).json("Error al obtener producto");
   }
 };
 
