@@ -13,7 +13,7 @@ const Venta = db.define("ventas", {
   metodo_pago: {
     type: DataTypes.STRING(20),
     allowNull: false,
-  },
+  }
 },{
   paranoid: true
 });

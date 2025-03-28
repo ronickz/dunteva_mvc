@@ -14,6 +14,26 @@ block contenido
             .row#contenedorProductos
             hr
             div(class="row")
+              //Radio button con metodo de pago
+              .col-6
+                h5 Metodo de pago
+                .form-check.form-check-inline
+                  input.form-check-input(type='radio' name='metodoPago' id='metodoPago1' value='Efectivo' checked)
+                  label.form-check-label(for='metodoPago1') Efectivo
+                .form-check.form-check-inline
+                  input.form-check-input(type='radio' name='metodoPago' id='metodoPago2' value='Tarjeta')
+                  label.form-check-label(for='metodoPago2') Tarjeta
+                .form-check.form-check-inline
+                  input.form-check-input(type='radio' name='metodoPago' id='metodoPago3' value='Transferencia')
+                  label.form-check-label(for='metodoPago3') Transferencia
+              .col-6
+                h5 Estado de la venta
+                select.form-select#estadoVenta(name='estadoVenta')
+                  option(value='') Seleccione un estado
+                  option(value='Pendiente') Pendiente
+                  option(value='Completada' selected) Completada
+            hr
+            div(class="row mt-2")
               .col
                 small.text-body-secondary.fw-bold TOTAL:
                 h5.fw-bold.fs-3#totalVenta

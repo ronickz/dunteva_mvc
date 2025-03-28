@@ -1,88 +1,64 @@
 export default () => {
-
-  const tabla = document.getElementById("productos");
-  return new DataTable(tabla, {
+  const tabla = document.querySelector("#ventas");
+  const tablaDatatable = new DataTable(tabla, {
     scrollY: "400px",
     lengthMenu: [
       [5, 10, 20, -1],
       [5, 10, 20, "Todos"],
     ],
-    order: [[9, "desc"]],
+    order: [[1, "desc"]],
     searching: true,
     paging: true,
     processing: true,
     serverSide: true,
     ajax: {
-      url: `${window.location.origin}${endpoints.productosApi}`,
+      url: `${window.location.origin}${endpoints.ventasApi}`,
       type: "GET",
       error: function (response) {
-        alert('Error al cargar los datos: ' + response.statusText);
-      }
+        alert("Error al cargar los datos: " + response.statusText);
+      },
+    },
+    layout: {
+      top3End: {
+        buttons: [
+          {
+            text: "Nueva Venta",
+            className: "btn nuevo btn-sm btn-custom-green px-3",
+            attr: {
+              "data-bs-toggle": "modal",
+              "data-bs-target": "#modalProducto",
+            },
+            action: function (e, dt, node, config) {
+              window.location.href = `${window.location.origin}${endpoints.vistaNuevaVenta}`;
+            },
+          },
+        ],
+      },
     },
     columns: [
+      { data: "id" },
+      { data: "fecha" },
       {
-        data: "img",
-        render: function (data) {
-          return `<img src="${data}" alt="" width="60" height="50" style="object-fit: cover;" class="rounded-2">`;
+        data: "total",
+        render: function (data, type, row) {
+          return `<span class="fw-bold">$ ${data}</span>`;
         },
       },
       {
-        data: "sku"
-      },
-      {
-        data: "nombre",
-      },
-      {
-        data: "marca",
-        render: function (data) {
-          return `<span class="badge text-bg-secondary">${data}</span>`;
+        data: "estado",
+        render: function (data, type, row) {
+          let color = "bg-danger";
+          if(data == "Pendiente") {
+            color = "bg-warning";
+          }
+          else if(data == "Completada") {
+            color = "bg-custom-green";
+          }
+          return `<span class="fs-7 ${color} px-4 py-2">${data}</span>`;
         },
       },
       {
-        data: "categoria",
-        render: function (data) {
-          return `<span class="badge bg-custom-primary p-2">${data}</span>`;
-        },
-      },
-      {
-        data: null,
-        render: function (data) {
-          return `<span class="">${parseInt(data.capacidad)} ${
-            data.unidad
-          }</span>`;
-        },
-        orderable: false,
-      },
-      {
-        data: "precio",
-        render: function (data) {
-          return `<span class="badge bg-custom-violetaOscuro p-2">$ ${data}</span>`;
-        },
-      },
-      {
-        data: "stock",
-        render: function (data) {
-          let colorClass = data <= 10 ? "bg-custom-danger text-dark" : "bg-custom-green";
-          return `<span class="badge px-4 py-2  ${colorClass}">${data}</span>`;
-        },
-      },
-      {
-        data: "proveedor",
-      },
-      {
-        data: "fecha",
-      },
-      {
-        data: "sku",
-        render: function (data) {
-          const SERVER_URL = `${window.location.origin}${endpoints.formularioProducto}/${data}`;
-          return `<button class="btn btn-custom-warning text-white p-2 rounded editar" data-id=${data} data-bs-toggle="modal" data-bs-target="#modalProducto"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
-  <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
-</svg></button><button class="btn btn-danger text-white p-2 rounded eliminar" data-id=${data}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-</svg></button>`;
-        },
-        title: "Acciones",
+        data: "metodo_pago",
       },
     ],
     columnDefs: [
@@ -90,43 +66,7 @@ export default () => {
         targets: "_all",
         className: "align-middle text-center",
       },
-      {
-        targets: [3, 4, 6, 7],
-        className: "fs-6",
-      },
     ],
-    layout: {
-      top3End: {
-        buttons: [
-          {
-            text: "Nuevo Producto",
-            className: "btn nuevo btn-sm btn-custom-green px-3",
-            attr: {
-              "data-bs-toggle": "modal",
-              "data-bs-target": "#modalProducto",
-            },
-          },
-          {
-            extend: "copy",
-            text: "Copiar",
-            className: "btn btn-sm btn-custom-primary",
-            exportOptions: {
-              columns: [1, 2, 3, 4, 5, 6],
-            },
-          },
-          {
-            extend: "pdf",
-            className: "btn btn-sm btn-danger",
-            text: "PDF",
-          },
-        ],
-      },
-      bottomEnd: {
-        paging: {
-          type: 'full_numbers'
-        },
-      }
-    },
     language: {
       processing: "Procesando...",
       lengthMenu: "Mostrar _MENU_ registros",
@@ -137,10 +77,10 @@ export default () => {
       search: "Buscar:",
       loadingRecords: "Cargando...",
       paginate: {
-        first: '«',
-        last: '»',
-        next: '›',
-        previous: '‹'
+        first: "«",
+        last: "»",
+        next: "›",
+        previous: "‹",
       },
       aria: {
         sortAscending: ": Activar para ordenar la columna de manera ascendente",
@@ -373,4 +313,11 @@ export default () => {
       infoThousands: ".",
     },
   });
-}
+
+  $("#ventas tbody").on("click", "tr", function () {
+    var data = tablaDatatable.row(this).data();
+    window.location.href = `${window.location.origin}${endpoints.vistaDetalleVenta}/${data.id}`;
+  });
+
+  return tablaDatatable;
+};

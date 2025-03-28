@@ -4,6 +4,9 @@ const endpoints = {
     vistaVentas: '/ventas/',
     vistaInicio: '/',
 
+    vistaNuevaVenta: '/ventas/nuevaVenta',
+    vistaDetalleVenta: '/ventas/detalleVenta',
+
     //API
     productosApi: '/stock/api/productos',
     insertarProducto: '/stock/api/nuevo',

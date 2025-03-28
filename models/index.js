@@ -49,6 +49,8 @@ DetalleVenta.belongsTo(Producto, {
   as: 'producto',
 });
 
+Producto.hasMany(DetalleVenta, { foreignKey: 'productoSku', sourceKey: 'sku' });
+
 DetalleVenta.belongsTo(Venta, {
   foreignKey: {
     name: 'ventaId',

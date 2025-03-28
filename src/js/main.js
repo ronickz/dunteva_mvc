@@ -3,18 +3,21 @@ import modalEditar from './stock/editarProducto.js';
 import modalInsertar from './stock/insertarProducto.js';
 import eliminarProducto from './stock/eliminarProducto.js';
 
+import tablaVentas from './ventas/tablaVentas.js';
 import buscarProducto from './ventas/buscarProducto.js';
 
 
-let tablaInstancia = null;
-
+let instanciaTablaProductos = null;
+let instanciaTablaVentas = null;
 
 $(document).ready(function () {
   
-  tablaInstancia = tablaProductos();
-  modalEditar(tablaInstancia);
-  modalInsertar(tablaInstancia);
-  eliminarProducto(tablaInstancia);
+  instanciaTablaProductos = tablaProductos();
+  instanciaTablaVentas = tablaVentas();
+
+  modalEditar(instanciaTablaProductos);
+  modalInsertar(instanciaTablaProductos);
+  eliminarProducto(instanciaTablaProductos);
 
   buscarProducto();
 });

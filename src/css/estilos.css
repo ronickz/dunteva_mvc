@@ -144,7 +144,17 @@ nav svg {
 
 /* Datatable */
 
-#productos_wrapper{
+#detalleVentas{
+    font-size:12px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--white);
+    border-top: 5px solid rgba(0, 0, 0, 0.063);
+    border-radius: 15px;
+
+}
+
+.dt-container{
     font-size: 12px;
     background-color: var(--white);
     padding: 20px;
@@ -154,13 +164,13 @@ nav svg {
 }
 
 
-#productos_wrapper .pagination .page-item.active .page-link {
+.dt-container .pagination .page-item.active .page-link {
     background-color: var(--violetaOscuro); /* Color de fondo similar al de Bootstrap */
     border-color: #dee2e6;
     color: var(--white);
 }
 
-#productos_wrapper .pagination .page-link {
+.dt-container .pagination .page-link {
     font-size: 12px;
     color: var(--violetaOscuro);
     border-radius: 5px;

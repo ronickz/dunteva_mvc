@@ -30,6 +30,7 @@ const crearElementoProducto = (producto) => {
                         </p>
                     </div>
                 </div>
+                
                 <div class="col-md-2 d-flex justify-content-center align-items-center gap-3">
                     <button class="btn btn-custom-primary p-2 d-flex justify-content-center align-items-center btn-decrementar">
                         <svg class="bi bi-dash" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -65,6 +66,9 @@ const crearElementoProducto = (producto) => {
             cantidad++;
             cantidadElement.text(cantidad);
             actualizarPrecioTotal(obtenerPrecioTotal() + productoPrecio);
+        }
+        else{
+            mostrarToast('error','Se llego al stock maximo del producto');
         }
     });
 
@@ -113,7 +117,7 @@ export default () => {
         let palabra = $(this).val().trim().replace(/\s+/g, "");;
 
         // Si la palabra tiene mas de 6 caracteres y no esta en el array de busquedas
-        if (palabra.length > 6) {
+        if (palabra.length > 5) {
             if (!busquedas.includes(palabra)) {
                 $.ajax({
                     url: `${window.location.origin}${endpoints.productosApi}/${palabra}`, // Asumiendo que tienes un endpoint para obtener un producto por SKU
@@ -144,11 +148,12 @@ export default () => {
 
 
     $('.btnCompletarCompra').on('click', function() {
+
         if(obtenerPrecioTotal()>0){
             let respuesta = {
                 total: obtenerPrecioTotal(),
-                estado: 'completada',
-                metodo_pago: 'efectivo',
+                estado: $("#estadoVenta").val(),
+                metodo_pago:  $('input[name="metodoPago"]:checked').val(),
                 detalles: []
             }
 
@@ -172,10 +177,16 @@ export default () => {
                 method: "POST",
                 data: respuesta,
                 success: function(response) {
-                    swal(response.message, "Alta", "success");
+                    
                     $('#contenedorProductos').empty();
                     actualizarPrecioTotal(0);
+                    limpiarInput();
                     busquedas.length = 0;
+                    swal(response.message, "Alta", "success").then((value)=>{
+                        if(value){
+                            window.location.href= `${window.location.origin}${endpoints.vistaVentas}`;
+                        }
+                    });
                 },
                 error: function (xhr, status, error) {
                     const mensaje = JSON.parse(xhr.responseText).message;

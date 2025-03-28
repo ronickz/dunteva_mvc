@@ -14,6 +14,8 @@ import endpoints from "../config/endpoints.js";
 // Helpers
 import { hayImagenNueva, guardarImagen, eliminarImagen } from "../helpers/imagenHelper.js";
 
+import { Venta } from "../models/index.js";
+
 //Obtengo todos los productos y renderizo la vista
 const listarProductos = async (req, res) => {
   try {
@@ -35,11 +37,20 @@ const listarProductos = async (req, res) => {
       },
     });
 
+    const ventasConfirmadas = await Venta.count({
+      where: {
+        estado: {
+          [Op.eq]: "Completada",
+        },
+      },
+    });
+
     res.status(200).render(`stock/productos`, {
       endpoints,
       IMG_URL: process.env.IMG_URL,
       productosBajoStock,
       productosAltoStock,
+      ventasConfirmadas
     });
   } catch (error) {
     console.error("Error al listar productos:", error);
@@ -244,7 +255,7 @@ const actualizar_producto = async (req, res) => {
     const productoExistente = await Producto.findOne({ where: { sku: sku } });
 
     if (productoExistente ) {
-      let imagenGuardar = process.env.IMG_URL;
+      let imagenGuardar = productoExistente.img;
       const imagenNueva = req.files && req.files.imagen ? req.files.imagen : "";
       
       if(hayImagenNueva(imagenNueva)){
