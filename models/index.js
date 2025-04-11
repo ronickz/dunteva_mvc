@@ -1,11 +1,11 @@
-import Marca from "./Marca.js";
-import Categoria from "./Categoria.js";
-import UnidadMedida from "./UnidadMedida.js";
-import Proveedor from "./Proveedor.js";
-import Producto from "./Producto.js";
+import Marca from './Marca.js'
+import Categoria from './Categoria.js'
+import UnidadMedida from './UnidadMedida.js'
+import Proveedor from './Proveedor.js'
+import Producto from './Producto.js'
 
-import Venta from "./Venta.js";
-import DetalleVenta from "./DetalleVenta.js";
+import Venta from './Venta.js'
+import DetalleVenta from './DetalleVenta.js'
 
 // Definir relaciones
 Producto.belongsTo(Categoria, {
@@ -14,7 +14,7 @@ Producto.belongsTo(Categoria, {
     allowNull: false
   },
   as: 'categoria'
-});
+})
 
 Producto.belongsTo(Marca, {
   foreignKey: {
@@ -22,7 +22,7 @@ Producto.belongsTo(Marca, {
     allowNull: false
   },
   as: 'marca'
-});
+})
 
 Producto.belongsTo(UnidadMedida, {
   foreignKey: {
@@ -30,7 +30,7 @@ Producto.belongsTo(UnidadMedida, {
     allowNull: false
   },
   as: 'unidad'
-});
+})
 
 Producto.belongsTo(Proveedor, {
   foreignKey: {
@@ -38,18 +38,18 @@ Producto.belongsTo(Proveedor, {
     allowNull: false
   },
   as: 'proveedor'
-});
+})
 
 DetalleVenta.belongsTo(Producto, {
   foreignKey: {
     name: 'productoSku', // Nombre de la clave foránea en `detalle_ventas`
-    allowNull: false,
+    allowNull: false
   },
   targetKey: 'sku', // Campo en `productos` al que se relaciona
-  as: 'producto',
-});
+  as: 'producto'
+})
 
-Producto.hasMany(DetalleVenta, { foreignKey: 'productoSku', sourceKey: 'sku' });
+Producto.hasMany(DetalleVenta, { foreignKey: 'productoSku', sourceKey: 'sku' })
 
 DetalleVenta.belongsTo(Venta, {
   foreignKey: {
@@ -57,7 +57,7 @@ DetalleVenta.belongsTo(Venta, {
     allowNull: false
   },
   as: 'venta'
-});
+})
 
 // Exportar modelos
-export { Marca, Categoria, UnidadMedida, Proveedor, Producto, Venta, DetalleVenta };
+export { Marca, Categoria, UnidadMedida, Proveedor, Producto, Venta, DetalleVenta }

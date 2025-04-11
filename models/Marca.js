@@ -1,14 +1,13 @@
-import { DataTypes } from "sequelize";
-import db from "../config/db.js";
-import { text } from "express";
+import { DataTypes } from 'sequelize'
+import db from '../config/db.js'
 
-const Marca = db.define("marcas", {
+const Marca = db.define('marcas', {
   nombre: {
     type: DataTypes.STRING(30),
-    allowNull: false,
-  },
-},{
+    allowNull: false
+  }
+}, {
   paranoid: true
-});
+})
 
-export default Marca;
+export default Marca

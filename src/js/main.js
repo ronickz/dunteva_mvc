@@ -1,23 +1,24 @@
-import tablaProductos from './stock/tablaProductos.js';
-import modalEditar from './stock/editarProducto.js';
-import modalInsertar from './stock/insertarProducto.js';
-import eliminarProducto from './stock/eliminarProducto.js';
+import tablaProductos from './stock/tablaProductos.js'
+import modalEditar from './stock/editarProducto.js'
+import modalInsertar from './stock/insertarProducto.js'
+import eliminarProducto from './stock/eliminarProducto.js'
 
-import tablaVentas from './ventas/tablaVentas.js';
-import buscarProducto from './ventas/buscarProducto.js';
+import modalMarca from './marcas/editarMarca.js'
 
-
-let instanciaTablaProductos = null;
-let instanciaTablaVentas = null;
+import tablaVentas from './ventas/tablaVentas.js'
+import buscarProducto from './ventas/buscarProducto.js'
+import tablaMarcas from './marcas/tablaMarcas.js'
 
 $(document).ready(function () {
-  
-  instanciaTablaProductos = tablaProductos();
-  instanciaTablaVentas = tablaVentas();
+  const instanciaTablaProductos = tablaProductos()
 
-  modalEditar(instanciaTablaProductos);
-  modalInsertar(instanciaTablaProductos);
-  eliminarProducto(instanciaTablaProductos);
+  modalEditar(instanciaTablaProductos)
+  modalInsertar(instanciaTablaProductos)
+  eliminarProducto(instanciaTablaProductos)
+  buscarProducto()
 
-  buscarProducto();
-});
+  tablaVentas()
+  tablaMarcas()
+
+  modalMarca()
+})

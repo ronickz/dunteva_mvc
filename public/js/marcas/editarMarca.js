@@ -1,0 +1,1 @@
+let llenarCampos=(a,r)=>{$.ajax({url:a+"/"+r,method:"GET",success:a=>{$("#nombre").val(a.nombre)},error:a=>{console.error("Error al cargar la id",a)}})};export default()=>{$("#marcas").on("click",".editar",async function(){var a=$(this).data("id");llenarCampos(marcasURL,a)})};

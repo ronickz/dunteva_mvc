@@ -1,20 +1,29 @@
 const endpoints = {
-    //get
-    vistaProductos: '/stock/',
-    vistaVentas: '/ventas/',
-    vistaInicio: '/',
+  // get
+  vistaProductos: '/productos/',
+  vistaVentas: '/ventas/',
+  vistaInicio: '/',
 
-    vistaNuevaVenta: '/ventas/nuevaVenta',
-    vistaDetalleVenta: '/ventas/detalleVenta',
+  vistaNuevaVenta: '/ventas/nuevaVenta',
+  vistaDetalleVenta: '/ventas/detalleVenta',
 
-    //API
-    productosApi: '/stock/api/productos',
-    insertarProducto: '/stock/api/nuevo',
-    editarProducto: '/stock/api/editar',
-    eliminarProducto: '/stock/api/eliminar',
+  // Marcas
 
-    ventasApi: '/ventas/api/ventas',
-    insertarVenta: '/ventas/api/nuevo',
-};
+  vistaMarcas: '/marcas/',
 
-export default endpoints;
+  // API
+  productosApi: '/api/productos',
+
+  marcasApi: '/api/marcas',
+  marcasApiDataTables: '/api/marcas/datatables',
+
+  categoriasApi: '/api/categorias',
+
+  ventasApi: '/api/ventas',
+
+  proveedoresApi: '/api/proveedores',
+
+  unidadesMedidaApi: '/api/unidades'
+}
+
+export default endpoints

@@ -1,21 +1,21 @@
-const busquedas = [];
+const busquedas = []
 
 const limpiarInput = () => {
-    $('#inputBuscarProducto').val('');
+  $('#inputBuscarProducto').val('')
 }
 
 const obtenerPrecioTotal = () => {
-    return parseFloat($('#totalVenta').text().replace('$', '').trim());
+  return parseFloat($('#totalVenta').text().replace('$', '').trim())
 }
 
 const actualizarPrecioTotal = (valor) => {
-    const totalRedondeado = parseFloat(valor.toFixed(2));
-    $('#totalVenta').text(`$ ${totalRedondeado}`);
+  const totalRedondeado = parseFloat(valor.toFixed(2))
+  $('#totalVenta').text(`$ ${totalRedondeado}`)
 }
 
 const crearElementoProducto = (producto) => {
-    // Crear el contenedor principal de la card
-    const card = $(`
+  // Crear el contenedor principal de la card
+  const card = $(`
         <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-2 d-flex justify-content-center align-items-center">
@@ -51,150 +51,139 @@ const crearElementoProducto = (producto) => {
                 </div>
             </div>
         </div>
-    `);
+    `)
 
-    // Agregar la card al contenedor deseado
-    $('#contenedorProductos').append(card);
-    // Funcionalidad de los botones
-    card.find('.btn-incrementar').on('click', function () {
-        const cantidadElement = card.find('.cantidad');
-        const productoPrecio = parseFloat(producto.precio);
-        const productoStock = parseInt(producto.stock);
+  // Agregar la card al contenedor deseado
+  $('#contenedorProductos').append(card)
+  // Funcionalidad de los botones
+  card.find('.btn-incrementar').on('click', function () {
+    const cantidadElement = card.find('.cantidad')
+    const productoPrecio = parseFloat(producto.precio)
+    const productoStock = parseInt(producto.stock)
 
-        let cantidad = parseInt(cantidadElement.text());
-        if(cantidad<productoStock){
-            cantidad++;
-            cantidadElement.text(cantidad);
-            actualizarPrecioTotal(obtenerPrecioTotal() + productoPrecio);
-        }
-        else{
-            mostrarToast('error','Se llego al stock maximo del producto');
-        }
-    });
-
-    card.find('.btn-decrementar').on('click', function () {
-        const cantidadElement = card.find('.cantidad');
-        let cantidad = parseInt(cantidadElement.text());
-        if (cantidad > 1) {
-            cantidad--;
-            cantidadElement.text(cantidad);
-
-            actualizarPrecioTotal(obtenerPrecioTotal() - producto.precio);
-        }
-    });
-
-    card.find('.btn-eliminar').on('click', function () {
-        const index = busquedas.indexOf(producto.sku); // Suponiendo que `producto.sku` es único
-        const cantidad = parseInt(card.find('.cantidad').text());
-        if (index !== -1) {
-            busquedas.splice(index, 1);
-        }
-        console.log(`${obtenerPrecioTotal()} - (${cantidad} * ${producto.precio})`);
-        actualizarPrecioTotal(obtenerPrecioTotal() - (cantidad * producto.precio));
-        card.remove();
-    });
-};
-
-const mostrarToast = (tipo,mensaje) =>{
-
-    switch(tipo)
-    {
-        case 'error':
-            toastr.error(mensaje);
-            break;
-        case 'success':
-            toastr.success(mensaje);
-            break;
-        case 'info':
-            toastr.info(mensaje);
-            break;
+    let cantidad = parseInt(cantidadElement.text())
+    if (cantidad < productoStock) {
+      cantidad++
+      cantidadElement.text(cantidad)
+      actualizarPrecioTotal(obtenerPrecioTotal() + productoPrecio)
+    } else {
+      mostrarToast('error', 'Se llego al stock maximo del producto')
     }
+  })
+
+  card.find('.btn-decrementar').on('click', function () {
+    const cantidadElement = card.find('.cantidad')
+    let cantidad = parseInt(cantidadElement.text())
+    if (cantidad > 1) {
+      cantidad--
+      cantidadElement.text(cantidad)
+
+      actualizarPrecioTotal(obtenerPrecioTotal() - producto.precio)
+    }
+  })
+
+  card.find('.btn-eliminar').on('click', function () {
+    const index = busquedas.indexOf(producto.sku) // Suponiendo que `producto.sku` es único
+    const cantidad = parseInt(card.find('.cantidad').text())
+    if (index !== -1) {
+      busquedas.splice(index, 1)
+    }
+    actualizarPrecioTotal(obtenerPrecioTotal() - (cantidad * producto.precio))
+    card.remove()
+  })
+}
+
+const mostrarToast = (tipo, mensaje) => {
+  switch (tipo) {
+    case 'error':
+      toastr.error(mensaje)
+      break
+    case 'success':
+      toastr.success(mensaje)
+      break
+    case 'info':
+      toastr.info(mensaje)
+      break
+  }
 }
 
 export default () => {
+  $('#inputBuscarProducto').on('input', function () {
+    const palabra = $(this).val().trim().replace(/\s+/g, '')
 
-    $('#inputBuscarProducto').on('input', function() {
-        let palabra = $(this).val().trim().replace(/\s+/g, "");;
-
-        // Si la palabra tiene mas de 6 caracteres y no esta en el array de busquedas
-        if (palabra.length > 5) {
-            if (!busquedas.includes(palabra)) {
-                $.ajax({
-                    url: `${window.location.origin}${endpoints.productosApi}/${palabra}`, // Asumiendo que tienes un endpoint para obtener un producto por SKU
-                    method: "GET",
-                    success: function(respuesta) {    
-                        
-                        if(respuesta.stock<=0){
-                            mostrarToast('error','No hay stock disponible');
-                        }else{
-                            const productoPrecio = parseFloat(respuesta.precio);
-                            crearElementoProducto(respuesta);
-                            actualizarPrecioTotal(obtenerPrecioTotal()+productoPrecio);
-                            mostrarToast('success','Producto agregado al carrito');
-                            busquedas.push(palabra);
-                            limpiarInput();
-                        }
-                    },
-                    error: function(error) {
-                        mostrarToast('error','Producto no encontrado');
-                    }
-                    
-                })
+    // Si la palabra tiene mas de 6 caracteres y no esta en el array de busquedas
+    if (palabra.length > 5) {
+      if (!busquedas.includes(palabra)) {
+        $.ajax({
+          url: `${window.location.origin}${endpoints.productosApi}/${palabra}`, // Asumiendo que tienes un endpoint para obtener un producto por SKU
+          method: 'GET',
+          success: function (respuesta) {
+            if (respuesta.stock <= 0) {
+              mostrarToast('error', 'No hay stock disponible')
+            } else {
+              const productoPrecio = parseFloat(respuesta.precio)
+              crearElementoProducto(respuesta)
+              actualizarPrecioTotal(obtenerPrecioTotal() + productoPrecio)
+              mostrarToast('success', 'Producto agregado al carrito')
+              busquedas.push(palabra)
+              limpiarInput()
             }
-            else{
-                mostrarToast('info','El Producto ya esta en la lista');
+          },
+          error: function (error) {
+            mostrarToast('error', 'Producto no encontrado')
+          }
+
+        })
+      } else {
+        mostrarToast('info', 'El Producto ya esta en la lista')
+      }
+    }
+  })
+
+  $('.btnCompletarCompra').on('click', function () {
+    if (obtenerPrecioTotal() > 0) {
+      const respuesta = {
+        total: obtenerPrecioTotal(),
+        estado: $('#estadoVenta').val(),
+        metodo_pago: $('input[name="metodoPago"]:checked').val(),
+        detalles: []
+      }
+
+      $('#contenedorProductos .card').each(function () {
+        const card = $(this)
+
+        const sku = card.find('small.text-body-secondary').text().replace('SKU: ', '').trim()
+        const precio = parseFloat(card.find('p.card-text.fs-8.mb-1').text().replace('Precio: $', '').trim())
+        const cantidad = parseInt(card.find('.cantidad').text())
+
+        respuesta.detalles.push({
+          productoSku: sku,
+          cantidad,
+          precio_unitario: precio,
+          subtotal: cantidad * precio
+        })
+      })
+
+      $.ajax({
+        url: `${window.location.origin}${endpoints.ventasApi}`,
+        method: 'POST',
+        data: respuesta,
+        success: function (response) {
+          $('#contenedorProductos').empty()
+          actualizarPrecioTotal(0)
+          limpiarInput()
+          busquedas.length = 0
+          swal(response.message, 'Alta', 'success').then((value) => {
+            if (value) {
+              window.location.href = `${window.location.origin}${endpoints.vistaVentas}`
             }
-    }})
-
-
-    $('.btnCompletarCompra').on('click', function() {
-
-        if(obtenerPrecioTotal()>0){
-            let respuesta = {
-                total: obtenerPrecioTotal(),
-                estado: $("#estadoVenta").val(),
-                metodo_pago:  $('input[name="metodoPago"]:checked').val(),
-                detalles: []
-            }
-
-            $('#contenedorProductos .card').each(function() {
-                const card = $(this);
-    
-                const sku = card.find('small.text-body-secondary').text().replace('SKU: ', '').trim();
-                const precio = parseFloat(card.find('p.card-text.fs-8.mb-1').text().replace('Precio: $', '').trim());
-                const cantidad = parseInt(card.find('.cantidad').text());
-
-                respuesta.detalles.push({
-                    productoSku: sku,
-                    cantidad: cantidad,
-                    precio_unitario:precio,
-                    subtotal: cantidad * precio
-                });
-            });
-
-            $.ajax({
-                url: `${window.location.origin}${endpoints.insertarVenta}`,
-                method: "POST",
-                data: respuesta,
-                success: function(response) {
-                    
-                    $('#contenedorProductos').empty();
-                    actualizarPrecioTotal(0);
-                    limpiarInput();
-                    busquedas.length = 0;
-                    swal(response.message, "Alta", "success").then((value)=>{
-                        if(value){
-                            window.location.href= `${window.location.origin}${endpoints.vistaVentas}`;
-                        }
-                    });
-                },
-                error: function (xhr, status, error) {
-                    const mensaje = JSON.parse(xhr.responseText).message;
-                    swal(mensaje, "Error al insertar", "error");
-                  },
-            });
+          })
+        },
+        error: function (xhr, status, error) {
+          const mensaje = JSON.parse(xhr.responseText).message
+          swal(mensaje, 'Error al insertar', 'error')
         }
-    });
-
+      })
+    }
+  })
 }
-

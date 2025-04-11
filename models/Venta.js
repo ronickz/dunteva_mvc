@@ -1,21 +1,21 @@
-import { DataTypes } from "sequelize";
-import db from "../config/db.js";
+import { DataTypes } from 'sequelize'
+import db from '../config/db.js'
 
-const Venta = db.define("ventas", {
+const Venta = db.define('ventas', {
   total: {
     type: DataTypes.DECIMAL(10, 2),
-    allowNull: false,
+    allowNull: false
   },
   estado: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   },
   metodo_pago: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   }
-},{
+}, {
   paranoid: true
-});
+})
 
-export default Venta;
+export default Venta
